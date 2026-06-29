@@ -23,4 +23,4 @@ app.listen(port, () => {
   console.log(`🚀 Serveur lancé : http://localhost:${port}`);
 });
 
-export default router;
+export default app;
