@@ -7,7 +7,7 @@ INSERT INTO users (role, name, mail, password, total_points, created_at, updated
   ('member', 'Léa', 'lillychat@gmail.fr', 'kawai3000', 0, NOW(), NOW());
   
 --Insérer des tâches :
-INSERT INTO tasks (name, statut, points, created_at, updated_at) VALUES
+INSERT INTO tasks (name, status, points, created_at, updated_at) VALUES
   ('Faire la vaisselle', 'à faire', 5, NOW(), NOW()),
   ('Nettoyage de printemps de la chambre', 'à faire', 15,NOW(), NOW() ),
   ('Déclarer les impôts', 'à faire', 30, NOW(), NOW()),
