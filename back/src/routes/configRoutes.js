@@ -11,12 +11,12 @@ app.use(express.json());
 
 router.use("/users", usersRouter);
 
+app.use(router);
+
 // Route de test pour vérifier que le serveur répond
 router.get("/", function (req, res) {
   res.send("Hello Ada!\n");
 });
-
-app.use(router);
 
 const port = 5000;
 app.listen(port, () => {
