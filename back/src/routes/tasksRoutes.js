@@ -1,4 +1,9 @@
 import express from "express";
+import {
+  updateTaskDetails,
+  updateTaskUserAssigned,
+  updateTaskUserAssigned,
+} from "../controllers/tasksControllers";
 
 // ici on applique la méthode .Router() à express
 // on aurait pu mettre const xxx = Router() si Router avait été explicitement importer au départ
@@ -13,3 +18,4 @@ const tasksRouter = express.Router();
 
 tasksRouter.put("/:id", updateTaskDetails);
 tasksRouter.put("/:id/status", updateTaskStatus);
+tasksRouter.put("/:id/assigned-user", updateTaskUserAssigned);
