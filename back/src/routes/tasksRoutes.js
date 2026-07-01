@@ -1,3 +1,7 @@
+import { Router } from "express";
+
+const tasksRouter = Router();
+
 tasksRouter.post("/", async (req, res) => {
   const { name, description, statut, points, created_at } = req.body;
   const { rows } = await pool.query(
