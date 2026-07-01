@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"mail" VARCHAR(255) NOT NULL,
 	"password" VARCHAR(255) NOT NULL,
 	"total_points" INTEGER,
-	"created_at" DATETIME NOT NULL DEFAULT NOW(),
-	"updated_at" DATETIME NOT NULL DEFaULT NOW(),
+	"created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY("id")
 );
 
@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS "tasks" (
 	"description" VARCHAR(255),
 	"status" STATUS NOT NULL,
 	"points" INTEGER,
-	"created_at" DATETIME NOT NULL DEFAULT NOW(),
-	"updated_at" DATETIME NOT NULL DEFAULT NOW(),
+	"created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY("id")
 );
 
