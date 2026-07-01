@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"password" VARCHAR(255) NOT NULL,
 	"total_points" INTEGER,
 	"created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-	"updated_at" TIMESTAMP NOT NULL DEFaULT NOW(),
+	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
 	PRIMARY KEY("id")
 );
 
