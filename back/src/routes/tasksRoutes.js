@@ -1,12 +1,8 @@
 import { Router } from "express";
+import createTaskController from "../controllers/tasksControllers.js";
 
-const tasksRouter = Router();
+const tasksRoutes = Router();
 
-tasksRouter.post("/", async (req, res) => {
-  const { name, description, statut, points, created_at } = req.body;
-  const { rows } = await pool.query(
-    "INSERT INTO tasks (name,description,statut,points,created_at) VALUES ($1, $2, $3, $4, $5) RETURNING*",
-    [name, description, statut, points, created_at],
-  );
-  res.status(201).json(row[0]);
-});
+tasksRoutes.post("/", createTaskController);
+
+export default tasksRoutes;
