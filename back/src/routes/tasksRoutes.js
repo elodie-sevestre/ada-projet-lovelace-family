@@ -5,9 +5,6 @@ import {
   updateTaskUserAssignedController,
 } from "../controllers/tasksControllers.js";
 
-// ici on applique la méthode .Router() à express
-// on aurait pu mettre const xxx = Router() si Router avait été explicitement importer au départ
-
 const tasksRoutes = Router();
 
 // Modification tâche : trois types de modifs
