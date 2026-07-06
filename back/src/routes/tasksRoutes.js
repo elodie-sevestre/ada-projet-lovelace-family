@@ -14,8 +14,8 @@ const tasksRoutes = Router();
 // Methode HTTP : utilisation de PATCH car modif partielle
 // modif via l'id
 
-tasksRoutes.put("/:id", updateTaskDetailsController);
-tasksRoutes.put("/:id/status", updateTaskStatusController);
-tasksRoutes.put("/:id/assigned-user", updateTaskUserAssignedController);
+tasksRoutes.patch("/:id", updateTaskDetailsController);
+tasksRoutes.patch("/:id/status", updateTaskStatusController);
+tasksRoutes.patch("/:id/assigned-user", updateTaskUserAssignedController);
 
 export default tasksRoutes;
