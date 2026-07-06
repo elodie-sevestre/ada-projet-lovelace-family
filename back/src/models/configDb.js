@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import { Pool } from "pg";
 
 // on crée une instance d'express
-dotenv.config();
+// dotenv.config();
 
 // on configure la connexion à la bdd avec les variables d'environnement
 const pool = new Pool({
