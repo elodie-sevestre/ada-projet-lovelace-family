@@ -1,3 +1,6 @@
+import { getAllTasksService } from "../services/tasksServices.js";
+
+//Le controller contrôle les requête et les réponses:
 async function getAllTasksController(req, res) {
   try {
     const tasks = await getAllTasksService();
@@ -6,3 +9,5 @@ async function getAllTasksController(req, res) {
     res.status(500).json({ error: err.message });
   }
 }
+
+export { getAllTasksController };

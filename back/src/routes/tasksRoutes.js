@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getAllTasksController } from "./src/controllers/tasksControllers.js";
+import { getAllTasksController } from "../controllers/tasksControllers.js";
 
-const usersRouter = Router();
+//Aiguilleur, le router ici aiguille vers les bonnes routes:
+const tasksRoutes = Router();
 
-tasksRouter.get("/", getAllTasksController);
+tasksRoutes.get("/", getAllTasksController); // Ici la routepour aller consulter toutes les tâches (Vue Bernard)
 
-export default tasksRouter;
+export default tasksRoutes;
