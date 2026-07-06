@@ -1,21 +1,24 @@
-import express from "express";
+import { Router } from "express";
 import {
-  updateTaskDetails,
-  updateTaskUserAssigned,
-  updateTaskUserAssigned,
-} from "../controllers/tasksControllers";
+  updateTaskDetailsController,
+  updateTaskStatusController,
+  updateTaskUserAssignedController,
+} from "../controllers/tasksControllers.js";
 
 // ici on applique la méthode .Router() à express
 // on aurait pu mettre const xxx = Router() si Router avait été explicitement importer au départ
 
-const tasksRouter = express.Router();
+const tasksRoutes = Router();
 
-// Modification tâche : deux types de modifs
+// Modification tâche : trois types de modifs
 // modif des champs : name, description et points
 // modif du statut
+// modif de l'assignation
 // Methode HTTP : utilisation de PATCH car modif partielle
 // modif via l'id
 
-tasksRouter.put("/:id", updateTaskDetails);
-tasksRouter.put("/:id/status", updateTaskStatus);
-tasksRouter.put("/:id/assigned-user", updateTaskUserAssigned);
+tasksRoutes.put("/:id", updateTaskDetailsController);
+tasksRoutes.put("/:id/status", updateTaskStatusController);
+tasksRoutes.put("/:id/assigned-user", updateTaskUserAssignedController);
+
+export default tasksRoutes;
