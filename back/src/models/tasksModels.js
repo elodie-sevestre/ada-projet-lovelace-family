@@ -1,9 +1,11 @@
+import pool from "./configDb.js";
+
 function createTaskModel(req) {
-  const { name, description, status, points } = req.body;
-  // const { rows } = await pool.query
-  console.log(
-    "INSERT INTO tasks (name,description,status,points) VALUES ($1, $2, 'à faire', $4) RETURNING*",
-    [name, description, status, points],
+  const { name, description, points } = req.body;
+  const { rows } = pool.query(
+    `INSERT INTO tasks (name,description,status,points) VALUES ($1, $2, 'à faire', $3) RETURNING *`,
+    [name, description, points],
   );
+  return rows[0];
 }
-export default { createTaskModel };
+export { createTaskModel };
