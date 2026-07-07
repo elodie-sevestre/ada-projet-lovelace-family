@@ -2,22 +2,42 @@
 
 import {
   updateTaskDetailsService,
-  updateTaskStatusService,
   updateTaskUserAssignedService,
 } from "../services/tasksServices.js";
 
-const updateTaskDetailsController = (req, res) => {
-  updateTaskDetailsService(req);
-};
-const updateTaskUserAssignedController = (req, res) => {
-  updateTaskUserAssignedService(req);
-};
-const updateTaskStatusController = (req, res) => {
-  updateTaskStatusService(req);
+const updateTaskDetailsController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description, status, points } = req.body;
+    const updateTaskDetails = await updateTaskDetailsService(id, {
+      name,
+      description,
+      status,
+      points,
+    });
+    if (!updateTaskDetails) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+    res.status(200).json(updateTaskDetails);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
-export {
-  updateTaskDetailsController,
-  updateTaskStatusController,
-  updateTaskUserAssignedController,
+const updateTaskUserAssignedController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user_id } = req.body;
+    const updateTaskUserAssigned = await updateTaskUserAssignedService(id, {
+      user_id,
+    });
+    if (!updateTaskUserAssigned) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+    res.status(200).json(updateTaskUserAssigned);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
+export { updateTaskDetailsController, updateTaskUserAssignedController };
