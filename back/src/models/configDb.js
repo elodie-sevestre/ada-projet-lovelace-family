@@ -17,12 +17,20 @@ const pool = new Pool({
 });
 
 // on tente de se connecter à la bdd et on affiche un message en fonction du résultat
-pool
-  .connect()
-  .then(() => {
-    console.log("🟢 Connected to the database");
-  })
-  .catch((err) => {
-    console.error("🔴 Error connecting to the database", err);
-  });
+setTimeout(() => {
+  pool
+    .connect()
+    .then(() => {
+      console.log("🟢 Connected to the database");
+    })
+    .catch((err) => {
+      console.error(
+        "🔴 Error connecting to the database",
+        process.env.POSTGRES_HOST,
+        process.env.POSTGRES_PORT,
+        err,
+      );
+    });
+}, 5000);
+
 export default pool;
