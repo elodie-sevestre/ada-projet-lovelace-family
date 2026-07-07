@@ -1,3 +1,5 @@
+// Service : contient la logique métier (règles, calculs, validations complexes). Appelle le model pour les données.
+
 import {
   updateTaskDetailsModel,
   updateTaskUserAssignedModel,

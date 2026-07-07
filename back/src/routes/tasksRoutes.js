@@ -1,3 +1,5 @@
+// Route : définit l'URL et la méthode HTTP, appelle le controller. Rien d'autre.
+
 import { Router } from "express";
 import {
   updateTaskDetailsController,

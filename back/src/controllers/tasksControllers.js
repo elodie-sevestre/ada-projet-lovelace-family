@@ -1,3 +1,5 @@
+// Controller : gère la requête HTTP (req/res). Extrait les données de req, appelle le service, renvoie la réponse. Ne contient pas de logique métier ni de SQL.
+
 import {
   updateTaskDetailsService,
   updateTaskStatusService,
