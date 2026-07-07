@@ -1,6 +1,6 @@
 // on importe les modules nécessaires
 // on initialise dotenv pour lire le fichier .env
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 //stock les connexion et évite d'en recréer continuellement
 import { Pool } from "pg";
 
