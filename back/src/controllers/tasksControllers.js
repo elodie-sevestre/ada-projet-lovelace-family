@@ -1,9 +1,15 @@
-// Controller : gère la requête HTTP (req/res). Extrait les données de req, appelle le service, renvoie la réponse. Ne contient pas de logique métier ni de SQL.
-
 import {
+  createTaskServices,
   updateTaskDetailsService,
   updateTaskUserAssignedService,
 } from "../services/tasksServices.js";
+
+async function createTaskController(req, res) {
+  const rows = await createTaskServices(req);
+  console.log("rows");
+  console.log(rows);
+  res.status(201).json(rows);
+}
 
 const updateTaskDetailsController = async (req, res) => {
   try {
@@ -40,4 +46,10 @@ const updateTaskUserAssignedController = async (req, res) => {
   }
 };
 
-export { updateTaskDetailsController, updateTaskUserAssignedController };
+export {
+  createTaskController,
+  updateTaskDetailsController,
+  updateTaskUserAssignedController,
+};
+
+// Controller : gère la requête HTTP (req/res). Extrait les données de req, appelle le service, renvoie la réponse. Ne contient pas de logique métier ni de SQL.
