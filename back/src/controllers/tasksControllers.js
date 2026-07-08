@@ -15,6 +15,7 @@ async function createTaskController(req, res) {
 const updateTaskController = async (req, res) => {
   try {
     const { id } = req.params;
+
     const { name, description, status, points, user_id } = req.body;
     if (!status) {
       return res.status(400).json({ error: "Status is required" });
