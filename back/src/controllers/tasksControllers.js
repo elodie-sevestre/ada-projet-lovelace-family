@@ -1,4 +1,7 @@
-import { getAllTasksService } from "../services/tasksServices.js";
+import {
+  getAllTasksService,
+  getTasksByUserService,
+} from "../services/tasksServices.js";
 
 //Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
 async function getAllTasksController(req, res) {
@@ -17,15 +20,13 @@ async function getTasksByUserController(req, res) {
   //Validation : Vérifier que mon id est bien un nombre:
   // if(id is not a number) {return error 400 blabliblou}
   try {
-    const tasksByUser = await getTasksByUserService();
+    const tasksByUser = await getTasksByUserService(id);
     res.status(200).json(tasks);
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        error: "Erreur lors de la récupération des tâches de l'utilisateur",
-      });
+    res.status(500).json({
+      error: "Erreur lors de la récupération des tâches de l'utilisateur",
+    });
   }
 }
 
-export { getAllTasksController };
+export { getAllTasksController, getTasksByUserController };
