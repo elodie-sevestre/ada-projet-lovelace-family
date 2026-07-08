@@ -12,4 +12,20 @@ async function getAllTasksController(req, res) {
   }
 }
 
+async function getTasksByUserController(req, res) {
+  const { id } = req.params;
+  //Validation : Vérifier que mon id est bien un nombre:
+  // if(id is not a number) {return error 400 blabliblou}
+  try {
+    const tasksByUser = await getTasksByUserService();
+    res.status(200).json(tasks);
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        error: "Erreur lors de la récupération des tâches de l'utilisateur",
+      });
+  }
+}
+
 export { getAllTasksController };
