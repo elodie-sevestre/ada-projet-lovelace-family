@@ -1,22 +1,18 @@
 import { Router } from "express";
 import {
   createTaskController,
-  updateTaskDetailsController,
-  updateTaskUserAssignedController,
+  updateTaskController,
 } from "../controllers/tasksControllers.js";
 
 const tasksRoutes = Router();
 
 tasksRoutes.post("/", createTaskController);
 
-// Modification tâche : deux types de modifs
-// modif des champs : name, description, status, points
-// modif de l'assignation
-// Methode HTTP : utilisation de PATCH car modif partielle
+// Modification tâche :
+// Methode HTTP : utilisation de PUT
 // modif via l'id
 
-tasksRoutes.patch("/:id", updateTaskDetailsController);
-tasksRoutes.patch("/:id/assigned-user", updateTaskUserAssignedController);
+tasksRoutes.put("/:id", updateTaskController);
 
 export default tasksRoutes;
 
