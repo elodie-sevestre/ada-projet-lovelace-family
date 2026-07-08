@@ -1,6 +1,6 @@
 CREATE TYPE "status" AS ENUM (
-	'à faire',
-	'terminé'
+	'A_FAIRE',
+	'TERMINE'
 );
 
 CREATE TYPE "role" AS ENUM (
