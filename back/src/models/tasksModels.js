@@ -18,18 +18,23 @@ async function getAllTasksModel() {
   return rows;
 }
 
-async function getTasksByUserModel() {
-  const { rows } = await pool.query(`SELECT
-    t.id
+async function getTasksByUserModel(userId) {
+  const { rows } = await pool.query(
+    `SELECT
+    t.id,
     t.name as task_name,
     t.points AS points,
     t.status,
-    STRING_AGG(u.name, ', ) AS assigned_to
+    STRING_AGG(u.name, ', ') AS assigned_to
   FROM tasks t
   JOIN users_tasks ut ON t.id = ut.task_id
+  JOIN users u ON ut.user_id = u.id
   WHERE ut.user_id = $1
+  GROUP BY t.id
   ORDER BY t.created_at
-    `);
+    `,
+    [userId],
+  );
   return rows;
 }
 

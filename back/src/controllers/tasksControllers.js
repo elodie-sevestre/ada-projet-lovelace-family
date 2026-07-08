@@ -21,7 +21,7 @@ async function getTasksByUserController(req, res) {
   // if(id is not a number) {return error 400 blabliblou}
   try {
     const tasksByUser = await getTasksByUserService(id);
-    res.status(200).json(tasks);
+    res.status(200).json(tasksByUser);
   } catch (err) {
     res.status(500).json({
       error: "Erreur lors de la récupération des tâches de l'utilisateur",

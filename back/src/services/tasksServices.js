@@ -18,10 +18,10 @@ async function getAllTasksService() {
   return { toDoTasks, finishedTasks };
 }
 
-async function getTasksByUserService() {
-  const tasksByUser = await getTasksByUserModel();
+async function getTasksByUserService(userId) {
+  const tasksByUser = await getTasksByUserModel(userId);
   const toDoTasks = tasksByUser.filter(
-    (tasksByUser) => taskByUser.status === "à faire",
+    (taskByUser) => taskByUser.status === "à faire",
   );
   const finishedTasks = tasksByUser.filter(
     (taskByUser) => taskByUser.status === "terminé",
