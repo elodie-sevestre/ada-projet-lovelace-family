@@ -1,5 +1,6 @@
 import pool from "./configDb.js";
 
+//Requête pour récupérer toutes les tâches:
 async function getAllTasksModel() {
   const { rows } = await pool.query(`SELECT
       t.id,
@@ -13,11 +14,10 @@ async function getAllTasksModel() {
   LEFT JOIN users u ON ut.user_id = u.id
   GROUP BY t.id
   ORDER BY t.created_at ASC;`);
-  console.log("Vérifier le tri group by");
-  console.log(rows);
   return rows;
 }
 
+//Requête pour récupérer toutes les tâches d'un utilisateur :
 async function getTasksByUserModel(userId) {
   const { rows } = await pool.query(
     `SELECT
@@ -33,7 +33,7 @@ async function getTasksByUserModel(userId) {
   GROUP BY t.id
   ORDER BY t.created_at
     `,
-    [userId],
+    [userId], //Attention à ne pas oublier de passer userId en paramètres de la pool query (WHERE ... $1)
   );
   return rows;
 }
