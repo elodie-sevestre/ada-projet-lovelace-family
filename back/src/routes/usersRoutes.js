@@ -1,13 +1,13 @@
 import { Router } from "express";
 // import getAllUsersController from "./usersControllers.js";
 
-const usersRouter = Router();
+const usersRoutes = Router();
 
 // Route de test pour vérifier que le serveur répond
-usersRouter.get("/", function (req, res) {
+usersRoutes.get("/", function (req, res) {
   res.send("Hello Ada!\n");
 });
 
 // usersRouter.get("/", getAllUsersController);
 
-export default usersRouter;
+export default usersRoutes;
