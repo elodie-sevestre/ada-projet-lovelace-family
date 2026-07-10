@@ -7,10 +7,8 @@ import {
 
 import { updateTaskAssignedUserModel } from "../models/usersTasksModel.js";
 
-async function createTaskServices(req) {
-  const stepModel = await createTaskModel(req);
-  console.log("stepModel");
-  console.log(stepModel);
+async function createTaskServices(name, description, points) {
+  const stepModel = await createTaskModel(name, description, points);
   return stepModel;
 }
 
