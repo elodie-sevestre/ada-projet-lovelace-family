@@ -13,12 +13,16 @@ async function createTaskServices(req) {
 }
 
 const updateTaskService = async (task_id, task_details) => {
-  // si updateTaskModel ne fonctionne pas, il ne faut pas qu'on puisse lancer updateTaskAssignedUserModel
+  // Mettre à jour les détails de la tâche
   const resultTaskDetails = await updateTaskDetailsModel(task_id, task_details);
+  // Bloquer la suite si la tâche n'existe pas, pour ne pas assigner un utilisateur à une tâche inexistante
+  if (!resultTaskDetails) {
+    throw new Error(`La tâche ${task_id} n'existe pas`);
+  }
+  // Mettre à jour l'utilisateur assigné à la tâche
   await updateTaskAssignedUserModel(task_id, task_details);
+  // Renvoyer les détails de la tâche mise à jour
   return resultTaskDetails;
-  // si la réponse est nulle, j'indique que je n'ai pas pu mettre à jour
-  // sinon c'est à jour!
 };
 
 export { createTaskServices, updateTaskService };
