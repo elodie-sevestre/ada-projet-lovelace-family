@@ -9,8 +9,6 @@ async function createTaskModel(name, description, points) {
     console.log("erreur pas trouvé :'(");
     return rows[0];
   } catch (error) {
-    console.log("erreur trouvé!");
-    console.log(error);
     throw error;
   }
 }
