@@ -12,22 +12,19 @@ async function createTaskModel(req) {
 }
 
 const updateTaskDetailsModel = async (task_id, task_details) => {
-  // faire try/catch et voir pour throw
-  // contrôler que la tâche existe bien (task_id) : mettre ubn message clair et limpide
-  // erreur 500 : pb connection db
-  // erreur 500 : j'essaie d'updater un tâche qui n'existe pas
-  console.log(task_id, task_details);
-  console.log("recupération du body dans update task model");
-
-  const { name, description, status, points } = task_details;
-  const { rows } = await pool.query(
-    `UPDATE tasks SET (name,description,status,points) = ($1, $2, $3::status, $4) WHERE id=$5 RETURNING *`,
-    [name, description, status, points, task_id],
-  );
-  console.log("affichage du retour de l'update donc pas encore hourra");
-
-  console.log(rows);
-  return rows[0];
+  try {
+    const { name, description, status, points } = task_details;
+    // Mettre à jour la tâche en base et récupérer la ligne modifiée
+    const { rows } = await pool.query(
+      `UPDATE tasks SET (name,description,status,points) = ($1, $2, $3::status, $4) WHERE id=$5 RETURNING *`,
+      [name, description, status, points, task_id],
+    );
+    // Renvoyer la tâche mise à jour, ou undefined si aucune tâche ne correspond à cet id
+    return rows[0];
+  } catch (error) {
+    // Attraper toute erreur technique (connexion DB, valeur invalide pour l'enum status, etc.)
+    throw new Error(`Impossible de modifier la tâche : ${error.message}`);
+  }
 };
 
 export { createTaskModel, updateTaskDetailsModel };
