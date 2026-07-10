@@ -10,7 +10,6 @@ tasksRoutes.post("/", createTaskController);
 
 // Modification tâche :
 // Methode HTTP : utilisation de PUT
-// modif via l'id
 
 tasksRoutes.put("/:id", updateTaskController);
 

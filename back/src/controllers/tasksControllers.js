@@ -22,7 +22,7 @@ const updateTaskController = async (req, res) => {
     }
     // ajouter les contrôles pour name, description, points et user_id
     //! vérifier que points est bien un nb (int)
-    const updateTask = await updateTaskService(id, {
+    const rows = await updateTaskService(id, {
       name,
       description,
       status,
@@ -30,10 +30,10 @@ const updateTaskController = async (req, res) => {
       user_id,
     });
     // cette erreur va être gérée par la requête dans model
-    // if (!updateTask) {
+    // if (!rows) {
     //   return res.status(404).json({ error: "Task not found" });
     // }
-    res.status(200).json(updateTask);
+    res.status(200).json(rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -43,13 +43,13 @@ const updateTaskController = async (req, res) => {
 //   try {
 //     const { id } = req.params;
 //     const { user_id } = req.body;
-//     const updateTaskUserAssigned = await updateTaskUserAssignedService(id, {
+//     const rows = await updateTaskUserAssignedService(id, {
 //       user_id,
 //     });
-//     if (!updateTaskUserAssigned) {
+//     if (!rows) {
 //       return res.status(404).json({ error: "Task not found" });
 //     }
-//     res.status(200).json(updateTaskUserAssigned);
+//     res.status(200).json(rows);
 //   } catch (error) {
 //     res.status(500).json({ error: error.message });
 //   }
