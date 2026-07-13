@@ -81,7 +81,8 @@ const updateTaskController = async (req, res) => {
     res.status(200).json(rows);
   } catch (error) {
     // Attraper toute erreur venant du service ou de la base de données
-    res.status(500).json({ error: error.message });
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).json({ error: error.message });
   }
 };
 
