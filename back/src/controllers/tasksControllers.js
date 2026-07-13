@@ -85,7 +85,7 @@ async function getAllTasksController(req, res) {
 
 async function getTasksByUserController(req, res) {
   const { id } = req.params;
-  if (!userId || isNaN(Number(userId))) {
+  if (!id || isNaN(Number(id))) {
     return res
       .status(400)
       .json({ error: "L'id de l'utilisateur doit être un nombre valide." });
