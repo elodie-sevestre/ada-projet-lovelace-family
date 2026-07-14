@@ -35,6 +35,8 @@ async function getAllTasksModel() {
       t.description,
       t.points AS points,
       t.status,
+      t.created_at,
+      t.updated_at,
       STRING_AGG(u.name, ', ') AS assigned_to,
       ARRAY_AGG(u.id) AS assigned_user_ids
   FROM tasks t
@@ -53,6 +55,8 @@ async function getTasksByUserModel(userId) {
     t.name as task_name,
     t.points AS points,
     t.status,
+    t.created_at,
+    t.updated_at,
     STRING_AGG(u.name, ', ') AS assigned_to,
     ARRAY_AGG(u.id) AS assigned_user_ids
   FROM tasks t
