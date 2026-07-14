@@ -52,7 +52,7 @@ async function getTasksByUserModel(userId) {
   const { rows } = await pool.query(
     `SELECT
     t.id,
-    t.name as task_name,
+    t.name AS task_name,
     t.points AS points,
     t.status,
     t.created_at,

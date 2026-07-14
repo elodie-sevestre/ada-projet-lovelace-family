@@ -1,0 +1,28 @@
+.task-item-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  background: #f4ece2;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.task-item-left-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-item-right-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.task-item-update-button,
+.task-item-delete-button {
+  cursor: pointer;
+  font-size: 0.9rem;
+}

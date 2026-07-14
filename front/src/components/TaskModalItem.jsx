@@ -1,3 +1,5 @@
+import "../css/TaskModalItem.css";
+
 function TaskModalItem({ task, onClose }) {
   return (
     <div className="task-modal-overlay" onClick={onClose}>
