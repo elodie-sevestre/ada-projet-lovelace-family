@@ -1,10 +1,13 @@
-import { useState } from "react";
 import TaskItem from "./components/TaskItem.jsx";
-import EditTaskButton from "./components/EditTaskButton.jsx";
-import EditTaskForm from "./components/EditTaskForm.jsx";
 import "./App.css";
 
+// import pour simuler modification tâche
+import { useState } from "react";
+import EditTaskButton from "./components/EditTaskButton.jsx";
+import EditTaskForm from "./components/EditTaskForm.jsx";
+
 function App() {
+  // useState pour éditer formulaire de modification
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   return (
@@ -18,6 +21,8 @@ function App() {
           }}
           currentUser={{ role: "ADMIN" }}
         ></TaskItem>
+
+        {/* Simulation du comportoment du bouton modifier */}
         <EditTaskButton
           task={{
             task_name: "Faire la vaisselle",
@@ -27,8 +32,10 @@ function App() {
             status: "A_FAIRE",
             assigned_user_ids: [0],
           }}
+          // props onEdit permet de mettre à jour le statut d'affichage du formulaire qd on clique
           onEdit={() => setIsEditOpen(true)}
         ></EditTaskButton>
+        {/* simulation pour masquer au départ le formulaire de modification */}
         {isEditOpen && (
           <EditTaskForm
             task={{
