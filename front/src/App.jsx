@@ -1,4 +1,7 @@
 import TaskItem from "./components/TaskItem.jsx";
+
+import TasksConsultation from "./components/TasksConsultation.jsx";
+
 import "./App.css";
 
 function App() {
@@ -18,7 +21,8 @@ function App() {
             assigned_user_ids: [2],
           }}
           currentUser={{ role: "ADMIN" }}
-        ></TaskItem>
+        />
+        <TasksConsultation />
       </section>
     </>
   );
