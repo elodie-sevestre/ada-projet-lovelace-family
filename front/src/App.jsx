@@ -7,6 +7,7 @@ function App() {
       <section id="center">
         <TaskItem
           task={{
+            id: 3,
             task_name: "Faire la vaisselle",
             assigned_to: "Léa",
             points: 10,
