@@ -5,7 +5,6 @@ import TaskModalItem from "./TaskModalItem.jsx";
 function TaskItem({ task, currentUser }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <>
       <div className="task-item-card" onClick={() => setIsModalOpen(true)}>

@@ -86,7 +86,6 @@ function TaskForm({ members, onCreate, onClose }) {
       console.error(err);
     }
   };
-
   //**  Affichage
 
   return (
@@ -126,6 +125,20 @@ function TaskForm({ members, onCreate, onClose }) {
         />
       </div>
 
+      {/* Points */}
+      <div className="form-group">
+        <label htmlFor="points">Points</label>
+
+        <input
+          id="points"
+          className="form-input"
+          type="number"
+          min="1"
+          value={points}
+          onChange={(e) => setPoints(e.target.value)}
+        />
+      </div>
+
       {/* Membre assigné */}
       <div className="form-group">
         <label htmlFor="assignment">Membre assigné</label>
@@ -144,20 +157,6 @@ function TaskForm({ members, onCreate, onClose }) {
             </option>
           ))}
         </select>
-      </div>
-
-      {/* Points */}
-      <div className="form-group">
-        <label htmlFor="points">Points</label>
-
-        <input
-          id="points"
-          className="form-input"
-          type="number"
-          min="1"
-          value={points}
-          onChange={(e) => setPoints(e.target.value)}
-        />
       </div>
 
       {/* Message d'erreur */}
