@@ -1,0 +1,15 @@
+.tasks-list-contener {
+  margin-bottom: 1.5rem;
+}
+
+.tasks-list-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.tasks-list-items-contener {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
