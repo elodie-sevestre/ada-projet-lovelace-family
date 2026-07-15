@@ -11,7 +11,7 @@ function TaskModalItem({ task, onClose, isEditing }) {
         </button>
         {/* condition d'affichage du pop-up en mode lecture ou édition de la tâche */}
         {isEditing ? (
-          <EditTaskForm task={task} />
+          <EditTaskForm task={task} onClose={onClose} />
         ) : (
           <>
             <div className="task-modal-informations">
