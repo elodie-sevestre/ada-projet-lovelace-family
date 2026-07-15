@@ -1,0 +1,38 @@
+.task-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-modal-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+.task-modal-close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.task-modal-informations,
+.task-modal-informations-2 {
+  margin-top: 0.5rem;
+}
+
+.task-modal-informations p,
+.task-modal-informations-2 p {
+  margin: 0.3rem 0;
+}
