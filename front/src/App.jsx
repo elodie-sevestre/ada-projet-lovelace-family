@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <section id="center">
-        <TaskItem
+        {/* <TaskItem
           task={{
             id: 3,
             task_name: "Faire la vaisselle",
@@ -20,8 +20,8 @@ function App() {
             // valeur 2 correspond à l'id 2 du seed de la table users
             assigned_user_ids: [2],
           }}
-          currentUser={{ role: "ADMIN" }}
-        />
+          currentUser={{ role: "ADMIN" }} */}
+        {/* /> */}
         <TasksConsultation />
       </section>
     </>
