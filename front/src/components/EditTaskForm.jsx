@@ -11,6 +11,7 @@
 
 import { useState } from "react";
 import "../css/EditTaskForm.css";
+import { editTask } from "../api/tasks.js";
 
 const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   const [editName, setEditName] = useState(task.task_name);
@@ -32,23 +33,35 @@ const EditTaskForm = ({ task, onClose, refreshTasks }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const fetchOptions = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: editName,
-        description: editDescription,
-        status: editStatus,
-        points: editPoints,
-        user_id: editUserId,
-      }),
+    const updatedTask = {
+      name: editName,
+      description: editDescription,
+      status: editStatus,
+      points: editPoints,
+      user_id: editUserId,
     };
-    fetch(`http://localhost:5000/api/tasks/${task.id}`, fetchOptions)
-      .then((response) => response.json())
-      .then(() => {
-        onClose();
-        refreshTasks();
-      });
+    editTask(task.id, updatedTask).then(() => {
+      onClose();
+      refreshTasks();
+    });
+
+    // const fetchOptions = {
+    //   method: "PUT",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     name: editName,
+    //     description: editDescription,
+    //     status: editStatus,
+    //     points: editPoints,
+    //     user_id: editUserId,
+    //   }),
+    // };
+    // fetch(`http://localhost:5000/api/tasks/${task.id}`, fetchOptions)
+    //   .then((response) => response.json())
+    //   .then(() => {
+    //     onClose();
+    //     refreshTasks();
+    //   });
   };
 
   return (
