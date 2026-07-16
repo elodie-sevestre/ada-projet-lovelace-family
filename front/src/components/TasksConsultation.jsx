@@ -1,14 +1,13 @@
 import TasksList from "./TasksList";
 import { useState, useEffect } from "react";
+import { getTasks } from "../api/tasks";
 
 function TasksConsultation() {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
   const currentUser = { role: "ADMIN" };
 
   const fetchTasks = () => {
-    fetch("http://localhost:5000/api/tasks")
-      .then((response) => response.json())
-      .then((result) => setTasks(result));
+    getTasks().then((result) => setTasks(result));
   };
 
   useEffect(() => {
