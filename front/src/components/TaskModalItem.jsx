@@ -4,7 +4,12 @@ import EditTaskForm from "./EditTaskForm.jsx";
 
 function TaskModalItem({ task, onClose, isEditing, refreshTasks }) {
   return (
-    <div className="task-modal-overlay" onClick={onClose}>
+    <div
+      className="task-modal-overlay"
+      onClick={() => {
+        !isEditing && onClose();
+      }}
+    >
       <div className="task-modal-card" onClick={(e) => e.stopPropagation()}>
         {/* ajout condition !isEditing pour masquer la X qd le pop-up est en mode édition */}
         {!isEditing && (
