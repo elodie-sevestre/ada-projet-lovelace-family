@@ -6,9 +6,12 @@ function TaskModalItem({ task, onClose, isEditing }) {
   return (
     <div className="task-modal-overlay" onClick={onClose}>
       <div className="task-modal-card" onClick={(e) => e.stopPropagation()}>
-        <button className="task-modal-close-button" onClick={onClose}>
-          x
-        </button>
+        {/* ajout condition !isEditing pour masquer la X qd le pop-up est en mode édition */}
+        {!isEditing && (
+          <button className="task-modal-close-button" onClick={onClose}>
+            x
+          </button>
+        )}
         {/* condition d'affichage du pop-up en mode lecture ou édition de la tâche */}
         {isEditing ? (
           <EditTaskForm task={task} onClose={onClose} />
