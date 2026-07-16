@@ -3,8 +3,17 @@ import TaskItem from "./components/TaskItem.jsx";
 import TasksConsultation from "./components/TasksConsultation.jsx";
 
 import "./App.css";
+import TaskForm from "./components/TaskForm.jsx";
+import { createTask } from "./api/tasks.js";
 
 function App() {
+  const members = [
+    {
+      id: 1,
+      name: "Bernard",
+    },
+  ];
+
   return (
     <>
       <section id="center">
@@ -20,6 +29,9 @@ function App() {
             // valeur 2 correspond à l'id 2 du seed de la table users
             assigned_user_ids: [2],
           }}
+          currentUser={{ role: "ADMIN" }}
+        ></TaskItem>
+        <TaskForm onCreate={createTask} members={members} />
           currentUser={{ role: "ADMIN" }} */}
         {/* /> */}
         <TasksConsultation />
