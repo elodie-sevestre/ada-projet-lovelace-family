@@ -28,5 +28,18 @@ const updateTaskAssignedUserModel = async (task_id, task_details) => {
     client.release();
   }
 };
+// Nouvelle fonction : lier une tâche à un membre à la CRÉATION
+const createTaskAssignedUserModel = async (task_id, user_id) => {
+  try {
+    await pool.query(
+      `INSERT INTO users_tasks (task_id, user_id) VALUES ($1, $2)`,
+      [task_id, user_id],
+    );
+  } catch (error) {
+    throw new Error(
+      `Impossible d'assigner le membre à la tâche : ${error.message}`,
+    );
+  }
+};
 
-export { updateTaskAssignedUserModel };
+export { updateTaskAssignedUserModel, createTaskAssignedUserModel };
