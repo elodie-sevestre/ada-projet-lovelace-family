@@ -27,7 +27,9 @@ const updateTaskService = async (task_id, task_details) => {
   const resultTaskDetails = await updateTaskDetailsModel(task_id, task_details);
   // Bloquer la suite si la tâche n'existe pas, pour ne pas assigner un utilisateur à une tâche inexistante
   if (!resultTaskDetails) {
-    throw new Error(`La tâche ${task_id} n'existe pas`);
+    const error = new Error(`La tâche ${task_id} n'existe pas`);
+    error.statusCode = 404;
+    throw error;
   }
   // Mettre à jour l'utilisateur assigné à la tâche
   await updateTaskAssignedUserModel(task_id, task_details);
