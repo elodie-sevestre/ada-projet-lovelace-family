@@ -12,7 +12,7 @@
 import { useState } from "react";
 import "../css/EditTaskForm.css";
 
-const EditTaskForm = ({ task, onClose }) => {
+const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   const [editName, setEditName] = useState(task.task_name);
   const [editDescription, setEditDescription] = useState(task.description);
   const [editPoints, setEditPoints] = useState(task.points);
@@ -45,7 +45,10 @@ const EditTaskForm = ({ task, onClose }) => {
     };
     fetch(`http://localhost:5000/api/tasks/${task.id}`, fetchOptions)
       .then((response) => response.json())
-      .then(onClose);
+      .then(() => {
+        onClose();
+        refreshTasks();
+      });
   };
 
   return (

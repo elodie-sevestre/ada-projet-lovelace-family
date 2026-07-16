@@ -2,7 +2,7 @@ import "../css/TaskModalItem.css";
 // import du formulaire d'édition de la tâche à modifier
 import EditTaskForm from "./EditTaskForm.jsx";
 
-function TaskModalItem({ task, onClose, isEditing }) {
+function TaskModalItem({ task, onClose, isEditing, refreshTasks }) {
   return (
     <div className="task-modal-overlay" onClick={onClose}>
       <div className="task-modal-card" onClick={(e) => e.stopPropagation()}>
@@ -14,7 +14,11 @@ function TaskModalItem({ task, onClose, isEditing }) {
         )}
         {/* condition d'affichage du pop-up en mode lecture ou édition de la tâche */}
         {isEditing ? (
-          <EditTaskForm task={task} onClose={onClose} />
+          <EditTaskForm
+            task={task}
+            refreshTasks={refreshTasks}
+            onClose={onClose}
+          />
         ) : (
           <>
             <div className="task-modal-informations">
