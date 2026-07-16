@@ -12,7 +12,7 @@
 import { useState } from "react";
 import "../css/EditTaskForm.css";
 
-const EditTaskForm = ({ task, onClose }) => {
+const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   const [editName, setEditName] = useState(task.task_name);
   const [editDescription, setEditDescription] = useState(task.description);
   const [editPoints, setEditPoints] = useState(task.points);
@@ -30,9 +30,30 @@ const EditTaskForm = ({ task, onClose }) => {
     </option>
   ));
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const fetchOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: editName,
+        description: editDescription,
+        status: editStatus,
+        points: editPoints,
+        user_id: editUserId,
+      }),
+    };
+    fetch(`http://localhost:5000/api/tasks/${task.id}`, fetchOptions)
+      .then((response) => response.json())
+      .then(() => {
+        onClose();
+        refreshTasks();
+      });
+  };
+
   return (
     <>
-      <form className="edit-task-form">
+      <form className="edit-task-form" onSubmit={handleSubmit}>
         <label>
           {" "}
           Nom de la tâche
@@ -86,6 +107,10 @@ const EditTaskForm = ({ task, onClose }) => {
             {usersList}
           </select>
         </label>
+        <button type="submit">Enregistrer</button>
+        <button type="button" className="cancel-edit-form" onClick={onClose}>
+          Annuler
+        </button>
       </form>
     </>
   );

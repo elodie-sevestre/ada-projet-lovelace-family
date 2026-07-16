@@ -4,7 +4,7 @@ import TaskModalItem from "./TaskModalItem.jsx";
 //import bouton d'édition pour modifier la tâche
 import EditTaskButton from "./EditTaskButton.jsx";
 
-function TaskItem({ task, currentUser }) {
+function TaskItem({ task, currentUser, refreshTasks }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
   // useState pour afficher le pop-up en mode édition
@@ -46,6 +46,7 @@ function TaskItem({ task, currentUser }) {
         <TaskModalItem
           task={task}
           isEditing={isModalEditing}
+          refreshTasks={refreshTasks}
           onClose={() => {
             setIsModalOpen(false);
             setIsModalEditing(false);
