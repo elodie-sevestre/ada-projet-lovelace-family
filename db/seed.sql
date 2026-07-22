@@ -3,8 +3,8 @@
 --Insérer des users :
 
 INSERT INTO users (role, name, mail, password, total_points, created_at, updated_at) VALUES
-  ('admin', 'Bernard', 'bernard@aol.com', 'lemotdepasse', 0, NOW(), NOW()),
-  ('member', 'Léa', 'lillychat@gmail.fr', 'kawai3000', 0, NOW(), NOW());
+  ('ADMIN', 'Bernard', 'bernard@aol.com', 'lemotdepasse', 0, NOW(), NOW()),
+  ('MEMBER', 'Léa', 'lillychat@gmail.fr', 'kawai3000', 0, NOW(), NOW());
   
 --Insérer des tâches :
 INSERT INTO tasks (name, status, points, created_at, updated_at) VALUES
