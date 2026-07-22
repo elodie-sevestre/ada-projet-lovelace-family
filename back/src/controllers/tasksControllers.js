@@ -130,21 +130,17 @@ async function getTasksByUserController(req, res) {
 }
 
 const deleteTaskController = async (req, res) => {
-  //  Logique à mettre ici:
   try {
-    // Récupérer l'id depuis les params de la requête
     const { id } = req.params;
-    // Vérifier que l'id existe ou que c'est bien un nombre
     if (!id || !Number.isInteger(Number(id))) {
       return res.status(400).json({ error: "L'identifiant non valide !" });
     }
-    // appeler le service
-    const result = await deleteTaskService(id);
-    if (result === false) {
+    const rows = await deleteTaskService(id);
+    if (rows === false) {
       return res.status(404).json({ error: "Ressource introuvable..." });
     }
     return res.status(204).send();
-  } catch {
+  } catch (error) {
     return res.status(500).json({ error: "Suppression impossible !" });
   }
 };
