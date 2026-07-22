@@ -4,6 +4,7 @@ import {
   updateTaskController,
   getAllTasksController,
   getTasksByUserController,
+  deleteTaskController,
 } from "../controllers/tasksControllers.js";
 
 const tasksRoutes = Router();
@@ -17,5 +18,9 @@ tasksRoutes.get("/users/:id", getTasksByUserController); // Ici la route pour al
 // Methode HTTP : utilisation de PUT
 
 tasksRoutes.put("/:id", updateTaskController);
+
+// Suppression tâche
+
+tasksRoutes.delete("/:id", deleteTaskController);
 
 export default tasksRoutes;
