@@ -3,6 +3,7 @@ import {
   updateTaskDetailsModel,
   getAllTasksModel,
   getTasksByUserModel,
+  deleteTaskModel,
 } from "../models/tasksModels.js";
 
 import {
@@ -59,9 +60,18 @@ async function getTasksByUserService(userId) {
   return { toDoTasks, finishedTasks }; // Je retourne mes tableaux
 }
 
+const deleteTaskService = async (task_id) => {
+  const rows = await deleteTaskModel(task_id);
+  if (!rows) {
+    return false;
+  }
+  return true;
+};
+
 export {
   createTaskServices,
   updateTaskService,
   getAllTasksService,
   getTasksByUserService,
+  deleteTaskService,
 };
