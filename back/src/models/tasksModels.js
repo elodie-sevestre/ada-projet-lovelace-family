@@ -73,9 +73,24 @@ async function getTasksByUserModel(userId) {
   return rows;
 }
 
+const deleteTaskModel = async (task_id) => {
+  // requête sql DELETE
+
+  const { rows } = await pool.query(
+    `DELETE FROM tasks WHERE id=$1 RETURNING *`,
+    [task_id],
+  );
+  return rows[0];
+};
+
+// vérifier le rôle de l'utilisateur
+// si ADMIN : suppresion OK
+// si MEMBRE : REFUSE
+
 export {
   createTaskModel,
   updateTaskDetailsModel,
   getAllTasksModel,
   getTasksByUserModel,
+  deleteTaskModel,
 };
