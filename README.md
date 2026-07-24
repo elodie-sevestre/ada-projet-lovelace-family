@@ -25,11 +25,11 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 
 ## 👩‍💻 Organisation d'équipe
 
-| Rôle                  | Membre(s)                          |
-|-----------------------|------------------------------------|
-| Développeuses         | Elodie, Off, Alicia, Gaédic        |
-| Coordinatrice         | Off                                |
-| Animatrice réunion    | Gaédic                             |
+| Rôle               | Membre(s)                   |
+| ------------------ | --------------------------- |
+| Développeuses      | Elodie, Off, Alicia, Gaédic |
+| Coordinatrice      | Off                         |
+| Animatrice réunion | Gaédic                      |
 
 ---
 
@@ -51,13 +51,13 @@ préfixe/description_breve
 
 **Préfixes retenus :**
 
-| Préfixe    | Usage                        |
-|------------|------------------------------|
-| `feature`  | Nouvelle fonctionnalité      |
-| `fix`      | Correction de bug            |
-| `docs`     | Documentation                |
-| `chore`    | Tâche technique / maintenance|
-| `refactor` | Refactorisation de code      |
+| Préfixe    | Usage                         |
+| ---------- | ----------------------------- |
+| `feature`  | Nouvelle fonctionnalité       |
+| `fix`      | Correction de bug             |
+| `docs`     | Documentation                 |
+| `chore`    | Tâche technique / maintenance |
+| `refactor` | Refactorisation de code       |
 
 ### Protection de la branche `main`
 
@@ -77,10 +77,20 @@ préfixe/description_breve
 
 ## 🚀 Installation
 
-> 🔧 *Documentation à venir.*
+```bash
+git clone git@github.com:elodie-sevestre/ada-projet-lovelace-family.git
+cd ada-projet-lovelace-family
+cp back/.env.example back/.env
+docker compose up --build
+```
+
+📖 Documentation complète : voir [`documentation/`](./documentation/docs/installation/index.md)
 
 ---
 
 ## 📈 État d'avancement
 
-> ✅ Finalisation de la **phase de cadrage**.
+- ✅ **Fait** : modélisation et seed de la base de données
+- 🔎 **En review** : consultation des tâches (vue globale), modification des tâches, suppression d'une tâche
+- 🚧 **En cours** : création et assignation de tâches, consultation des tâches (vue membre)
+- 📋 **À venir** : connexion / authentification, validation fonctionnelle d'une tâche, système de gratification
