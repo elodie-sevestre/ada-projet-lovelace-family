@@ -21,6 +21,22 @@ Le code de `getAllUsersController`/`getAllUsersService` existe déjà dans `user
 
 > ⚠️ La fonctionnalité "Connexion" listée dans la [Vue d'ensemble](../intro.md) n'est donc **pas encore implémentée côté backend**.
 
+## Tests
+
+Le backend a des tests unitaires avec **Jest**, dans `back/tests/` :
+
+- `tasksControllers.test.js`
+- `updateTaskController.test.js`
+
+```bash
+cd back
+npm test
+```
+
+Ces tests mockent la couche `services` (`jest.unstable_mockModule`) plutôt que d'appeler la vraie base de données : on vérifie que le controller renvoie le bon code HTTP et le bon corps de réponse pour un service donné, sans dépendre de PostgreSQL.
+
+> Le frontend n'a pas encore de tests automatisés à ce jour.
+
 ## Flux : création d'une tâche
 
 1. `POST /api/tasks` arrive sur `tasksRoutes.js`, aiguillé vers `createTaskController`
