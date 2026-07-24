@@ -1,14 +1,19 @@
 import { useState } from "react";
 import "../css/TaskItem.css";
 import TaskModalItem from "./TaskModalItem.jsx";
+// import modal confirmation suppression tâche
+import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
 //import bouton d'édition pour modifier la tâche
 import EditTaskButton from "./EditTaskButton.jsx";
+//import bouton suppression de la tâche
+import DeleteTaskButton from "./DeleteTaskButton.jsx";
 
 function TaskItem({ task, currentUser, refreshTasks }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
   // useState pour afficher le pop-up en mode édition
   const [isModalEditing, setIsModalEditing] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   return (
     <>
@@ -37,7 +42,20 @@ function TaskItem({ task, currentUser, refreshTasks }) {
             <div
               className="task-item-delete-button"
               onClick={(e) => e.stopPropagation()}
-            ></div>
+            >
+              <DeleteTaskButton
+                task={task}
+                onDelete={() => setIsDeleteModalOpen(true)}
+              />
+              {/* affichage du modal que si on clique sur le bouton supprimer */}
+              {isDeleteModalOpen && (
+                <DeleteConfirmModal
+                  task={task}
+                  refreshTasks={refreshTasks}
+                  onClose={() => setIsDeleteModalOpen(false)}
+                />
+              )}
+            </div>
           )}
           <div className="task-item-checkbox"></div>
         </div>
