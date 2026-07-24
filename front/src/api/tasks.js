@@ -1,4 +1,4 @@
-import { get, post, put } from "./client.js";
+import { get, post, put, del } from "./client.js";
 const TASKS_ROUTE = "/tasks";
 // const ROUTE_TASKS_BY_ID = (id) => `/tasks/${id}`;
 
@@ -13,4 +13,9 @@ export function createTask(taskData) {
 export function editTask(id, updatedTask) {
   const taskUrl = TASKS_ROUTE + "/" + String(id);
   return put(taskUrl, updatedTask);
+}
+
+export function deleteTask(id) {
+  const taskUrl = TASKS_ROUTE + "/" + String(id);
+  return del(taskUrl);
 }
