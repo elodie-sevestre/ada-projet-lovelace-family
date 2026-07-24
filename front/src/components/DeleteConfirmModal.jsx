@@ -1,11 +1,20 @@
+import { useState } from "react";
 import { deleteTask } from "../api/tasks";
 
 const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
+  // initialisation useState pour récupérer le message d'erreur du back à null (c'est vide intentionnellement)
+  const [error, setError] = useState(null);
+
   const handleConfirm = () => {
-    deleteTask(task.id).then(() => {
-      refreshTasks();
-      onClose();
-    });
+    deleteTask(task.id)
+      .then(() => {
+        refreshTasks();
+        onClose();
+      })
+      .catch((err) => {
+        console.log("catch atteint", err);
+        setError(err.message);
+      });
   };
   return (
     <>
@@ -36,6 +45,11 @@ const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
           >
             Annuler
           </button>
+          {error && (
+            <p className="error-message">
+              {"La suppression a échoué, réessayez"}
+            </p>
+          )}
         </div>
       </div>
     </>
