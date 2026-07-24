@@ -10,7 +10,7 @@ front/src/
 ├── main.jsx                 # point d'entrée, monte l'app React
 ├── api/
 │   ├── client.js             # wrapper générique autour de fetch (get/post/put/del)
-│   └── tasks.js               # appels API spécifiques aux tâches (getTasks, createTask, editTask)
+│   └── tasks.js               # appels API spécifiques aux tâches (getTasks, createTask, editTask, deleteTask)
 ├── components/
 │   ├── TasksList.jsx           # liste des tâches
 │   ├── TasksConsultation.jsx   # vue de consultation des tâches
@@ -28,4 +28,4 @@ La suppression suit le même principe que l'édition : `TaskItem` détient un é
 
 ## Communication avec l'API
 
-Tous les appels HTTP passent par `api/client.js`, qui centralise la gestion des headers JSON et des erreurs (`response.ok`). Les modules comme `api/tasks.js` n'ont qu'à appeler `get`/`post`/`put` avec la route voulue, sans se soucier des détails de `fetch`.
+Tous les appels HTTP passent par `api/client.js`, qui centralise la gestion des headers JSON et des erreurs (`response.ok`). Les modules comme `api/tasks.js` n'ont qu'à appeler `get`/`post`/`put`/`del` avec la route voulue, sans se soucier des détails de `fetch`.
