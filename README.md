@@ -26,11 +26,11 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 
 ## 👩‍💻 Organisation d'équipe
 
-| Rôle               | Membre(s)                   |
-| ------------------ | --------------------------- |
-| Développeuses      | Elodie, Off, Alicia, Gaédic |
-| Coordinatrice      | Off                         |
-| Animatrice réunion | Gaédic                      |
+| Rôle               | Membre(s)           |
+| ------------------ | ------------------- |
+| Développeuses      | Elodie, Off, Gaédic |
+| Coordinatrice      | Off                 |
+| Animatrice réunion | Gaédic              |
 
 ---
 
