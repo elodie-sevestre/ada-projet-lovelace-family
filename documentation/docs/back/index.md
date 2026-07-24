@@ -13,6 +13,14 @@ back/src/
 └── models/            # requêtes SQL (via pg)
 ```
 
+## Route `/api/users`
+
+Contrairement à `/api/tasks`, cette route est aujourd'hui un **stub** : `GET /api/users` renvoie simplement `"Hello Ada!"`, sans logique réelle.
+
+Le code de `getAllUsersController`/`getAllUsersService` existe déjà dans `usersControllers.js`/`usersServices.js`, mais n'est pas branché — la ligne qui l'associerait à la route est commentée dans `usersRoutes.js`.
+
+> ⚠️ La fonctionnalité "Connexion" listée dans la [Vue d'ensemble](../intro.md) n'est donc **pas encore implémentée côté backend**.
+
 ## Flux : création d'une tâche
 
 1. `POST /api/tasks` arrive sur `tasksRoutes.js`, aiguillé vers `createTaskController`
