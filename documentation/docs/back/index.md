@@ -65,8 +65,6 @@ DELETE FROM tasks WHERE id=$1 RETURNING *
 - **Aucune vérification d'authentification ou de rôle côté serveur** sur cet endpoint. Le bouton de suppression n'est affiché côté frontend que pour un `ADMIN`, mais ce contrôle d'accès est un confort d'UX, pas une sécurité — n'importe qui connaissant l'URL et l'id peut supprimer une tâche via une requête HTTP directe. À corriger avant mise en production.
 - Pas de test automatisé pour cet endpoint, contrairement à `updateTaskController` qui a `back/tests/updateTaskController.test.js`.
 
-> ⚠️ **Limitation connue** : il n'y a aujourd'hui aucune vérification d'authentification ou de rôle côté serveur sur cet endpoint. Le bouton de suppression n'est affiché côté frontend que pour un `ADMIN`, mais ce contrôle d'accès est un confort d'UX, pas une sécurité — n'importe qui connaissant l'URL et l'id peut supprimer une tâche via une requête HTTP directe. À corriger avant mise en production.
-
 ## Connexion à la base de données
 
 `back/src/models/configDb.js` crée un `Pool` PostgreSQL unique à partir des variables d'environnement (`POSTGRES_USER`, `POSTGRES_HOST`, etc. — voir [Installation](../installation/index.md)), réutilisé par tous les models de l'application.
