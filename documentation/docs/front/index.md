@@ -18,9 +18,13 @@ front/src/
 │   ├── TaskModalItem.jsx        # détail d'une tâche en modale
 │   ├── TaskForm.jsx             # formulaire de création de tâche
 │   ├── EditTaskForm.jsx         # formulaire de modification de tâche
-│   └── EditTaskButton.jsx       # bouton déclenchant l'édition
+│   ├── EditTaskButton.jsx       # bouton déclenchant l'édition
+│   ├── DeleteTaskButton.jsx     # déclenche l'ouverture de la modal de confirmation
+│   └── DeleteConfirmModal.jsx    # confirmation + appel API + gestion d'erreur
 └── css/                       # une feuille de style par composant
 ```
+
+La suppression suit le même principe que l'édition : `TaskItem` détient un état booléen (`isDeleteModalOpen`) qui pilote l'affichage conditionnel de `DeleteConfirmModal`. La suppression n'est déclenchée qu'après confirmation explicite de l'utilisateur (pas de "toast + annulation", pour rester simple et éviter les suppressions accidentelles).
 
 ## Communication avec l'API
 
