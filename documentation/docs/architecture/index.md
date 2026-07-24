@@ -3,11 +3,11 @@
 Lovelace Family suit une architecture classique en trois couches, orchestrée par Docker Compose :
 
 ```
-┌────────────┐      HTTP / REST      ┌────────────┐      SQL (pg)      ┌────────────┐
-│  Frontend  │ ───────────────────▶ │  Backend    │ ─────────────────▶ │ PostgreSQL │
-│ React+Vite │                       │  Express    │                     │            │
-│ :5173      │ ◀─────────────────── │  :5000      │ ◀───────────────── │  :5432     │
-└────────────┘      JSON            └────────────┘                    └────────────┘
+┌────────────┐      HTTP / REST      ┌───────────┐      SQL (pg)       ┌────────────┐
+│ Frontend   │  ------------------>  │ Backend   │ ------------------> │ PostgreSQL │
+│ React+Vite │                       │ Express   │                     │            │
+│ :5173      │  <------------------  │ :5000     │ <------------------ │ :5432      │
+└────────────┘      JSON             └───────────┘                     └────────────┘
 ```
 
 ## Frontend → Backend
