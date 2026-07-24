@@ -20,6 +20,7 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 - 👁️ Visualisation des tâches
 - ✅ Validation des tâches
 - ✏️ Modification des tâches
+- 🗑️ Suppression de tâche
 
 ---
 
