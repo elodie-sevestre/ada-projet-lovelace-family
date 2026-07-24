@@ -36,7 +36,7 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 
 ## 🛠️ Outils de suivi
 
-- **Gestion de projet** : https://lovelacefamily.atlassian.net/jira/software/projects/OLC/list?jql=project+%3D+OLC+AND+labels+%3D+v1+ORDER+BY+priority+DESC%2C+created+DESC&atlOrigin=eyJpIjoiZjY5NGRiZGJjMWQzNDFhOWI2NzM1YzRhZWQwNzkwMzUiLCJwIjoiaiJ9
+- **Gestion de projet** : [Jira-Lovelace-Family](https://lovelacefamily.atlassian.net/jira/software/projects/OLC/list?jql=project+%3D+OLC+AND+labels+%3D+v1+ORDER+BY+priority+DESC%2C+created+DESC&atlOrigin=eyJpIjoiZjY5NGRiZGJjMWQzNDFhOWI2NzM1YzRhZWQwNzkwMzUiLCJwIjoiaiJ9)
 
 ---
 
