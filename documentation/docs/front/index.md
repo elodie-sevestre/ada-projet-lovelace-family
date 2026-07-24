@@ -29,3 +29,7 @@ La suppression suit le même principe que l'édition : `TaskItem` détient un é
 ## Communication avec l'API
 
 Tous les appels HTTP passent par `api/client.js`, qui centralise la gestion des headers JSON et des erreurs (`response.ok`). Les modules comme `api/tasks.js` n'ont qu'à appeler `get`/`post`/`put`/`del` avec la route voulue, sans se soucier des détails de `fetch`.
+
+## Gestion d'état
+
+Pas de state manager global (Redux, Context API...) à ce jour : chaque composant gère son propre état local avec `useState` (ex: `isDeleteModalOpen` dans `TaskItem`, ou la liste des tâches dans `TasksConsultation`). Les données sont transmises aux enfants via les props, et remontées vers le parent via des callbacks (`onDelete`, `refreshTasks`...).
