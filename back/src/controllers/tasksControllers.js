@@ -3,6 +3,7 @@ import {
   updateTaskService,
   getAllTasksService,
   getTasksByUserService,
+  deleteTaskService,
 } from "../services/tasksServices.js";
 
 async function createTaskController(req, res) {
@@ -128,9 +129,26 @@ async function getTasksByUserController(req, res) {
   }
 }
 
+const deleteTaskController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id || !Number.isInteger(Number(id))) {
+      return res.status(400).json({ error: "L'identifiant non valide !" });
+    }
+    const rows = await deleteTaskService(id);
+    if (rows === false) {
+      return res.status(404).json({ error: "Ressource introuvable..." });
+    }
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({ error: "Suppression impossible !" });
+  }
+};
+
 export {
   createTaskController,
   updateTaskController,
   getAllTasksController,
   getTasksByUserController,
+  deleteTaskController,
 };
