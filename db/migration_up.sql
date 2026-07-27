@@ -4,8 +4,8 @@ CREATE TYPE "status" AS ENUM (
 );
 
 CREATE TYPE "role" AS ENUM (
-	'admin',
-	'member'
+	'ADMIN',
+	'MEMBER'
 );
 
 CREATE TABLE IF NOT EXISTS "users" (
