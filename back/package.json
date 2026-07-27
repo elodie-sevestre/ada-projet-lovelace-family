@@ -6,7 +6,9 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "node --inspect=0.0.0.0:9229 ./src/server.js",
-    "start": "node ./src/server.js"
+    "start": "node ./src/server.js",
+    "db:migrate:up": "psql postgresql://lovelace_user:lovelace_password@localhost:5432/lovelace_db -f ../db/migration_up.sql",
+    "db:migrate:down": "psql postgresql://lovelace_user:lovelace_password@localhost:5432/lovelace_db -f ../db/migration_down.sql"
   },
   "type": "module",
   "keywords": [],
