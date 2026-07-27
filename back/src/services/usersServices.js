@@ -1,7 +1,7 @@
-import getAllUsersModel from "./usersModels.js";
+import getAllUsersModel from "../models/usersModels.js";
 
 function getAllUsersService() {
-  getAllUsersModel();
+  return getAllUsersModel();
 }
 
 export default getAllUsersService;
