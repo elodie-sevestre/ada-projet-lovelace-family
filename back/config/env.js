@@ -2,6 +2,8 @@
 //Charge les valeurs contenues dans ton fichier .env et les injecte avec process.env
 import dotenv from "dotenv";
 
+dotenv.config();
+
 // Variables obligatoires — le serveur refuse de démarrer si elles manquent
 const required = [
   // 'DATABASE_URL',
