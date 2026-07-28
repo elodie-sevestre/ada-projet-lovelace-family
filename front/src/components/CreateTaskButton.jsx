@@ -6,7 +6,7 @@ const CreateTaskButton = ({ onOpen }) => {
       className="btn btn-primary"
       onClick={onOpen}
     >
-      Ajoute une nouvelle tâche
+      Ajouter une nouvelle tâche
     </button>
   );
 };
