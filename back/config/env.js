@@ -42,4 +42,5 @@ export const config = {
   port_db: parseInt(process.env.POSTGRES_PORT),
   port_back: parseInt(process.env.PORT) || 5000,
   isDev: process.env.NODE_ENV !== "production",
+  jwt_secret: process.env.JWT_SECRET,
 };
