@@ -10,12 +10,15 @@ front/src/
 ├── main.jsx                 # point d'entrée, monte l'app React
 ├── api/
 │   ├── client.js             # wrapper générique autour de fetch (get/post/put/del)
-│   └── tasks.js               # appels API spécifiques aux tâches (getTasks, createTask, editTask, deleteTask)
+│   ├── tasks.js               # appels API spécifiques aux tâches (getTasks, createTask, editTask, deleteTask)
+│   └── users.js               # récupère la liste des membres (getUsers)
 ├── components/
 │   ├── TasksList.jsx           # liste des tâches
 │   ├── TasksConsultation.jsx   # vue de consultation des tâches
 │   ├── TaskItem.jsx             # une tâche dans la liste
 │   ├── TaskModalItem.jsx        # détail d'une tâche en modale
+│   ├── CreateTaskButton.jsx     # déclenche l'ouverture de la modal de création
+│   ├── CreateTaskModal.jsx      # encapsule TaskForm dans une modal
 │   ├── TaskForm.jsx             # formulaire de création de tâche
 │   ├── EditTaskForm.jsx         # formulaire de modification de tâche
 │   ├── EditTaskButton.jsx       # bouton déclenchant l'édition
@@ -25,6 +28,8 @@ front/src/
 ```
 
 La suppression suit le même principe que l'édition : `TaskItem` détient un état booléen (`isDeleteModalOpen`) qui pilote l'affichage conditionnel de `DeleteConfirmModal`. La suppression n'est déclenchée qu'après confirmation explicite de l'utilisateur (pas de "toast + annulation", pour rester simple et éviter les suppressions accidentelles).
+
+La création suit le même principe : `TasksConsultation` détient l'état `isCreating` qui pilote l'affichage de `CreateTaskModal`, laquelle encapsule `TaskForm`. La liste des membres assignables (`members`) est récupérée une fois via `getUsers()` au montage de `TasksConsultation`, puis transmise en prop jusqu'au formulaire.
 
 ## Communication avec l'API
 
