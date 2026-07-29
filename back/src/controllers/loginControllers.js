@@ -1,4 +1,7 @@
-import createLoginService from "../services/loginServices.js";
+import {
+  createLoginService,
+  connexionService,
+} from "../services/loginServices.js";
 
 const loginController = async (req, res) => {
   try {
@@ -21,6 +24,24 @@ const loginController = async (req, res) => {
   }
 };
 
-// ↑ adaptez à VOTRE base : Mongoose, Sequelize, un tableau, etc.
+const connexionController = async (req, res) => {
+  const { mail, password } = req.body;
+  if (!mail || !password) {
+    return res.status(400).json({ erreur: "Email et mot de passe requis" });
+  }
 
-export default loginController;
+  try {
+    const token = await connexionService(mail, password);
+
+    if (!token) {
+      return res.status(401).json({ erreur: "Identifiants invalides" });
+    }
+
+    return res.json({ token });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ erreur: "Erreur serveur" });
+  }
+};
+
+export { loginController, connexionController };

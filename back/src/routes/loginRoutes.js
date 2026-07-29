@@ -1,11 +1,16 @@
 import { Router } from "express";
-import loginController from "../controllers/loginControllers.js";
+import requireAuth from "../middlewares/requireAuth.js";
+import {
+  loginController,
+  connexionController,
+} from "../controllers/loginControllers.js";
 
 const loginRoutes = Router();
 
-//todo à redécouper
-
 // POST /auth/inscription
 loginRoutes.post("/inscription", loginController);
+
+//POST /auth/connexion
+loginRoutes.post("/connexion", connexionController);
 
 export default loginRoutes;

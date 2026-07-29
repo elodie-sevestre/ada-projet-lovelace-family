@@ -20,4 +20,16 @@ const createLoginModel = async (
   }
 };
 
-export default createLoginModel;
+const findUserByEmail = async (mail) => {
+  try {
+    const { rows } = await pool.query("SELECT * FROM users WHERE mail = $1", [
+      mail,
+    ]);
+    return rows[0]; // undefined si aucun utilisateur trouvé
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export { createLoginModel, findUserByEmail };
