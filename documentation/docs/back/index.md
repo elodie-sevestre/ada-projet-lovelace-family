@@ -15,11 +15,21 @@ back/src/
 
 ## Route `/api/users`
 
-Contrairement à `/api/tasks`, cette route est aujourd'hui un **stub** : `GET /api/users` renvoie simplement `"Hello Ada!"`, sans logique réelle.
+`GET /api/users` renvoie désormais la liste réelle des utilisateurs (`getAllUsersController` → `getAllUsersService` → `getAllUsersModel`, un simple `SELECT * FROM users`).
 
-Le code de `getAllUsersController`/`getAllUsersService` existe déjà dans `usersControllers.js`/`usersServices.js`, mais n'est pas branché — la ligne qui l'associerait à la route est commentée dans `usersRoutes.js`.
+## Authentification
 
-> ⚠️ La fonctionnalité "Connexion" listée dans la [Vue d'ensemble](../intro.md) n'est donc **pas encore implémentée côté backend**.
+Un module d'authentification existe côté backend, monté sur `/auth` (et non `/api`) :
+
+- `POST /auth/inscription` — crée un utilisateur, hash le mot de passe avec `bcrypt` avant de l'enregistrer (colonne `password_hash`)
+- `POST /auth/connexion` — vérifie l'email/mot de passe, renvoie un token JWT (`{ userId, role }`, signé avec `JWT_SECRET`, expire après 24h)
+
+Un middleware `requireAuth` (`back/src/middlewares/requireAuth.js`) est prêt à protéger des routes : il vérifie l'en-tête `Authorization: Bearer <token>` et rejette avec un `401` si le token est absent, invalide ou expiré.
+
+### Axes d'amélioration
+
+- Le middleware `requireAuth` n'est branché sur aucune route pour l'instant — ni `/api/tasks`, ni `/api/users`. L'authentification existe mais ne protège encore rien concrètement.
+- Aucune interface de connexion côté frontend : `TasksConsultation.jsx` utilise toujours un utilisateur codé en dur (`{ role: "ADMIN" }`). La fonctionnalité reste backend-only pour l'instant.
 
 ## Tests
 
@@ -86,7 +96,7 @@ DELETE FROM tasks WHERE id=$1 RETURNING *
 
 ### Axes d'amélioration
 
-- **Aucune vérification d'authentification ou de rôle côté serveur** sur cet endpoint. Le bouton de suppression n'est affiché côté frontend que pour un `ADMIN`, mais ce contrôle d'accès est un confort d'UX, pas une sécurité — n'importe qui connaissant l'URL et l'id peut supprimer une tâche via une requête HTTP directe. À corriger avant mise en production.
+- **Aucune vérification d'authentification ou de rôle côté serveur** sur cet endpoint — le middleware `requireAuth` existe (voir [Authentification](#authentification)) mais n'y est pas encore appliqué. Le bouton de suppression n'est affiché côté frontend que pour un `ADMIN`, mais ce contrôle d'accès est un confort d'UX, pas une sécurité — n'importe qui connaissant l'URL et l'id peut supprimer une tâche via une requête HTTP directe.
 - Pas de test automatisé pour cet endpoint, contrairement à `updateTaskController` qui a `back/tests/updateTaskController.test.js`.
 
 ## Connexion à la base de données
