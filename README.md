@@ -20,22 +20,23 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 - 👁️ Visualisation des tâches
 - ✅ Validation des tâches
 - ✏️ Modification des tâches
+- 🗑️ Suppression de tâche
 
 ---
 
 ## 👩‍💻 Organisation d'équipe
 
-| Rôle                  | Membre(s)                          |
-|-----------------------|------------------------------------|
-| Développeuses         | Elodie, Off, Alicia, Gaédic        |
-| Coordinatrice         | Off                                |
-| Animatrice réunion    | Gaédic                             |
+| Rôle               | Membre(s)           |
+| ------------------ | ------------------- |
+| Développeuses      | Elodie, Off, Gaédic |
+| Coordinatrice      | Off                 |
+| Animatrice réunion | Gaédic              |
 
 ---
 
 ## 🛠️ Outils de suivi
 
-- **Gestion de projet** : https://lovelacefamily.atlassian.net/jira/software/projects/OLC/list?jql=project+%3D+OLC+AND+labels+%3D+v1+ORDER+BY+priority+DESC%2C+created+DESC&atlOrigin=eyJpIjoiZjY5NGRiZGJjMWQzNDFhOWI2NzM1YzRhZWQwNzkwMzUiLCJwIjoiaiJ9
+- **Gestion de projet** : [Jira-Lovelace-Family](https://lovelacefamily.atlassian.net/jira/software/projects/OLC/list?jql=project+%3D+OLC+AND+labels+%3D+v1+ORDER+BY+priority+DESC%2C+created+DESC&atlOrigin=eyJpIjoiZjY5NGRiZGJjMWQzNDFhOWI2NzM1YzRhZWQwNzkwMzUiLCJwIjoiaiJ9)
 
 ---
 
@@ -51,13 +52,13 @@ préfixe/description_breve
 
 **Préfixes retenus :**
 
-| Préfixe    | Usage                        |
-|------------|------------------------------|
-| `feature`  | Nouvelle fonctionnalité      |
-| `fix`      | Correction de bug            |
-| `docs`     | Documentation                |
-| `chore`    | Tâche technique / maintenance|
-| `refactor` | Refactorisation de code      |
+| Préfixe    | Usage                         |
+| ---------- | ----------------------------- |
+| `feature`  | Nouvelle fonctionnalité       |
+| `fix`      | Correction de bug             |
+| `docs`     | Documentation                 |
+| `chore`    | Tâche technique / maintenance |
+| `refactor` | Refactorisation de code       |
 
 ### Protection de la branche `main`
 
@@ -77,10 +78,20 @@ préfixe/description_breve
 
 ## 🚀 Installation
 
-> 🔧 *Documentation à venir.*
+```bash
+git clone git@github.com:elodie-sevestre/ada-projet-lovelace-family.git
+cd ada-projet-lovelace-family
+cp back/.env.example back/.env
+docker compose up --build
+```
+
+📖 Documentation complète : voir [`documentation/`](./documentation/docs/installation/index.md)
 
 ---
 
 ## 📈 État d'avancement
 
-> ✅ Finalisation de la **phase de cadrage**.
+- ✅ **Fait** : modélisation et seed de la base de données
+- 🔎 **En review** : consultation des tâches (vue globale), modification des tâches, suppression d'une tâche
+- 🚧 **En cours** : création et assignation de tâches, consultation des tâches (vue membre)
+- 📋 **À venir** : connexion / authentification, validation fonctionnelle d'une tâche, système de gratification
