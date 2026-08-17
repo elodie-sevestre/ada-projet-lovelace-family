@@ -8,6 +8,7 @@
     "dev": "node --inspect=0.0.0.0:9229 ./src/server.js",
     "start": "node ./src/server.js",
     "lint": "eslint .",
+    "format:check": "prettier --check .",
     "format": "prettier --write .",
     "db:migrate:up": "node ./src/scripts/migration_up.js",
     "db:migrate:down": "node ./src/scripts/migration_down.js",
