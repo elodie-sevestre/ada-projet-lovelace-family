@@ -7,6 +7,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "node --inspect=0.0.0.0:9229 ./src/server.js",
     "start": "node ./src/server.js",
+    "lint": "eslint .",
     "db:migrate:up": "node ./src/scripts/migration_up.js",
     "db:migrate:down": "node ./src/scripts/migration_down.js",
     "db:seed": "node ./src/scripts/seed.js"
@@ -20,5 +21,8 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "eslint": "^10.8.1"
   }
 }
