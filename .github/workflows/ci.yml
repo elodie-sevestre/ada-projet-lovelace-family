@@ -40,9 +40,9 @@ jobs:
       # 3. installer le projet
       - name: 🧱 Installer les dépendances
         run: npm ci
-      # 4. builder le projet
-      - name: 🏡 Builder le projet
-        run: npm run build
+      # 4. builder le projet : nécessaire uniquement si utilisation d'un bundler (ex : Vite ds front)
+      #   - name: 🏡 Builder le projet
+      #     run: npm run build
       # 5. lancer les tests (optionnel pour le moment)
       - name: 🍿 Lancer les tests
         run: npm run test
