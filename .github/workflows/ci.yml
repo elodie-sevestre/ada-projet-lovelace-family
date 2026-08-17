@@ -25,10 +25,12 @@ jobs:
       run:
         # préciser que les commande que vous allez executer se font dans le dossier back
         working-directory: ./back
+
     steps:
       # 1. récupérer le code du repo sur la VM
       - name: 📥 Récupérer le code
         uses: actions/checkout@v4
+
       # 2. installer node.js
       - name: 🤯 Installer Node.js
         uses: actions/setup-node@v4
@@ -37,15 +39,23 @@ jobs:
           # en plus de la version, préciser les mots-clés qu'on utilise derrière
           # ici le mot clé à utiliser en ligne de commande est 'npm' (gardé en mémoire dans le cache)
           cache: "npm"
+
       # 3. installer le projet
       - name: 🧱 Installer les dépendances
         run: npm ci
+
       # 4. builder le projet : nécessaire uniquement si utilisation d'un bundler (ex : Vite ds front)
-      #   - name: 🏡 Builder le projet
-      #     run: npm run build
-      # 5. Lancer le linter (Eslint) : Analyse et détecte les problèmes sans compiler
-      #- name: ❌ Lancer le linter
+      # - name: 🏡 Builder le projet
+      #   run: npm run build
+
+      # 5. Lancer le prettier
+      - name: 🎨 Vérifier le formatage
+        run: npm run format:check
+
+      # 6. Lancer le linter (Eslint) : Analyse et détecte les problèmes sans compiler
+      # - name: ❌ Lancer le lint
       #  run: npm run lint
-      # 6. lancer les tests (optionnel pour le moment)
+
+      # 7. lancer les tests (optionnel pour le moment)
       - name: 🍿 Lancer les tests
         run: npm run test
