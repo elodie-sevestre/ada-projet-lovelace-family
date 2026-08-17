@@ -21,6 +21,10 @@ jobs:
     # où est-ce que je fais les vérifs
     runs-on: ubuntu-latest # ds VM ubuntu fournie par GitHub
     # étapes du job backend
+    defaults:
+      run:
+        # préciser que les commande que vous allez executer se font dans le dossier back
+        working-directory: ./back
     steps:
       # 1. récupérer le code du repo sur la VM
       - name: 📥 Récupérer le code
