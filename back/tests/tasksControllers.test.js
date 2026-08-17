@@ -1,15 +1,15 @@
-import { describe, it, expect, jest } from "@jest/globals";
+import { describe, it, expect, jest } from '@jest/globals';
 //Initialisation du mock
 // Objet renvoyé par défaut par le service mocké, pour ne jamais taper la vraie BDD
 const DEFAULT_TASK = {
   id: 1,
-  name: "Ranger",
+  name: 'Ranger',
   description: null,
-  status: "A_FAIRE",
+  status: 'A_FAIRE',
   points: 5,
 };
 //redefinition des import demandé dans tasksControllers
-jest.unstable_mockModule("../src/services/tasksServices.js", () => ({
+jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   createTaskServices: jest.fn(async () => DEFAULT_TASK),
   updateTaskService: jest.fn(async () => DEFAULT_TASK),
   getAllTasksService: jest.fn(async () => ({
@@ -24,7 +24,7 @@ jest.unstable_mockModule("../src/services/tasksServices.js", () => ({
 //
 
 const { createTaskController } =
-  await import("../src/controllers/tasksControllers.js");
+  await import('../src/controllers/tasksControllers.js');
 
 function createMockRes() {
   const res = { statusCode: null, body: null };
@@ -39,10 +39,10 @@ function createMockRes() {
   return res;
 }
 
-describe("createTaskController — création réussie", () => {
-  it("name et points valides → appelle le service (mocké) et renvoie 201", async () => {
+describe('createTaskController — création réussie', () => {
+  it('name et points valides → appelle le service (mocké) et renvoie 201', async () => {
     const req = {
-      body: { name: "Ranger", description: "Nettoyer l'enclos", points: 5 },
+      body: { name: 'Ranger', description: "Nettoyer l'enclos", points: 5 },
     };
     const res = createMockRes();
 

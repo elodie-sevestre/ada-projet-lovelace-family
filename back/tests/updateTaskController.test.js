@@ -1,9 +1,9 @@
-import { jest } from "@jest/globals";
+import { jest } from '@jest/globals';
 
 // On dit à Jest : "n'utilise pas le vrai fichier tasksServices.js,
 // utilise plutôt une fausse version que je fabrique moi-même"
 // Comme ça, pas besoin de vraie base de données pour faire le test
-jest.unstable_mockModule("../src/services/tasksServices.js", () => ({
+jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   createTaskServices: jest.fn(),
   updateTaskService: jest.fn(),
   getAllTasksService: jest.fn(),
@@ -13,7 +13,7 @@ jest.unstable_mockModule("../src/services/tasksServices.js", () => ({
 // Important : on va chercher le controller APRÈS avoir créé la fausse version au-dessus.
 // Si on le faisait avant, le controller irait chercher le vrai fichier, pas le faux.
 const { updateTaskController } =
-  await import("../src/controllers/tasksControllers.js");
+  await import('../src/controllers/tasksControllers.js');
 
 describe("Valider que l'id de la tâche est bien un nombre entier valide", () => {
   // describe = une boîte qui range tous les tests qui parlent du même sujet
@@ -22,7 +22,7 @@ describe("Valider que l'id de la tâche est bien un nombre entier valide", () =>
     // it = un seul test, une seule histoire qu'on raconte à Jest
 
     // GIVEN : je prépare mes jouets pour l'histoire
-    const req = { params: { id: "deux" }, body: {} };
+    const req = { params: { id: 'deux' }, body: {} };
     // req = une fausse demande envoyée au controller
     // je mets "deux" (une lettre) au lieu d'un vrai chiffre, exprès, pour le piéger
 

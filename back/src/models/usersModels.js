@@ -1,4 +1,4 @@
-import pool from "./configDb.js";
+import pool from './configDb.js';
 
 async function getAllUsersModel() {
   const { rows } = await pool.query(`SELECT * FROM users`);
