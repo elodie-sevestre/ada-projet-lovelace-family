@@ -1,16 +1,16 @@
-import { Router } from "express";
-import requireAuth from "../middlewares/requireAuth.js";
+import { Router } from 'express';
+import requireAuth from '../middlewares/requireAuth.js';
 import {
   createLoginController,
   connexionController,
-} from "../controllers/loginControllers.js";
+} from '../controllers/loginControllers.js';
 
 const loginRoutes = Router();
 
 // POST /auth/inscription
-loginRoutes.post("/inscription", createLoginController);
+loginRoutes.post('/inscription', createLoginController);
 
 //POST /auth/connexion
-loginRoutes.post("/connexion", connexionController);
+loginRoutes.post('/connexion', connexionController);
 
 export default loginRoutes;

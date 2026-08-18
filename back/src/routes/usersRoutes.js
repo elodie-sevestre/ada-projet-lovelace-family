@@ -1,6 +1,6 @@
-import { Router } from "express";
-import requireAuth from "../middlewares/requireAuth.js";
-import getAllUsersController from "../controllers/usersControllers.js";
+import { Router } from 'express';
+import requireAuth from '../middlewares/requireAuth.js';
+import getAllUsersController from '../controllers/usersControllers.js';
 
 const usersRoutes = Router();
 
@@ -12,6 +12,6 @@ const usersRoutes = Router();
 // protection des routes usersRoutes
 usersRoutes.use(requireAuth);
 
-usersRoutes.get("/", getAllUsersController);
+usersRoutes.get('/', getAllUsersController);
 
 export default usersRoutes;

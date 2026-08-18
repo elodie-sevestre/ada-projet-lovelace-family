@@ -1,15 +1,15 @@
 // config/env.js
 //Charge les valeurs contenues dans ton fichier .env et les injecte avec process.env
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 // Variables obligatoires — le serveur refuse de démarrer si elles manquent
 const required = [
   // 'DATABASE_URL',
-  "JWT_SECRET",
-  "POSTGRES_USER",
-  "POSTGRES_PASSWORD",
+  'JWT_SECRET',
+  'POSTGRES_USER',
+  'POSTGRES_PASSWORD',
   // ajoute ici toutes tes variables obligatoires
 ];
 
@@ -18,14 +18,14 @@ const missing = required.filter((key) => !process.env[key]);
 
 //Condition de validation :
 if (missing.length > 0) {
-  console.error("");
+  console.error('');
   console.error("❌ Variables d'environnement manquantes :");
   missing.forEach((key) => console.error(` - ${key}`));
-  console.error("");
+  console.error('');
   console.error(
-    "👉 Copie .env.example vers .env et remplis les valeurs manquantes.",
+    '👉 Copie .env.example vers .env et remplis les valeurs manquantes.'
   );
-  console.error("");
+  console.error('');
   process.exit(1); //Arrête le processus Node parce qu'il y une erreur.
 }
 
@@ -41,6 +41,6 @@ export const config = {
   //Port du back
   port_db: parseInt(process.env.POSTGRES_PORT),
   port_back: parseInt(process.env.PORT) || 5000,
-  isDev: process.env.NODE_ENV !== "production",
+  isDev: process.env.NODE_ENV !== 'production',
   jwt_secret: process.env.JWT_SECRET,
 };

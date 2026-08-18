@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { config } from "../../config/env.js";
-import { createLoginModel, findUserByEmail } from "../models/loginModels.js";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { config } from '../../config/env.js';
+import { createLoginModel, findUserByEmail } from '../models/loginModels.js';
 
 const createLoginService = async (role, name, mail, tribe_name, password) => {
   // 1. On transforme le mot de passe en hash irréversible
@@ -28,7 +28,7 @@ const connexionService = async (mail, password) => {
   const token = jwt.sign(
     { userId: user.id, role: user.role }, //payload : contenu du token
     config.jwt_secret, // à ajouter dans config/env.js et .env
-    { expiresIn: "24h" },
+    { expiresIn: '24h' }
   );
 
   return token;
