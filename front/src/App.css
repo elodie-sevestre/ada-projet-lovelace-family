@@ -2,32 +2,36 @@
 
 :root {
   /* ==========================================================================
-     Palette du projet — lue directement sur ta planche de couleurs.
-     Noms génériques volontairement : assigne-les à tes usages réels
-     (badges membres, catégories de tâches, etc.) où tu en as besoin.
-     Vérifie chaque code, une lecture d'image peut se tromper d'un caractère.
+     Palette du projet
+     Noms génériques : assigne-les à tes usages réels (badges membres,
+     catégories de tâches, etc.) où tu en as besoin.
      ========================================================================== */
-  --palette-brown: #644e28;
-  --palette-olive: #d8d82e;
-  --palette-green: #3f6f4a;
-  --palette-cyan: #6fd3ed;
+  --palette-brown: #644122;
+  --palette-dark-green: #0b3d2e;
+  --palette-green: #1f6f4a;
+  --palette-mint: #5fd38d;
   --palette-purple: #7b2cbf;
-  --palette-blue: #1b58a5;
-  --palette-cream: #f2e9e4;
   --palette-yellow: #ede96f;
   --palette-pink: #e16bc8;
 
-  --text: #4a4531;
-  --text-h: #1f4d34;
-  --bg: #f6efc9;
-  --border: #d8cf8f;
+  /* ==========================================================================
+     Variables sémantiques — mode clair (par défaut)
+     ========================================================================== */
+  --text: var(--palette-brown);
+  --text-h: var(--palette-dark-green);
+  --bg: var(--palette-yellow);
+  --border: var(--palette-brown);
   --code-bg: #f4ead6;
-  --accent: #e0629c;
-  --accent-bg: rgba(224, 98, 156, 0.1);
-  --accent-border: rgba(224, 98, 156, 0.5);
+  --accent: var(--palette-pink);
+  --accent-bg: rgba(225, 107, 200, 0.1);
+  --accent-border: rgba(225, 107, 200, 0.5);
   --social-bg: rgba(244, 234, 214, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  /* Tâches terminées : bordure violette, fond grisé */
+  --completed-border: var(--palette-purple);
+  --completed-bg: #d9d6d1;
 
   /* Lexend pour le texte courant, Jersey 10 pour les titres */
   --sans: "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
@@ -49,19 +53,24 @@
   }
 }
 
+/* ==========================================================================
+   Variables sémantiques — mode sombre
+   ========================================================================== */
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #b8cebf;
+    --text: var(--palette-mint);
     --text-h: #f4ead6;
-    --bg: #16352c;
-    --border: #2c4c3f;
-    --code-bg: #1e3b32;
-    --accent: #e0629c;
-    --accent-bg: rgba(224, 98, 156, 0.15);
-    --accent-border: rgba(224, 98, 156, 0.5);
-    --social-bg: rgba(30, 59, 50, 0.5);
+    --bg: var(--palette-dark-green);
+    --border: var(--palette-green);
+    --code-bg: #f4ead6;
+    --accent: var(--palette-pink);
+    --accent-bg: rgba(240, 234, 239, 0.15);
+    --accent-border: rgba(225, 107, 200, 0.5);
+    --social-bg: rgba(31, 111, 74, 0.35);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --completed-bg: #4a4a4a;
   }
 
   #social .button-icon {
@@ -207,7 +216,6 @@ code {
   background: var(--code-bg);
   border-radius: 20px;
   padding: 12px 32px;
-  box-shadow: none;
 }
 
 #next-steps {

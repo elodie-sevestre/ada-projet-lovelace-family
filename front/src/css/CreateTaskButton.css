@@ -1,11 +1,10 @@
-skbutton · CSS
 /* ==========================================================================
    CreateTaskButton
    Bouton pilule qui ouvre la modal de création de tâche.
    Utilise les variables globales définies dans App.css :
    --palette-cream, --accent, --sans
    ========================================================================== */
- 
+
 .create-task-button {
   /* Layout : icône + texte alignés horizontalement */
   display: inline-flex;
@@ -14,7 +13,7 @@ skbutton · CSS
 
   /* Apparence */
   background: var(--palette-cream, #f4ead6);
-  border: none;
+  border-bottom: 4px solid var(--palette-brown, #644e28);
   border-radius: 999px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
