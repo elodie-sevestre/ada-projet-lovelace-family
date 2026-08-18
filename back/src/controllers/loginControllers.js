@@ -7,19 +7,13 @@ const loginController = async (req, res) => {
   try {
     const { role, name, mail, tribe_name, password } = req.body;
 
-    const createLogin = await createLoginService(
-      role,
-      name,
-      mail,
-      tribe_name,
-      password,
-    );
+    await createLoginService(role, name, mail, tribe_name, password);
 
     // On ne renvoie jamais le hash au client
-    res.status(201).json(createLogin);
+    res.status(204).send();
   } catch (error) {
     // console.error(error);
-    res.status(401).json({ error: error.message });
+    res.status(400).json({ error: "Insciption impossible" });
   }
 };
 
