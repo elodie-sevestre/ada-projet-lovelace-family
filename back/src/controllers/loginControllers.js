@@ -7,6 +7,10 @@ const loginController = async (req, res) => {
   try {
     const { role, name, mail, tribe_name, password } = req.body;
 
+    if (!name || !mail || !password) {
+      return res.statut(400).json({ error: "Champs requis manquants" });
+    }
+
     await createLoginService(role, name, mail, tribe_name, password);
 
     // On ne renvoie jamais le hash au client
