@@ -109,9 +109,7 @@ async function getAllTasksController(req, res) {
     const tasks = await getAllTasksService();
     res.status(200).json(tasks);
   } catch (err) {
-    res
-      .status(500)
-      .json({ error: 'Erreur lors de la récupération des tâches' });
+    res.status(500).json({ error: `Détails erreur ${err}` });
   }
 }
 
@@ -124,7 +122,7 @@ async function getTasksByUserController(req, res) {
     res.status(200).json(tasksByUser);
   } catch (err) {
     res.status(500).json({
-      error: "Erreur lors de la récupération des tâches de l'utilisateur",
+      error: `Détail erreur: ${err}`,
     });
   }
 }
@@ -140,8 +138,8 @@ const deleteTaskController = async (req, res) => {
       return res.status(404).json({ error: 'Ressource introuvable...' });
     }
     return res.status(204).send();
-  } catch (error) {
-    return res.status(500).json({ error: 'Suppression impossible !' });
+  } catch (err) {
+    return res.status(500).json({ error: `Détail erreur ${err}` });
   }
 };
 

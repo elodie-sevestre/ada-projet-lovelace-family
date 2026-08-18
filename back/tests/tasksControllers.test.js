@@ -27,9 +27,8 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
 
 const { createTaskController } =
   await import('../src/controllers/tasksControllers.js');
-const { deleteTaskController } =
-  await import('../src/controllers/tasksControllers.js');
-const { deleteTaskService } = await import('../src/services/tasksServices.js');
+await import('../src/controllers/tasksControllers.js');
+await import('../src/services/tasksServices.js');
 
 function createMockRes() {
   const res = { statusCode: null, body: null };
