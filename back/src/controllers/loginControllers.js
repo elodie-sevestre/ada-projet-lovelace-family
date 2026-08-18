@@ -8,7 +8,7 @@ const loginController = async (req, res) => {
     const { role, name, mail, tribe_name, password } = req.body;
 
     if (!name || !mail || !password) {
-      return res.statut(400).json({ error: "Champs requis manquants" });
+      return res.status(400).json({ error: "Champs requis manquants" });
     }
 
     await createLoginService(role, name, mail, tribe_name, password);
@@ -16,8 +16,8 @@ const loginController = async (req, res) => {
     // On ne renvoie jamais le hash au client
     res.status(204).send();
   } catch (error) {
-    // console.error(error);
-    res.status(400).json({ error: "Insciption impossible" });
+    console.error(error);
+    res.status(400).json({ error: "Inscription impossible" });
   }
 };
 
