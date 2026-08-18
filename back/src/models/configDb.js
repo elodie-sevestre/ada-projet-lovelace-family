@@ -29,7 +29,7 @@ pool
   .then(() => {
     // console.log('🟢 Connected to the database');
   })
-  .catch((err) => {
+  .catch(() => {
     // console.error('🔴 Error connecting to the database', err);
   });
 export default pool;
