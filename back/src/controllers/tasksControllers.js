@@ -15,7 +15,7 @@ async function createTaskController(req, res) {
     if (typeof name !== 'string' || name.trim() === '') {
       throw new Error('Le nom de la tâche doit être un champ de caractère');
     }
-    console.log(assignment);
+
     if (assignment === undefined || assignment === null || assignment === '') {
       throw new Error('Un membre doit être assigné à la tâche');
     }

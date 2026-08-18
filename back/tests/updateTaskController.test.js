@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+import { deleteTaskService } from '../src/services/tasksServices.js';
 
 // On dit à Jest : "n'utilise pas le vrai fichier tasksServices.js,
 // utilise plutôt une fausse version que je fabrique moi-même"
@@ -8,6 +9,7 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   updateTaskService: jest.fn(),
   getAllTasksService: jest.fn(),
   getTasksByUserService: jest.fn(),
+  deleteTaskService: jest.fn(),
 }));
 
 // Important : on va chercher le controller APRÈS avoir créé la fausse version au-dessus.
