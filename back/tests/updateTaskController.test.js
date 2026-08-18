@@ -1,5 +1,4 @@
 import { jest } from '@jest/globals';
-import { deleteTaskService } from '../src/services/tasksServices.js';
 
 // On dit à Jest : "n'utilise pas le vrai fichier tasksServices.js,
 // utilise plutôt une fausse version que je fabrique moi-même"
@@ -16,6 +15,7 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
 // Si on le faisait avant, le controller irait chercher le vrai fichier, pas le faux.
 const { updateTaskController } =
   await import('../src/controllers/tasksControllers.js');
+const { deleteTaskService } = await import('../src/services/tasksServices.js');
 
 describe("Valider que l'id de la tâche est bien un nombre entier valide", () => {
   // describe = une boîte qui range tous les tests qui parlent du même sujet
