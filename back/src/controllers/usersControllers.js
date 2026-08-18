@@ -5,7 +5,7 @@ async function getAllUsersController(req, res) {
     const users = await getAllUsersService();
     res.status(200).json(users);
   } catch (err) {
-    res.status(500).json({ error: 'Erreur lors de la récupération des users' });
+    res.status(500).json({ error: `Détail erreur ${err}` });
   }
 }
 export default getAllUsersController;
