@@ -1,24 +1,54 @@
+skbutton · CSS
+/* ==========================================================================
+   CreateTaskButton
+   Bouton pilule qui ouvre la modal de création de tâche.
+   Utilise les variables globales définies dans App.css :
+   --palette-cream, --accent, --sans
+   ========================================================================== */
+ 
 .create-task-button {
+  /* Layout : icône + texte alignés horizontalement */
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+
+  /* Apparence */
   background: var(--palette-cream, #f4ead6);
-  border: 1.5px solid var(--accent, #e0629c);
+  border: none;
   border-radius: 999px;
-  color: var(--accent, #e0629c);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  /* Typo */
   font-family: var(--sans);
   font-size: 0.85rem;
   font-weight: 600;
-  padding: 8px 16px;
+  color: var(--accent, #e0629c);
+
+  /* Espacement interne (un peu moins à gauche pour équilibrer avec l'icône) */
+  padding: 8px 18px 8px 10px;
+
   cursor: pointer;
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
 }
 
+.create-task-button-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* --- États interactifs --- */
+
 .create-task-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px var(--accent-border, rgba(224, 98, 156, 0.5));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.create-task-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .create-task-button:focus-visible {
