@@ -56,8 +56,8 @@ jobs:
         run: npm run format:check
 
       # 6. Lancer le linter (Eslint) : Analyse et détecte les problèmes sans compiler
-      # - name: ❌ Lancer le lint
-      #  run: npm run lint
+      - name: ❌ Lancer le lint
+        run: npm run lint
 
       # 7. lancer les tests (optionnel pour le moment)
       - name: 🍿 Lancer les tests
