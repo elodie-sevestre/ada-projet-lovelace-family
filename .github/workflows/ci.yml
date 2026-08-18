@@ -4,6 +4,7 @@ name: CI
 
 # Step 2 : déclencheur -> définit éléments qui lancent le workflow
 
+# on = trigger = déclencheur
 on:
   # CI qd on push
   push:
@@ -15,10 +16,11 @@ on:
 # configure workflow = un ou plusieurs jobs qui s'exécutent en //
 # 1 job = 1 vérification indépendante = 1 pipeline d'exécution
 # ex: 1 job pour le front, 1 pr le back...
+# si plusieurs jobs, ils s'exécutent en //
 
 jobs:
   backend:
-    # où est-ce que je fais les vérifs
+    # VM où je fais les vérifs
     runs-on: ubuntu-latest # ds VM ubuntu fournie par GitHub
     # étapes du job backend
     defaults:
@@ -26,6 +28,7 @@ jobs:
         # préciser que les commande que vous allez executer se font dans le dossier back
         working-directory: ./back
 
+    # les étapes s'exécutent les unes après les autres
     steps:
       # 1. récupérer le code du repo sur la VM
       - name: 📥 Récupérer le code
