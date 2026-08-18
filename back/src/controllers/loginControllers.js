@@ -5,15 +5,14 @@ import {
 
 const loginController = async (req, res) => {
   try {
-    const { role, name, mail, tribe_name, password_hash } = req.body;
+    const { role, name, mail, tribe_name, password } = req.body;
 
-    // On enregistre l'utilisateur avec le HASH (colonne password_hash)
     const createLogin = await createLoginService(
       role,
       name,
       mail,
       tribe_name,
-      password_hash,
+      password,
     );
 
     // On ne renvoie jamais le hash au client
