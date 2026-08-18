@@ -17,7 +17,12 @@ const required = [
 const missing = required.filter((key) => !process.env[key]);
 
 //Condition de validation :
-if (missing.length > 0) {
+
+// création const qui vérifie si on est en train d'exécuter les tests
+const isTest = process.env.NODE_ENV === 'test';
+
+// si on n'est pas en test et qu'on a pas les bonnes clés d'environnement alors on met des erreurs
+if (missing.length > 0 && !isTest) {
   console.error('');
   console.error("❌ Variables d'environnement manquantes :");
   missing.forEach((key) => console.error(` - ${key}`));
