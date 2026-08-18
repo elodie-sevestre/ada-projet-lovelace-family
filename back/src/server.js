@@ -14,5 +14,5 @@ app.use('/api/users', usersRoutes);
 app.use('/api/tasks', tasksRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
+  // console.log(`Backend running on http://localhost:${PORT}`);
 });

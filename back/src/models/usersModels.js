@@ -2,7 +2,7 @@ import pool from './configDb.js';
 
 async function getAllUsersModel() {
   const { rows } = await pool.query(`SELECT * FROM users`);
-  console.log(rows);
+  // console.log(rows);
   return rows;
 }
 
