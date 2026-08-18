@@ -1,6 +1,5 @@
 import { describe, it, expect, jest } from '@jest/globals';
-import { deleteTaskController } from '../src/controllers/tasksControllers.js';
-import { deleteTaskService } from '../src/services/tasksServices.js';
+
 //Initialisation du mock
 // Objet renvoyé par défaut par le service mocké, pour ne jamais taper la vraie BDD
 const DEFAULT_TASK = {
@@ -28,6 +27,9 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
 
 const { createTaskController } =
   await import('../src/controllers/tasksControllers.js');
+const { deleteTaskController } =
+  await import('../src/controllers/tasksControllers.js');
+const { deleteTaskService } = await import('../src/services/tasksServices.js');
 
 function createMockRes() {
   const res = { statusCode: null, body: null };
