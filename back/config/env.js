@@ -7,7 +7,7 @@ dotenv.config();
 // Variables obligatoires — le serveur refuse de démarrer si elles manquent
 const required = [
   // 'DATABASE_URL',
-  // 'JWT_SECRET',
+  "JWT_SECRET",
   "POSTGRES_USER",
   "POSTGRES_PASSWORD",
   // ajoute ici toutes tes variables obligatoires
