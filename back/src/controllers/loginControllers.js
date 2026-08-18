@@ -3,7 +3,7 @@ import {
   connexionService,
 } from "../services/loginServices.js";
 
-const loginController = async (req, res) => {
+const createLoginController = async (req, res) => {
   try {
     const { role, name, mail, tribe_name, password } = req.body;
 
@@ -41,4 +41,4 @@ const connexionController = async (req, res) => {
   }
 };
 
-export { loginController, connexionController };
+export { createLoginController, connexionController };
