@@ -1,3 +1,4 @@
+import "../css/DeleteTaskButton.css";
 const DeleteTaskButton = ({ task, onDelete }) => {
   return (
     <>

@@ -24,7 +24,7 @@
 /* Tâche terminée : bordure violette, fond grisé */
 .task-item-card.completed {
   border-color: var(--completed-border);
-  background: var(--completed-bg);
+  background: var(--accent-border);
 }
 
 .task-item-left-card {

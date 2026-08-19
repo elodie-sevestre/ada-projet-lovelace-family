@@ -15,9 +15,12 @@ function TaskItem({ task, currentUser, refreshTasks }) {
   const [isModalEditing, setIsModalEditing] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const isCompleted = task.status === "TERMINE";
+  const cardClassName = `task-item-card${isCompleted ? " completed" : ""}`;
+
   return (
     <>
-      <div className="task-item-card" onClick={() => setIsModalOpen(true)}>
+      <div className={cardClassName} onClick={() => setIsModalOpen(true)}>
         <div className="task-item-left-card">
           <div className="task-item-name">{task.task_name}</div>
         </div>

@@ -1,3 +1,4 @@
+import "../css/EditTaskButton.css";
 const EditTaskButton = ({ task, onEdit }) => {
   return (
     <>
