@@ -26,6 +26,7 @@ async function createTaskController(req, res) {
         "L'identifiant du membre assigné doit être un nombre entier"
       );
     }
+
     if (typeof points !== 'number' || points < 1) {
       throw new Error(
         'La variable point est de type number et être strictement supérieur à zéro'
