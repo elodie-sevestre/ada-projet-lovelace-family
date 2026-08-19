@@ -30,6 +30,7 @@ const { createTaskController } =
 await import('../src/controllers/tasksControllers.js');
 await import('../src/services/tasksServices.js');
 
+// part du body et crée l'objet res qui va circuler dans le code
 function createMockRes() {
   const res = { statusCode: null, body: null };
   res.status = (code) => {
@@ -43,8 +44,8 @@ function createMockRes() {
   return res;
 }
 
-describe('createTaskController — création réussie', () => {
-  it('name et points valides → appelle le service (mocké) et renvoie 201', async () => {
+describe('createTaskController', () => {
+  it('données valides tâche crée réponse 201', async () => {
     const req = {
       body: {
         name: 'Ranger',
@@ -58,6 +59,29 @@ describe('createTaskController — création réussie', () => {
     await createTaskController(req, res);
 
     expect(res.body).toEqual(DEFAULT_TASK);
+    expect(res.statusCode).toBe(201);
+  });
+
+  it('données invalides NAME manquant réponse 400', async () => {
+    // GIVEN : je définis mes données d'entrée au départ du test
+    // ici une tache sans nom
+    const req = {
+      body: {
+        name: '',
+        description: "Nettoyer l'enclos",
+        points: 5,
+        assignment: '1',
+      },
+    };
+    const res = createMockRes();
+
+    // WHEN : j'appelle le controller pour créer ma tâche
+    await createTaskController(req, res);
+
+    // THEN : je m'attends à une erreur car le nom de la tache est obligatoire
+    expect(res.body).toEqual(
+      'Le nom de la tâche doit être un champ de caractère'
+    );
     expect(res.statusCode).toBe(201);
   });
 });
