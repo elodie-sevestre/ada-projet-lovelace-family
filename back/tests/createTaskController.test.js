@@ -1,4 +1,4 @@
-import { describe, it, expect, jest } from '@jest/globals';
+import { it, expect, jest } from '@jest/globals';
 
 //Initialisation du mock
 // Objet renvoyé par défaut par le service mocké, pour ne jamais taper la vraie BDD
@@ -44,44 +44,160 @@ function createMockRes() {
   return res;
 }
 
-describe('createTaskController', () => {
-  it('données valides tâche crée réponse 201', async () => {
-    const req = {
-      body: {
-        name: 'Ranger',
-        description: "Nettoyer l'enclos",
-        points: 5,
-        assignment: '1',
-      },
-    };
-    const res = createMockRes();
+it('données valides tâche crée réponse 201', async () => {
+  const req = {
+    body: {
+      name: 'Ranger',
+      description: "Nettoyer l'enclos",
+      points: 5,
+      assignment: '1',
+    },
+  };
+  const res = createMockRes();
 
-    await createTaskController(req, res);
+  await createTaskController(req, res);
 
-    expect(res.body).toEqual(DEFAULT_TASK);
-    expect(res.statusCode).toBe(201);
+  expect(res.body).toEqual(DEFAULT_TASK);
+  expect(res.statusCode).toBe(201);
+});
+
+it('données invalides NAME manquant réponse 400', async () => {
+  // GIVEN : je définis mes données d'entrée au départ du test
+  // ici une tache sans nom
+  const req = {
+    body: {
+      name: '',
+      description: "Nettoyer l'enclos",
+      points: 5,
+      assignment: '1',
+    },
+  };
+  const res = createMockRes();
+
+  // WHEN : j'appelle le controller pour créer ma tâche
+  await createTaskController(req, res);
+
+  // THEN : je m'attends à une erreur car le nom de la tache est obligatoire
+  expect(res.body).toEqual({
+    error: 'Le nom de la tâche doit être un champ de caractère',
   });
+  expect(res.statusCode).toBe(400);
+});
 
-  it('données invalides NAME manquant réponse 400', async () => {
-    // GIVEN : je définis mes données d'entrée au départ du test
-    // ici une tache sans nom
-    const req = {
-      body: {
-        name: '',
-        description: "Nettoyer l'enclos",
-        points: 5,
-        assignment: '1',
-      },
-    };
-    const res = createMockRes();
+it('données invalides NAME pas un string réponse 400', async () => {
+  // GIVEN : je définis mes données d'entrée au départ du test
+  // ici une tache sans nom
+  const req = {
+    body: {
+      name: 1,
+      description: "Nettoyer l'enclos",
+      points: 5,
+      assignment: '1',
+    },
+  };
+  const res = createMockRes();
 
-    // WHEN : j'appelle le controller pour créer ma tâche
-    await createTaskController(req, res);
+  // WHEN : j'appelle le controller pour créer ma tâche
+  await createTaskController(req, res);
 
-    // THEN : je m'attends à une erreur car le nom de la tache est obligatoire
-    expect(res.body).toEqual({
-      error: 'Le nom de la tâche doit être un champ de caractère',
-    });
-    expect(res.statusCode).toBe(400);
+  // THEN : je m'attends à une erreur car le nom de la tache est obligatoire
+  expect(res.body).toEqual({
+    error: 'Le nom de la tâche doit être un champ de caractère',
   });
+  expect(res.statusCode).toBe(400);
+});
+
+it('données invalides ASSIGNMENT manquant réponse 400', async () => {
+  // GIVEN : construction objet tâche avec assignment === null
+
+  // objet req fictif
+  const req = {
+    body: {
+      name: 'bla',
+      description: 'blabla',
+      points: 50,
+    },
+  };
+
+  // objet res fictif
+  const res = createMockRes();
+
+  // WHEN : on appelle le controller
+  await createTaskController(req, res);
+
+  // THEN : erreur attendue = assignement non effectif
+  expect(res.body).toEqual({
+    error: 'Un membre doit être assigné à la tâche',
+  });
+  expect(res.statusCode).toBe(400);
+});
+it('données invalides si id membre n est pas un nombre entier réponse 400', async () => {
+  //GIVEN: construction objet membre pas un nombre entier
+
+  //objet req fictif
+  const req = {
+    body: {
+      name: 'coller',
+      description: 'ton frère',
+      points: 100,
+      assignment: 'Léa',
+    },
+  };
+  const res = createMockRes();
+
+  //WHEN: on appelle le controlleur
+
+  await createTaskController(req, res);
+
+  //THEN : erreur attendue = id n'est pas un nombre
+  expect(res.body).toEqual({
+    error: "L'identifiant du membre assigné doit être un nombre entier",
+  });
+  expect(res.statusCode).toBe(400);
+});
+
+it('donnée invalide si POINT n est pas un nombre', async () => {
+  //GIVEN: construction objet POINT pas un nombre et doit être supérieur à zéro
+
+  //objet req fictif
+  const req = {
+    body: {
+      name: 'vendre',
+      description: 'toujours ton frère',
+      points: 'trop fort',
+      assignment: 1,
+    },
+  };
+  const res = createMockRes();
+  await createTaskController(req, res);
+
+  //THEN: erreur attendue = point n'est pas un nombre
+  expect(res.body).toEqual({
+    error:
+      'La variable point est de type number et être strictement supérieur à zéro',
+  });
+  expect(res.statusCode).toBe(400);
+});
+
+it('donnée invalide si POINT n est pas supérieur à zéro', async () => {
+  //GIVEN: construction objet POINT pas un nombre et doit être supérieur à zéro
+
+  //objet req fictif
+  const req = {
+    body: {
+      name: 'vendre',
+      description: 'toujours ton frère',
+      points: 0,
+      assignment: 1,
+    },
+  };
+  const res = createMockRes();
+  await createTaskController(req, res);
+
+  //THEN: erreur attendue = point n'est pas un nombre
+  expect(res.body).toEqual({
+    error:
+      'La variable point est de type number et être strictement supérieur à zéro',
+  });
+  expect(res.statusCode).toBe(400);
 });
