@@ -1,5 +1,5 @@
-import { Router } from "express";
-import getAllUsersController from "../controllers/usersControllers.js";
+import { Router } from 'express';
+import getAllUsersController from '../controllers/usersControllers.js';
 
 const usersRoutes = Router();
 
@@ -8,6 +8,6 @@ const usersRoutes = Router();
 //   res.send("Hello Ada!\n");
 // });
 
-usersRoutes.get("/", getAllUsersController);
+usersRoutes.get('/', getAllUsersController);
 
 export default usersRoutes;
