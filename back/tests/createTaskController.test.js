@@ -79,9 +79,9 @@ describe('createTaskController', () => {
     await createTaskController(req, res);
 
     // THEN : je m'attends à une erreur car le nom de la tache est obligatoire
-    expect(res.body).toEqual(
-      'Le nom de la tâche doit être un champ de caractère'
-    );
-    expect(res.statusCode).toBe(201);
+    expect(res.body).toEqual({
+      error: 'Le nom de la tâche doit être un champ de caractère',
+    });
+    expect(res.statusCode).toBe(400);
   });
 });
