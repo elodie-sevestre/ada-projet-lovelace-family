@@ -17,6 +17,20 @@ const { updateTaskController } =
   await import('../src/controllers/tasksControllers.js');
 await import('../src/services/tasksServices.js');
 
+// res = création d'une fausse response avec le pattern AAA (Arrange Act Assert) -> part du body et crée l'objet res qui va circuler dans le code
+function updateMockRes() {
+  const res = { statusCode: null, body: null };
+  res.status = (code) => {
+    res.statusCode = code;
+    return res;
+  };
+  res.json = (payload) => {
+    res.body = payload;
+    return res;
+  };
+  return res;
+}
+
 // describe = une boîte qui range tous les tests qui parlent du même sujet
 describe('Valider que les données à modifier sont bien récupérées', () => {
   // it = un seul test, une seule histoire qu'on raconte à Jest
@@ -25,22 +39,17 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
     // req : je mets "deux" au lieu d'un vrai chiffre, exprès, pour le piéger
     const req = { params: { id: 'deux' }, body: {} };
 
-    // res = création d'une fausse response avec des spies*/mocks * demander c'est quoi
-    // les espions ne font rien, ils regardent juste ce qu'on leur dit et s'en souviennent
-    const res = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    };
+    const res = updateMockRes();
 
     // WHEN : on appuie sur "GO", on lance le controller avec nos faux jouets
     await updateTaskController(req, res);
     // await = on attend que le controller ait fini avant de continuer
 
     // THEN : on va voir si les espions ont bien vu ce qu'on attendait
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.statusCode).toBe(400);
     // l'espion "status" doit avoir vu passer le nombre 400
 
-    expect(res.json).toHaveBeenCalledWith({
+    expect(res.body).toEqual({
       error: "L'identifiant de la tâche n'est pas valide !",
     });
     // l'espion "json" doit avoir vu passer exactement ce message d'erreur
