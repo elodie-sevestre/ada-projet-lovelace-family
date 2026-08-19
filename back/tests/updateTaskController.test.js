@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 
 // On dit à Jest : "n'utilise pas le vrai fichier tasksServices.js,
 // utilise plutôt une fausse version que je fabrique moi-même"
