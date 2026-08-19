@@ -17,11 +17,14 @@ const { getTasksByUserService } =
 
 // 3 - FONCTION POUR CREER UNE FAUSSE RESPONSE
 function createMockRes() {
-  const res = {
-    status: jest.fn().mockReturnThis(),
-    // .mockReturnThis() permet de reproduire le chaînage res.status(400).json(...)
-    // en faisant que res.status(...) renvoie l'objet res lui-même
-    json: jest.fn(),
+  const res = { statusCode: null, body: null };
+  res.status = (code) => {
+    res.statusCode = code;
+    return res;
+  };
+  res.json = (payload) => {
+    res.body = payload;
+    return res;
   };
   return res;
 }
@@ -39,7 +42,10 @@ describe('Valider récupération des tâches par user', () => {
     await getTasksByUserController(req, res);
 
     // THEN : on vérifie que le controller a bien réagi en renvoyant un 400
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({
+      error: "L'id de l'utilisateur doit être un nombre valide.",
+    });
   });
 
   // Test 2 : id présent mais dans un mauvais format
@@ -54,7 +60,10 @@ describe('Valider récupération des tâches par user', () => {
 
     // THEN : le controller doit détecter que isNaN(Number("abc")) est vrai,
     // et donc renvoyer 400 comme dans le cas précédent
-    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({
+      error: "L'id de l'utilisateur doit être un nombre valide.",
+    });
   });
 
   // Test 3 : id présent et valide
@@ -72,7 +81,7 @@ describe('Valider récupération des tâches par user', () => {
     expect(getTasksByUserService).toHaveBeenCalledWith('3');
     // 2e expect : on vérifie que la réponse finale est bien un succès (200),
     // puisque l'id est valide et que le service (mocké) ne renvoie pas d'erreur
-    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.statusCode).toBe(200);
   });
 
   // Test 4 : le service échoue (erreur technique, ex: panne DB)
@@ -90,6 +99,9 @@ describe('Valider récupération des tâches par user', () => {
 
     // THEN : on vérifie que le controller a bien attrapé l'erreur
     // et renvoyé un code 500, sans faire planter tout le serveur
-    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toEqual({
+      error: 'Détail erreur: Error: Erreur DB simulée',
+    });
   });
 });
