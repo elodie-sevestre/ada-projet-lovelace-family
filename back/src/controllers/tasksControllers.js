@@ -44,7 +44,7 @@ async function createTaskController(req, res) {
   }
 }
 
-const updateTaskController = async (req, res) => {
+async function updateTaskController(req, res) {
   try {
     const { id } = req.params;
     // Vérifier que l'identifiant de la tâche est bien un nombre entier valide
@@ -99,7 +99,7 @@ const updateTaskController = async (req, res) => {
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({ error: error.message });
   }
-};
+}
 
 //Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
 async function getAllTasksController(req, res) {
@@ -129,7 +129,7 @@ async function getTasksByUserController(req, res) {
   }
 }
 
-const deleteTaskController = async (req, res) => {
+async function deleteTaskController(req, res) {
   try {
     const { id } = req.params;
     if (!id || !Number.isInteger(Number(id))) {
@@ -143,7 +143,7 @@ const deleteTaskController = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ error: `Détail erreur ${err}` });
   }
-};
+}
 
 export {
   createTaskController,
