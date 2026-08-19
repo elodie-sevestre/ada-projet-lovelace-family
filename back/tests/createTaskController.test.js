@@ -84,4 +84,29 @@ describe('createTaskController', () => {
     });
     expect(res.statusCode).toBe(400);
   });
+
+  it('données invalides ASSIGNMENT manquant réponse 400', async () => {
+    // GIVEN : construction objet tâche avec assignment === null
+
+    // objet req fictif
+    const req = {
+      body: {
+        name: 'bla',
+        description: 'blabla',
+        points: 50,
+      },
+    };
+
+    // objet res fictif
+    const res = createMockRes();
+
+    // WHEN : on appelle le controller
+    await createTaskController(req, res);
+
+    // THEN : erreur attendue = assignement non effectif
+    expect(res.body).toEqual({
+      error: 'Un membre doit être assigné à la tâche',
+    });
+    expect(res.statusCode).toBe(400);
+  });
 });
