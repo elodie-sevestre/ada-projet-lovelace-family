@@ -66,12 +66,17 @@ async function updateTaskController(req, res) {
         .status(400)
         .json({ error: 'La description doit être du texte !' });
     }
-    // Vérifier que le statut est bien renseigné et que sa valeur est autorisée
-    const validStatuses = ['A_FAIRE', 'TERMINE'];
-    if (!status || !validStatuses.includes(status)) {
+    // Vérifier que le statut est bien renseigné
+    if (!status) {
+      return res.status(400).json({ error: 'Le statut est requis !' });
+    }
+
+    // Vérifier que la valeur du statut est autorisée
+    // const validStatuses = ['A_FAIRE', 'TERMINE'];
+    if (!status.includes('A_FAIRE', 'TERMINE')) {
       return res
         .status(400)
-        .json({ error: 'Le statut est requis ou mal renseigné !' });
+        .json({ error: "La valeur du statut n'est pas autorisée !" });
     }
 
     // Vérifier que les points, si fournis, sont un nombre entier
