@@ -56,7 +56,9 @@ async function updateTaskController(req, res) {
     const { name, description, status, points, user_id } = req.body;
     // Vérifier que le champ NAME est bien renseignée avec une string et qu'il n'est pas vide
     if (typeof name !== 'string' || name.trim() === '') {
-      return res.status(400).json({ error: 'Le nom de la tâche est requis !' });
+      return res
+        .status(400)
+        .json({ error: 'Le nom de la tâche est requis ou mal renseigné!' });
     }
     // Vérifier que la description, si elle est fournie, est bien du texte
     if (description !== undefined && typeof description !== 'string') {
