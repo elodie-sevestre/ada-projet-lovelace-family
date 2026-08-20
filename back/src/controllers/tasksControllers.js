@@ -54,8 +54,8 @@ async function updateTaskController(req, res) {
         .json({ error: "L'identifiant de la tâche n'est pas valide !" });
     }
     const { name, description, status, points, user_id } = req.body;
-    // Vérifier que le nom est bien renseigné et non vide
-    if (!name || name.trim() === '') {
+    // Vérifier que le champ NAME est bien renseignée avec une string et qu'il n'est pas vide
+    if (typeof name !== 'string' || name.trim() === '') {
       return res.status(400).json({ error: 'Le nom de la tâche est requis !' });
     }
     // Vérifier que la description, si elle est fournie, est bien du texte
