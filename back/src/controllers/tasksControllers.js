@@ -77,7 +77,7 @@ async function updateTaskController(req, res) {
 
     // Vérifier que la valeur du statut est autorisée
     // const validStatuses = ['A_FAIRE', 'TERMINE'];
-    if (!status.includes('A_FAIRE', 'TERMINE')) {
+    if (!['A_FAIRE', 'TERMINE'].includes(status)) {
       return res
         .status(400)
         .json({ error: "La valeur du statut n'est pas autorisée !" });
