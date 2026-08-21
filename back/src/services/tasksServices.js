@@ -33,7 +33,9 @@ const updateTaskService = async (task_id, task_details) => {
     throw error;
   }
   // Mettre à jour l'utilisateur assigné à la tâche
-  await updateTaskAssignedUserModel(task_id, task_details);
+  if (task_details.user_id !== undefined) {
+    await updateTaskAssignedUserModel(task_id, task_details);
+  }
   // Renvoyer les détails de la tâche mise à jour
   return resultTaskDetails;
 };

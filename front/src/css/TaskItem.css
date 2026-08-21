@@ -27,25 +27,3 @@
   cursor: pointer;
   font-size: 0.9rem;
 }
-
-.task-item-checkbox {
-  width: 32px;
-  height: 32px;
-  background-image: url("/src/assets/checkbox.png");
-  background-repeat: no-repeat;
-  background-size: 1200%;
-  cursor: pointer;
-}
-
-@keyframes animCheckbox {
-  from {
-    background-position: 0% 0;
-  }
-  to {
-    background-position: 100% 0;
-  }
-}
-
-.animation-check-box {
-  animation: animCheckbox 0.4s steps(11) forwards;
-}
