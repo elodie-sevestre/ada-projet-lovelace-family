@@ -8,7 +8,7 @@ const DeleteTaskButton = ({ task, onDelete }) => {
         className="delete-button"
         onClick={() => onDelete(task)}
       >
-        Supprimer
+        S
       </button>
     </>
   );

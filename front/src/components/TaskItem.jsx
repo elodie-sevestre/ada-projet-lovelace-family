@@ -22,16 +22,29 @@ function TaskItem({ task, currentUser, refreshTasks }) {
     <>
       <div className={cardClassName} onClick={() => setIsModalOpen(true)}>
         <div className="task-item-left-card">
-          <div className="task-item-name">{task.task_name}</div>
+          <div className="task-item-name">
+            <p className="tasks-list-under-title-1">Titre</p>
+            {task.task_name}
+          </div>
         </div>
         <div className="task-item-right-card">
-          <div className="task-item-assignation">{task.assigned_to}</div>
-          <div className="task-item-points">{task.points}</div>
+          <div className="task-item-assignation">
+            {" "}
+            <p className="tasks-list-under-title-2">Assignée à</p>
+            {task.assigned_to}{" "}
+          </div>
+          <div className="task-item-points">
+            {" "}
+            <p className="tasks-list-under-title-3">Points</p>
+            {task.points}
+          </div>
           {isAdmin && (
             <div
               className="task-item-update-button"
               onClick={(e) => e.stopPropagation()} //Evite que ça ouvre la modal en cliquant sur les boutons modifier ou supprimer
             >
+              {" "}
+              <p className="tasks-list-under-title-4">Modifier</p>
               <EditTaskButton
                 task={task}
                 onEdit={() => {
@@ -46,6 +59,8 @@ function TaskItem({ task, currentUser, refreshTasks }) {
               className="task-item-delete-button"
               onClick={(e) => e.stopPropagation()}
             >
+              {" "}
+              <p className="tasks-list-under-title-5">Supprimer</p>
               <DeleteTaskButton
                 task={task}
                 onDelete={() => setIsDeleteModalOpen(true)}

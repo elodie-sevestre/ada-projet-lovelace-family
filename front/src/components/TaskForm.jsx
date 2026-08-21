@@ -92,7 +92,7 @@ function TaskForm({ members, onCreate, onClose }) {
     <form className="task-form" onSubmit={handleSubmit}>
       {/* En-tête du formulaire */}
       <div className="task-form-header">
-        <h2>Nouvelle tâche</h2>
+        <h2>Ajouter une tâche</h2>
 
         {/* Bouton fermeture */}
         <button type="button" className="close-btn" onClick={onClose}>
@@ -102,7 +102,9 @@ function TaskForm({ members, onCreate, onClose }) {
 
       {/* Nom */}
       <div className="form-group">
-        <label htmlFor="name">Nom de la tâche</label>
+        <label htmlFor="name">
+          Nom de la tâche <span className="required-star">*</span>
+        </label>
 
         <input
           id="name"
@@ -127,7 +129,9 @@ function TaskForm({ members, onCreate, onClose }) {
 
       {/* Points */}
       <div className="form-group">
-        <label htmlFor="points">Points</label>
+        <label htmlFor="points">
+          Points <span className="required-star">*</span>
+        </label>
 
         <input
           id="points"
@@ -141,7 +145,9 @@ function TaskForm({ members, onCreate, onClose }) {
 
       {/* Membre assigné */}
       <div className="form-group">
-        <label htmlFor="assignment">Membre assigné</label>
+        <label htmlFor="assignment">
+          Assignée à <span className="required-star">*</span>
+        </label>
 
         <select
           id="assignment"

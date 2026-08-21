@@ -127,3 +127,7 @@
 .btn-secondary:hover {
   background: rgba(100, 65, 34, 0.08);
 }
+.required-star {
+  color: red;
+  margin-left: 4px;
+}

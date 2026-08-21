@@ -10,7 +10,7 @@ const EditTaskButton = ({ task, onEdit }) => {
           onEdit(task);
         }}
       >
-        Modifier
+        M
       </button>
     </>
   );
