@@ -35,7 +35,7 @@ const EditTaskForm = ({ task, onClose, refreshTasks }) => {
     event.preventDefault();
     const updatedTask = {
       name: editName,
-      description: editDescription,
+      description: editDescription || null,
       status: editStatus,
       points: editPoints,
       user_id: editUserId,

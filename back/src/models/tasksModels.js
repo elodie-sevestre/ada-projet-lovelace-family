@@ -6,7 +6,7 @@ async function createTaskModel(name, description, points) {
       `INSERT INTO tasks (name,description,status,points) VALUES ($1, $2, 'A_FAIRE'::status, $3) RETURNING *`,
       [name, description, points]
     );
-    console.log("erreur pas trouvé :'(");
+    // console.log("erreur pas trouvé :'(");
     return rows[0];
   } catch (error) {
     throw error;

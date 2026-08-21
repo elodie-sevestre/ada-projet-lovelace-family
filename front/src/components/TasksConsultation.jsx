@@ -1,21 +1,40 @@
 import TasksList from "./TasksList";
 import { useState, useEffect } from "react";
 import { getTasks } from "../api/tasks";
+import CreateTaskButton from "./CreateTaskButton";
+import CreateTaskModal from "./CreateTaskModal";
+import { createTask } from "../api/tasks";
+import { getUsers } from "../api/users";
 
 function TasksConsultation() {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
   const currentUser = { role: "ADMIN" };
-
+  const [members, setMembers] = useState([]);
+  const [isCreating, setIsCreating] = useState(false);
   const fetchTasks = () => {
     getTasks().then((result) => setTasks(result));
   };
 
   useEffect(() => {
+    getUsers().then((result) => setMembers(result));
     fetchTasks();
   }, []);
 
+  const onCreate = (taskToCreate) => {
+    return createTask(taskToCreate).then(() => fetchTasks());
+  };
+
   return (
     <div className="tasks-consultation-contener">
+      <CreateTaskButton onOpen={() => setIsCreating(true)} />
+      {isCreating && (
+        <CreateTaskModal
+          members={members}
+          onCreate={onCreate}
+          onClose={() => setIsCreating(false)}
+        />
+      )}
+
       <div className="task-list-contener">
         <p className="tasks-list-title">A faire</p>
         <TasksList
