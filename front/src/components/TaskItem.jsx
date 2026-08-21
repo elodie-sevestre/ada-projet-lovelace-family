@@ -14,6 +14,7 @@ function TaskItem({ task, currentUser, refreshTasks }) {
   // useState pour afficher le pop-up en mode édition
   const [isModalEditing, setIsModalEditing] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isCheckboxAnimating, setCheckboxAnimating] = useState(false);
 
   return (
     <>
@@ -57,7 +58,14 @@ function TaskItem({ task, currentUser, refreshTasks }) {
               )}
             </div>
           )}
-          <div className="task-item-checkbox"></div>
+          <div
+            className={`task-item-checkbox ${isCheckboxAnimating ? "animation-check-box" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setCheckboxAnimating(true);
+              setTimeout(() => setCheckboxAnimating(false), 400);
+            }}
+          ></div>
         </div>
       </div>
       {isModalOpen && (
