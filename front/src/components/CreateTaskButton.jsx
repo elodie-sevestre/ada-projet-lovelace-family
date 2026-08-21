@@ -1,5 +1,4 @@
 import "../css/CreateTaskButton.css";
-import addTaskIcon from "../assets/icon-add-task.png";
 
 // onOpen : fonction transmise par le parent pour ouvrir la modal de création
 const CreateTaskButton = ({ onOpen }) => {
@@ -10,7 +9,9 @@ const CreateTaskButton = ({ onOpen }) => {
       aria-label="Créer une nouvelle tâche"
       onClick={onOpen}
     >
-      <img src={addTaskIcon} alt="" className="create-task-button-icon" />
+      <span className="create-task-button-icon" aria-hidden="true">
+        +
+      </span>
       Ajouter une nouvelle tâche
     </button>
   );

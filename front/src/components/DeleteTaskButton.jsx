@@ -1,4 +1,5 @@
 import "../css/DeleteTaskButton.css";
+import deleteIcon from "../assets/icon-delete-task.png";
 const DeleteTaskButton = ({ task, onDelete }) => {
   return (
     <>
@@ -8,7 +9,11 @@ const DeleteTaskButton = ({ task, onDelete }) => {
         className="delete-button"
         onClick={() => onDelete(task)}
       >
-        S
+        <img
+          src={deleteIcon}
+          alt="icone supprimer"
+          className="delete-button-icon"
+        />
       </button>
     </>
   );

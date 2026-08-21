@@ -2,11 +2,38 @@
   margin-bottom: 1.5rem;
 }
 
-.tasks-list-title {
-  text-align: left;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+/* --- En-tête de colonnes ---
+   Aligné sur la même structure flex que .task-item-card
+   (task-item-left-card à gauche, le reste à droite) pour que
+   les colonnes tombent au bon endroit. */
+
+.tasks-list-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.1rem;
+  margin-bottom: 0.4rem;
+
+  font-family: var(--sans);
+  font-size: 0.55rem;
+  /* font-weight: 700; */
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--accent, #e16bc8);
+}
+
+.tasks-list-header-right {
+  display: grid;
+  grid-template-columns: 70px 50px 40px 40px;
+  column-gap: 0.6rem;
+  align-items: center;
+}
+
+.tasks-list-header-assignation,
+.tasks-list-header-points,
+.tasks-list-header-edit,
+.tasks-list-header-delete {
+  text-align: center;
 }
 
 .tasks-list-items-contener {
