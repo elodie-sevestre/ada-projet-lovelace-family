@@ -27,7 +27,6 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
 
 const { createTaskController } =
   await import('../src/controllers/tasksControllers.js');
-await import('../src/controllers/tasksControllers.js');
 await import('../src/services/tasksServices.js');
 
 // part du body et crée l'objet res qui va circuler dans le code
