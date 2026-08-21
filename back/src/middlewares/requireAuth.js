@@ -17,8 +17,8 @@ function requireAuth(req, res, next) {
     const payload = jwt.verify(token, config.jwt_secret);
     req.user = payload; // { userId, role } dispo dans les routes suivantes
     next(); // ✅ badge valide → on continue
-  } catch (err) {
-    return res.status(401).json({ erreur: 'Token invalide ou expiré' }); // ❌
+  } catch {
+    return res.status(401).json({ error: 'Token invalide ou expiré' }); // ❌
   }
 }
 
