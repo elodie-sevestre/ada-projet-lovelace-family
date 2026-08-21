@@ -61,7 +61,11 @@ async function updateTaskController(req, res) {
         .json({ error: 'Le nom de la tâche est requis ou mal renseigné!' });
     }
     // Vérifier que la description, si elle est fournie, est bien du texte
-    if (description !== undefined && typeof description !== 'string') {
+    if (
+      description !== undefined &&
+      description !== null &&
+      typeof description !== 'string'
+    ) {
       return res
         .status(400)
         .json({ error: 'La description doit être du texte !' });
