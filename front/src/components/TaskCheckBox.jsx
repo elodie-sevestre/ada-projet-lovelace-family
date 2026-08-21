@@ -33,7 +33,7 @@ function TaskCheckBox({ task, refreshTasks }) {
       description: task.description,
       status: newStatus,
       points: task.points,
-    }).then(() => refreshTasks());
+    }).then(() => setTimeout(() => refreshTasks(), 400));
   }
 
   return (

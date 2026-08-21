@@ -30,7 +30,7 @@
 }
 
 .animation-uncheck-checkbox {
-  animation: animUncheckCheckbox 0.4s steps(11) forwards;
+  animation: animUncheckCheckbox 0.4s steps(1) forwards;
 }
 
 .checkbox-terminee {
