@@ -1,0 +1,129 @@
+/* ==========================================================================
+   TaskForm
+   Contenu du formulaire à l'intérieur de la modal (.task-modal-card).
+   ========================================================================== */
+
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.task-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-form-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  /* hérite déjà de --heading (Jersey 10) via la règle globale h1,h2 */
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--palette-brown, #644122);
+  cursor: pointer;
+}
+
+/* --- Champs --- */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-h, #0b3d2e);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--palette-brown, #644122);
+
+  background: #fff;
+  border: 1.5px solid var(--palette-brown, #644122);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: 2px solid var(--accent, #e16bc8);
+  outline-offset: 1px;
+  border-color: var(--accent, #e16bc8);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.error-message {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #c0392b;
+}
+
+/* --- Boutons d'action --- */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--palette-brown, #644122);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--accent, #e16bc8);
+  border-color: var(--accent, #e16bc8);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px var(--accent-border, rgba(225, 107, 200, 0.5));
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--palette-brown, #644122);
+}
+
+.btn-secondary:hover {
+  background: rgba(100, 65, 34, 0.08);
+}
