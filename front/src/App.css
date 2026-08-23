@@ -31,7 +31,7 @@
 
   /* Tâches terminées : bordure violette, fond grisé */
   --completed-border: var(--palette-purple);
-  --completed-bg: #d9d6d1;
+  --completed-bg: #9888a6;
 
   /* Lexend pour le texte courant, Jersey 10 pour les titres */
   --sans: "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;

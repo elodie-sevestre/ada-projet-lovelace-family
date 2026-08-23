@@ -20,7 +20,6 @@
 .task-form-header h2 {
   margin: 0;
   font-size: 1.4rem;
-  /* hérite déjà de --heading (Jersey 10) via la règle globale h1,h2 */
 }
 
 .close-btn {
