@@ -17,9 +17,9 @@ function TaskCheckBox({ task, refreshTasks }) {
 
   let classStatut;
   if (task.status === "TERMINE") {
-    classStatut = "checkbox-terminee";
+    classStatut = "checkbox-validee";
   } else {
-    classStatut = "checkbox-non-terminee";
+    classStatut = "checkbox-non-validee";
   }
 
   function handleClick(e) {
@@ -38,7 +38,7 @@ function TaskCheckBox({ task, refreshTasks }) {
 
   return (
     <div
-      className={`task-item-checkbox ${classStatut} ${classAnimation}`}
+      className={`task-checkbox ${classStatut} ${classAnimation}`}
       onClick={handleClick}
     ></div>
   );

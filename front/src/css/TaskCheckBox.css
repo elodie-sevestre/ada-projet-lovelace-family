@@ -1,4 +1,4 @@
-.task-item-checkbox {
+.task-checkbox {
   width: 32px;
   height: 32px;
   background-image: url("/src/assets/checkbox.png");
@@ -33,10 +33,10 @@
   animation: animUncheckCheckbox 0.4s steps(1) forwards;
 }
 
-.checkbox-terminee {
+.checkbox-validee {
   background-position: 100% 0;
 }
 
-.checkbox-non-terminee {
+.checkbox-non-validee {
   background-position: 0% 0;
 }
