@@ -15,7 +15,6 @@ async function createTaskController(req, res) {
     if (typeof name !== 'string' || name.trim() === '') {
       throw new Error('Le nom de la tâche doit être un champ de caractère');
     }
-
     if (assignment === undefined || assignment === null || assignment === '') {
       throw new Error('Un membre doit être assigné à la tâche');
     }
@@ -43,7 +42,7 @@ async function createTaskController(req, res) {
   }
 }
 
-const updateTaskController = async (req, res) => {
+async function updateTaskController(req, res) {
   try {
     const { id } = req.params;
     // Vérifier que l'identifiant de la tâche est bien un nombre entier valide
@@ -53,12 +52,18 @@ const updateTaskController = async (req, res) => {
         .json({ error: "L'identifiant de la tâche n'est pas valide !" });
     }
     const { name, description, status, points, user_id } = req.body;
-    // Vérifier que le nom est bien renseigné et non vide
-    if (!name || name.trim() === '') {
-      return res.status(400).json({ error: 'Le nom de la tâche est requis !' });
+    // Vérifier que le champ NAME est bien renseignée avec une string et qu'il n'est pas vide
+    if (typeof name !== 'string' || name.trim() === '') {
+      return res
+        .status(400)
+        .json({ error: 'Le nom de la tâche est requis ou mal renseigné!' });
     }
     // Vérifier que la description, si elle est fournie, est bien du texte
-    if (description !== undefined && typeof description !== 'string') {
+    if (
+      description !== undefined &&
+      description !== null &&
+      typeof description !== 'string'
+    ) {
       return res
         .status(400)
         .json({ error: 'La description doit être du texte !' });
@@ -67,13 +72,15 @@ const updateTaskController = async (req, res) => {
     if (!status) {
       return res.status(400).json({ error: 'Le statut est requis !' });
     }
-    // Vérifier que le statut fait partie des valeurs autorisées
-    const validStatuses = ['A_FAIRE', 'TERMINE'];
-    if (!validStatuses.includes(status)) {
+
+    // Vérifier que la valeur du statut est autorisée
+    // const validStatuses = ['A_FAIRE', 'TERMINE'];
+    if (!['A_FAIRE', 'TERMINE'].includes(status)) {
       return res
         .status(400)
-        .json({ error: "La valeur du statut n'est pas valide !" });
+        .json({ error: "La valeur du statut n'est pas autorisée !" });
     }
+
     // Vérifier que les points, si fournis, sont un nombre entier
     if (points !== undefined && !Number.isInteger(points)) {
       return res
@@ -101,7 +108,7 @@ const updateTaskController = async (req, res) => {
     const statusCode = error.statusCode || 500;
     res.status(statusCode).json({ error: error.message });
   }
-};
+}
 
 //Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
 async function getAllTasksController(req, res) {
@@ -131,7 +138,7 @@ async function getTasksByUserController(req, res) {
   }
 }
 
-const deleteTaskController = async (req, res) => {
+async function deleteTaskController(req, res) {
   try {
     const { id } = req.params;
     if (!id || !Number.isInteger(Number(id))) {
@@ -145,7 +152,7 @@ const deleteTaskController = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ error: `Détail erreur ${err}` });
   }
-};
+}
 
 export {
   createTaskController,

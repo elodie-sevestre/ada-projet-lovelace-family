@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import requireAuth from '../middlewares/requireAuth.js';
 import {
   createTaskController,
   updateTaskController,
@@ -7,8 +8,11 @@ import {
   deleteTaskController,
 } from '../controllers/tasksControllers.js';
 
-const tasksRoutes = Router();
 //Aiguilleur, le router ici aiguille vers les bonnes routes: "Ecoute ce type de requêtes"
+const tasksRoutes = Router();
+
+// protège les routes tasksRoutes
+tasksRoutes.use(requireAuth);
 
 tasksRoutes.post('/', createTaskController);
 tasksRoutes.get('/', getAllTasksController); // Ici la route pour aller consulter toutes les tâches (Vue Bernard)

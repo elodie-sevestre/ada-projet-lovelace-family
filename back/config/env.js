@@ -7,7 +7,7 @@ dotenv.config();
 // Variables obligatoires — le serveur refuse de démarrer si elles manquent
 const required = [
   // 'DATABASE_URL',
-  // 'JWT_SECRET',
+  'JWT_SECRET',
   'POSTGRES_USER',
   'POSTGRES_PASSWORD',
   // ajoute ici toutes tes variables obligatoires
@@ -17,12 +17,7 @@ const required = [
 const missing = required.filter((key) => !process.env[key]);
 
 //Condition de validation :
-
-// création const qui vérifie si on est en train d'exécuter les tests
-const isTest = process.env.NODE_ENV === 'test';
-
-// si on n'est pas en test et qu'on a pas les bonnes clés d'environnement alors on met des erreurs
-if (missing.length > 0 && !isTest) {
+if (missing.length > 0) {
   console.error('');
   console.error("❌ Variables d'environnement manquantes :");
   missing.forEach((key) => console.error(` - ${key}`));
@@ -47,4 +42,5 @@ export const config = {
   port_db: parseInt(process.env.POSTGRES_PORT),
   port_back: parseInt(process.env.PORT) || 5000,
   isDev: process.env.NODE_ENV !== 'production',
+  jwt_secret: process.env.JWT_SECRET,
 };

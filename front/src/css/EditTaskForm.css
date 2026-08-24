@@ -1,5 +1,92 @@
+/* ==========================================================================
+   EditTaskForm
+   S'affiche à l'intérieur de .task-modal-card (fond crème déjà défini
+   dans TaskModalItem.css). Même langage visuel que TaskForm.
+   ========================================================================== */
+
 .edit-task-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 12px;
+  text-align: left;
+}
+
+.edit-task-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-h, #0b3d2e);
+}
+
+/* --- Champs --- */
+
+.edit-task-form input,
+.edit-task-form textarea,
+.edit-task-form select {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--palette-brown, #644122);
+
+  background: #fff;
+  border: 1.5px solid var(--palette-brown, #644122);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.edit-task-form input:focus,
+.edit-task-form textarea:focus,
+.edit-task-form select:focus {
+  outline: 2px solid var(--accent, #e16bc8);
+  outline-offset: 1px;
+  border-color: var(--accent, #e16bc8);
+}
+
+.task-description {
+  resize: vertical;
+  min-height: 60px;
+}
+
+/* --- Boutons d'action --- */
+
+.edit-task-form {
+  & > button[type="submit"],
+  & > .cancel-edit-form {
+    align-self: flex-start;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
+  }
+}
+
+.edit-task-form button[type="submit"] {
+  background: var(--accent, #e16bc8);
+  border: 1.5px solid var(--accent, #e16bc8);
+  color: #fff;
+}
+
+.edit-task-form button[type="submit"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px var(--accent-border, rgba(225, 107, 200, 0.5));
+}
+
+.cancel-edit-form {
+  background: transparent;
+  border: 1.5px solid var(--palette-brown, #644122);
+  color: var(--palette-brown, #644122);
+}
+
+.cancel-edit-form:hover {
+  background: rgba(100, 65, 34, 0.08);
 }
