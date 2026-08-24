@@ -1,9 +1,9 @@
 .task-checkbox {
   width: 32px;
   height: 32px;
-  background-image: url("/src/assets/checkbox.png");
+  background-image: url("/src/assets/check-box-animation.png");
   background-repeat: no-repeat;
-  background-size: 1200%;
+  background-size: 1200% 100%;
   cursor: pointer;
 }
 
