@@ -17,9 +17,15 @@ function TaskItem({ task, currentUser, refreshTasks }) {
   const [isModalEditing, setIsModalEditing] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const isCompleted = task.status === "TERMINE";
+  const cardClassName = `task-item-card${isCompleted ? " completed" : ""}`;
+
+  // Les libellés de colonnes ("Titre", "Assignée à", "Points"...) ne sont
+  // plus répétés ici : ils vivent une seule fois dans l'en-tête de
+  // TasksList, comme sur la maquette.
   return (
     <>
-      <div className="task-item-card" onClick={() => setIsModalOpen(true)}>
+      <div className={cardClassName} onClick={() => setIsModalOpen(true)}>
         <div className="task-item-left-card">
           <div className="task-item-name">{task.task_name}</div>
         </div>

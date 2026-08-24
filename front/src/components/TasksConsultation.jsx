@@ -5,6 +5,7 @@ import CreateTaskButton from "./CreateTaskButton";
 import CreateTaskModal from "./CreateTaskModal";
 import { createTask } from "../api/tasks";
 import { getUsers } from "../api/users";
+import "../css/TasksConsultation.css";
 
 function TasksConsultation() {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
@@ -26,17 +27,9 @@ function TasksConsultation() {
 
   return (
     <div className="tasks-consultation-contener">
-      <CreateTaskButton onOpen={() => setIsCreating(true)} />
-      {isCreating && (
-        <CreateTaskModal
-          members={members}
-          onCreate={onCreate}
-          onClose={() => setIsCreating(false)}
-        />
-      )}
-
       <div className="task-list-contener">
-        <p className="tasks-list-title">A faire</p>
+        <p className="tasks-list-title">Tâches à faire</p>
+
         <TasksList
           tasks={tasks.toDoTasks}
           currentUser={currentUser}
@@ -44,12 +37,20 @@ function TasksConsultation() {
         />
       </div>
       <div className="task-list-contener">
-        <p className="tasks-list-title">Terminées</p>
+        <p className="tasks-list-title">Tâches terminées</p>
         <TasksList
           tasks={tasks.finishedTasks}
           currentUser={currentUser}
           refreshTasks={fetchTasks}
         />
+        <CreateTaskButton onOpen={() => setIsCreating(true)} />
+        {isCreating && (
+          <CreateTaskModal
+            members={members}
+            onCreate={onCreate}
+            onClose={() => setIsCreating(false)}
+          />
+        )}
       </div>
     </div>
   );

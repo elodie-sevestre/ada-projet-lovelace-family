@@ -1,35 +1,81 @@
+/* ==========================================================================
+   Modales (task-modal-overlay / task-modal-card)
+   Classes partagées par CreateTaskModal, TaskModalItem, DeleteConfirmModal.
+   Un seul style ici = cohérence garantie sur les 3 popups du projet.
+   ========================================================================== */
+
 .task-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* Fond sombre + flou léger, plus doux qu'un noir plat */
+  background: rgba(
+    11,
+    61,
+    46,
+    0.45
+  ); /* teinte dérivée de --palette-dark-green */
+  backdrop-filter: blur(3px);
 }
 
 .task-modal-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  max-width: 400px;
-  width: 90%;
   position: relative;
+  width: 90%;
+  max-width: 400px;
+  padding: 1.75rem;
+
+  background: var(--code-bg, #f4ead6);
+  border: 2px solid var(--palette-brown, #644122);
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+
+  color: var(--text-h, #0b3d2e);
+  font-family: var(--sans);
 }
+
+/* --- Bouton de fermeture (croix) --- */
 
 .task-modal-close-button {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: none;
+  top: 0.6rem;
+  right: 0.6rem;
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
   border: none;
-  color: #333;
-  font-size: 1.3rem;
+  border-radius: 50%;
+  color: var(--palette-brown, #644122);
+  font-size: 1.1rem;
+  line-height: 1;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
+
+.task-modal-close-button:hover {
+  background: rgba(100, 65, 34, 0.1); /* --palette-brown en transparence */
+}
+
+.task-modal-close-button:focus-visible {
+  outline: 2px solid var(--accent, #e16bc8);
+  outline-offset: 2px;
+}
+
+/* --- Contenu texte (mode lecture, dans TaskModalItem) --- */
 
 .task-modal-informations,
 .task-modal-informations-2 {
   margin-top: 0.5rem;
+  text-align: left;
 }
 
 .task-modal-informations p,
