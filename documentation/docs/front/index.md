@@ -1,49 +1,138 @@
-# Front-end
+# Back-end
 
-Stack : **React** + **Vite**.
+Stack : **Node.js / Express**, requêtes SQL brutes via le package `pg` (pas d'ORM).
 
 ## Structure
 
 ```
-front/src/
-├── App.jsx                  # composant racine
-├── main.jsx                 # point d'entrée, monte l'app React
-├── api/
-│   ├── client.js             # wrapper générique autour de fetch (get/post/put/del)
-│   ├── tasks.js               # appels API spécifiques aux tâches (getTasks, createTask, editTask, deleteTask)
-│   └── users.js               # récupère la liste des membres (getUsers)
-├── components/
-│   ├── TasksList.jsx           # liste des tâches
-│   ├── TasksConsultation.jsx   # vue de consultation des tâches
-│   ├── TaskItem.jsx             # une tâche dans la liste
-│   ├── TaskModalItem.jsx        # détail d'une tâche en modale
-│   ├── CreateTaskButton.jsx     # déclenche l'ouverture de la modal de création
-│   ├── CreateTaskModal.jsx      # encapsule TaskForm dans une modal
-│   ├── TaskForm.jsx             # formulaire de création de tâche
-│   ├── EditTaskForm.jsx         # formulaire de modification de tâche
-│   ├── EditTaskButton.jsx       # bouton déclenchant l'édition
-│   ├── DeleteTaskButton.jsx     # déclenche l'ouverture de la modal de confirmation
-│   └── DeleteConfirmModal.jsx    # confirmation + appel API + gestion d'erreur
-└── css/                       # une feuille de style par composant
+back/src/
+├── server.js          # point d'entrée : configure Express, CORS, monte les routes
+├── routes/            # définit les endpoints HTTP
+├── controllers/       # valide les entrées, appelle un service, renvoie la réponse HTTP
+├── services/          # logique métier
+├── models/            # requêtes SQL (via pg)
+├── middlewares/       # middlewares Express (authentification, etc.)
+└── config/            # configuration (variables d'environnement)
 ```
 
-La suppression suit le même principe que l'édition : `TaskItem` détient un état booléen (`isDeleteModalOpen`) qui pilote l'affichage conditionnel de `DeleteConfirmModal`. La suppression n'est déclenchée qu'après confirmation explicite de l'utilisateur (pas de "toast + annulation", pour rester simple et éviter les suppressions accidentelles).
+## Authentification
 
-La création suit le même principe : `TasksConsultation` détient l'état `isCreating` qui pilote l'affichage de `CreateTaskModal`, laquelle encapsule `TaskForm`. La liste des membres assignables (`members`) est récupérée une fois via `getUsers()` au montage de `TasksConsultation`, puis transmise en prop jusqu'au formulaire.
+### Endpoints publics (sans token requis)
 
-## Communication avec l'API
+- `POST /auth/inscription` — crée un nouvel utilisateur
+  - Corps : `{ mail, password, name, tribe_name }`
+  - Réponse : `{ userId, role, message }`
+  - Le mot de passe est hashé avec `bcryptjs` avant d'être stocké en base
 
-Tous les appels HTTP passent par `api/client.js`, qui centralise la gestion des headers JSON et des erreurs (`response.ok`). Les modules comme `api/tasks.js` n'ont qu'à appeler `get`/`post`/`put`/`del` avec la route voulue, sans se soucier des détails de `fetch`.
+- `POST /auth/connexion` — authentifie un utilisateur et renvoie un token JWT
+  - Corps : `{ mail, password }`
+  - Réponse : `{ token }` — token JWT valide 24h, contient `{ userId, role }`
+  - Stocké en localStorage côté frontend
 
-## Gestion d'état
+### Endpoints protégés (token requis)
 
-Pas de state manager global (Redux, Context API...) à ce jour : chaque composant gère son propre état local avec `useState`.
+Tous les endpoints sous `/api/tasks` et `/api/users` sont protégés par le middleware `requireAuth`.
 
-React suit un flux de données unidirectionnel :
+Le middleware vérifie l'en-tête `Authorization: Bearer ` :
 
-- **les données descendent** du parent vers l'enfant via les **props**
-- **les actions remontent** de l'enfant vers le parent via des **callbacks** (des fonctions passées en props, que l'enfant se contente d'appeler)
+- ✅ Si le token est valide et non expiré, la requête continue
+- ❌ Si absent, invalide ou expiré, répond avec un `401 Unauthorized`
 
-Exemple avec la suppression : `TaskItem` détient l'état `isDeleteModalOpen` et le passe à `DeleteTaskButton` sous forme de callback (`onDelete`). Le bouton ne sait pas ce que fait cette fonction ni où est stocké l'état, il se contente de l'appeler au clic — ce qui le rend réutilisable. `refreshTasks` suit le même principe sur plusieurs niveaux : `TasksConsultation` détient la vraie liste des tâches et transmet cette fonction en descendant jusqu'à `DeleteConfirmModal`, pour que ce composant profond dans l'arbre puisse déclencher un rechargement sans avoir accès à la liste lui-même.
+**Fichier** : `back/src/middlewares/requireAuth.js`
 
-Un state manager global deviendrait utile si une même donnée (ex: l'utilisateur connecté) devait être partagée entre des composants éloignés dans l'arbre, obligeant à faire transiter une prop à travers plusieurs niveaux qui n'en ont pas besoin (_prop drilling_). Ce n'est pas encore le cas ici.
+## Routes de l'API
+
+### `/auth` — Authentification (publique)
+
+| Méthode | Endpoint       | Controller            | Validation                       |
+| ------- | -------------- | --------------------- | -------------------------------- |
+| POST    | `/inscription` | createLoginController | mail, password, name, tribe_name |
+| POST    | `/connexion`   | connexionController   | mail, password                   |
+
+### `/api/users` — Utilisateurs (protégée)
+
+| Méthode | Endpoint | Controller            | Rôle requis |
+| ------- | -------- | --------------------- | ----------- |
+| GET     | `/`      | getAllUsersController | N/A         |
+
+Renvoie la liste de tous les utilisateurs de la tribu (sans les mots de passe hashés).
+
+### `/api/tasks` — Tâches (protégée)
+
+| Méthode | Endpoint     | Controller               | Rôle requis      |
+| ------- | ------------ | ------------------------ | ---------------- |
+| GET     | `/`          | getAllTasksController    | N/A              |
+| GET     | `/users/:id` | getTasksByUserController | N/A              |
+| POST    | `/`          | createTaskController     | ADMIN            |
+| PUT     | `/:id`       | updateTaskController     | ADMIN ou assigné |
+| DELETE  | `/:id`       | deleteTaskController     | ADMIN            |
+
+## Tests
+
+Le backend a des tests unitaires avec **Jest**, dans `back/tests/` :
+
+- `createTaskController.test.js`
+- `updateTaskController.test.js`
+
+```bash
+cd back
+npm test
+```
+
+Ces tests mockent la couche `services` plutôt que d'appeler la vraie base de données.
+
+> Le frontend n'a pas encore de tests automatisés.
+
+## Flux : création d'une tâche
+
+1. `POST /api/tasks` arrive sur `tasksRoutes.js`, aiguillé vers `createTaskController`
+2. Le middleware `requireAuth` vérifie le token
+3. Le controller valide les champs (`name`, `assignment`, `points`)
+4. `createTaskServices` crée la tâche puis l'assigne en table pivot `users_tasks`
+5. Le controller renvoie la tâche créée avec le code 201
+
+## Flux : consultation des tâches
+
+Deux endpoints permettent de consulter les tâches :
+
+- `GET /api/tasks` → toutes les tâches
+- `GET /api/tasks/users/:id` → les tâches d'un utilisateur donné
+
+Le service retourne un objet `{ toDoTasks, finishedTasks }` : le tri par statut est déjà fait côté backend.
+
+## Flux : modification d'une tâche (changement de statut via checkbox)
+
+`PUT /api/tasks/:id` permet de modifier une tâche, notamment son statut :
+
+1. `TaskCheckBox.jsx` au front envoie `{ status: "TERMINE" | "A_FAIRE", name, description, points }`
+2. Le middleware `requireAuth` vérifie le token
+3. `updateTaskController` valide l'id et les champs
+4. `updateTaskServices` exécute la mise à jour
+5. Réponse 200 avec la tâche modifiée
+
+## Flux : suppression d'une tâche
+
+`DELETE /api/tasks/:id` supprime une tâche et toutes ses assignations (cascade).
+
+| Cas                         | Code HTTP                     |
+| --------------------------- | ----------------------------- |
+| Id invalide (pas un entier) | `400`                         |
+| Tâche inexistante           | `404`                         |
+| Suppression réussie         | `204` (sans corps de réponse) |
+| Erreur serveur imprévue     | `500`                         |
+
+## Axes d'amélioration
+
+- **Contrôle d'accès granulaire** : seul un ADMIN ou l'utilisateur assigné devrait pouvoir modifier/valider une tâche. Actuellement, n'importe qui avec un token valide peut le faire.
+- **Validation de l'id utilisateur** : dans `getTasksByUserController`, l'id n'est pas validé avant d'être passé au service (contrairement à `updateTaskController`/`deleteTaskController`).
+- **Tests du endpoint DELETE** : pas de test automatisé pour cet endpoint contrairement aux autres.
+- **Gestion d'erreurs unifiée** : les erreurs sont renvoyées avec un message générique, sans distinction des causes possibles.
+- **Refresh du token** : le token JWT n'expire jamais utilisateur-side — ajouter un mécanisme de refresh serait un plus.
+
+## Connexion à la base de données
+
+`back/src/models/configDb.js` crée un `Pool` PostgreSQL unique à partir des variables d'environnement (`POSTGRES_USER`, `POSTGRES_HOST`, etc.), réutilisé par tous les models.
+
+## Démarrer / déboguer en local
+
+Voir la section [Installation](../installation/index.md) pour lancer le backend via Docker Compose (port `5000`, inspecteur Node sur `9229`).
