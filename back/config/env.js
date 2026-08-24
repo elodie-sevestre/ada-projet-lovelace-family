@@ -1,6 +1,6 @@
 // config/env.js
 //Charge les valeurs contenues dans ton fichier .env et les injecte avec process.env
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -8,8 +8,8 @@ dotenv.config();
 const required = [
   // 'DATABASE_URL',
   // 'JWT_SECRET',
-  "POSTGRES_USER",
-  "POSTGRES_PASSWORD",
+  'POSTGRES_USER',
+  'POSTGRES_PASSWORD',
   // ajoute ici toutes tes variables obligatoires
 ];
 
@@ -17,15 +17,20 @@ const required = [
 const missing = required.filter((key) => !process.env[key]);
 
 //Condition de validation :
-if (missing.length > 0) {
-  console.error("");
+
+// création const qui vérifie si on est en train d'exécuter les tests
+const isTest = process.env.NODE_ENV === 'test';
+
+// si on n'est pas en test et qu'on a pas les bonnes clés d'environnement alors on met des erreurs
+if (missing.length > 0 && !isTest) {
+  console.error('');
   console.error("❌ Variables d'environnement manquantes :");
   missing.forEach((key) => console.error(` - ${key}`));
-  console.error("");
+  console.error('');
   console.error(
-    "👉 Copie .env.example vers .env et remplis les valeurs manquantes.",
+    '👉 Copie .env.example vers .env et remplis les valeurs manquantes.'
   );
-  console.error("");
+  console.error('');
   process.exit(1); //Arrête le processus Node parce qu'il y une erreur.
 }
 
@@ -41,5 +46,5 @@ export const config = {
   //Port du back
   port_db: parseInt(process.env.POSTGRES_PORT),
   port_back: parseInt(process.env.PORT) || 5000,
-  isDev: process.env.NODE_ENV !== "production",
+  isDev: process.env.NODE_ENV !== 'production',
 };
