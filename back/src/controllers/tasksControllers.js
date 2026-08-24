@@ -15,7 +15,6 @@ async function createTaskController(req, res) {
     if (typeof name !== 'string' || name.trim() === '') {
       throw new Error('Le nom de la tâche doit être un champ de caractère');
     }
-
     if (assignment === undefined || assignment === null || assignment === '') {
       throw new Error('Un membre doit être assigné à la tâche');
     }
@@ -26,7 +25,6 @@ async function createTaskController(req, res) {
         "L'identifiant du membre assigné doit être un nombre entier"
       );
     }
-
     if (typeof points !== 'number' || points < 1) {
       throw new Error(
         'La variable point est de type number et être strictement supérieur à zéro'

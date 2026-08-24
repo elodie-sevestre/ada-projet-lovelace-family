@@ -16,6 +16,7 @@ function TasksList({ tasks, currentUser, refreshTasks }) {
           {isAdmin && (
             <span className="tasks-list-header-delete">Supprimer</span>
           )}
+          <span className="task-list-header-check-box">Valider</span>
         </div>
       </div>
 

@@ -36,7 +36,7 @@
 
 .task-item-right-card {
   display: grid;
-  grid-template-columns: 70px 50px 40px 40px;
+  grid-template-columns: 70px 50px 40px 40px 100px;
   column-gap: 0.6rem;
   align-items: center;
 }
@@ -47,7 +47,8 @@
 }
 
 .task-item-update-button,
-.task-item-delete-button {
+.task-item-delete-button,
+.task-item-check-box {
   display: flex;
   align-items: center;
   justify-content: center;

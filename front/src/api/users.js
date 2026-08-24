@@ -1,5 +1,5 @@
 import { get } from "./client.js";
-const USERS_ROUTE = "/users";
+const USERS_ROUTE = "/api/users";
 
 export function getUsers() {
   return get(USERS_ROUTE);

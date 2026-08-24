@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../css/TaskItem.css";
+import "../css/TaskCheckBox.css";
 import TaskModalItem from "./TaskModalItem.jsx";
 // import modal confirmation suppression tâche
 import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
@@ -7,6 +8,8 @@ import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
 import EditTaskButton from "./EditTaskButton.jsx";
 //import bouton suppression de la tâche
 import DeleteTaskButton from "./DeleteTaskButton.jsx";
+//import checkbox
+import TaskCheckbox from "./TaskCheckBox.jsx";
 
 function TaskItem({ task, currentUser, refreshTasks }) {
   const isAdmin = currentUser.role === "ADMIN";
@@ -63,7 +66,9 @@ function TaskItem({ task, currentUser, refreshTasks }) {
               )}
             </div>
           )}
-          <div className="task-item-checkbox"></div>
+          <div className="task-item-check-box">
+            <TaskCheckbox task={task} refreshTasks={refreshTasks} />
+          </div>
         </div>
       </div>
       {isModalOpen && (
