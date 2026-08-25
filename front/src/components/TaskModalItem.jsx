@@ -34,7 +34,10 @@ function TaskModalItem({ task, onClose, isEditing, refreshTasks }) {
           <>
             <div className="task-modal-informations-top">
               <div className="task-modal-statut-label">
-                <p className="task-detail-modal-status">
+                <p
+                  className="task-detail-modal-status"
+                  data-status={task.status}
+                >
                   Statut : {STATUT_LABELS[task.status]}
                 </p>
               </div>
@@ -65,7 +68,7 @@ function TaskModalItem({ task, onClose, isEditing, refreshTasks }) {
                 {new Date(task.created_at).toLocaleDateString("fr-FR")}
               </p>
               <p className="task-detail-modal-date-update">
-                Modifié le :{" "}
+                Modifiée le :{" "}
                 {new Date(task.updated_at).toLocaleDateString("fr-FR")}
               </p>
             </div>

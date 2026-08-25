@@ -92,11 +92,18 @@
 .task-detail-modal-status {
   margin: 0;
   padding: 0.3rem 0.8rem;
-  background: var(--border);
-  color: var(--code-bg);
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
+  border: 1.5px solid transparent;
+
+  /* couleur par défaut : À faire */
+  background: red;
+  color: var(--code-bg);
+}
+
+.task-detail-modal-status[data-status="TERMINE"] {
+  background: var(--palette-purple);
 }
 
 .task-detail-modal-round-assignation {
@@ -108,7 +115,7 @@
   align-items: center;
   justify-content: center;
 
-  background: var(--border);
+  background: var(--palette-pink);
   border-radius: 50%;
 }
 
@@ -196,6 +203,7 @@
 .task-detail-modal-date-creation,
 .task-detail-modal-date-update {
   margin: 0;
+  text-align: left;
   font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.01em;
