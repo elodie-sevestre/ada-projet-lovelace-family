@@ -1,4 +1,5 @@
 import { describe, it, expect, jest } from '@jest/globals';
+import { deleteTaskService } from '../src/services/tasksServices';
 
 // ------------------------------------------------------------------------------
 // ------------------------------   MOCKS   -------------------------------------
@@ -9,11 +10,12 @@ import { describe, it, expect, jest } from '@jest/globals';
 
 // Initialisation
 
-jest.unstable_mockModule('../src/controllers/tasksControllers.js', () => ({
+jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   createTaskServices: jest.fn(),
   updateTaskService: jest.fn(),
   getAllTasksService: jest.fn(),
   getTasksByUserService: jest.fn(),
+  deleteTaskService: jest.fn(),
 }));
 
 //! Important
@@ -22,8 +24,32 @@ jest.unstable_mockModule('../src/controllers/tasksControllers.js', () => ({
 
 const { deleteTaskController } =
   await import('../src/controllers/tasksControllers.js');
-const { deleteTaskService } = await import('../src/services/tasksServices.js');
+
+// const { deleteTaskService } = await import('../src/services/tasksServices.js');
 
 function deleteMockRes() {
   const res = { statusCode: null, body: null };
+  res.status = (code) => {
+    res.statusCode = code;
+    return res;
+  };
+  res.json = (payload) => {
+    res.body = payload;
+    return res;
+  };
+  return res;
 }
+
+// ------------------------------   TESTS   -------------------------------------
+
+// describe = une boîte qui range tous les tests qui parlent du même sujet
+
+describe('Valider que les données sont bien supprimées', () => {
+  it("renvoi erreur 400 si ID n'existe pas", async () => {
+    const req = { params: { id: null }, body: {} };
+    const res = deleteMockRes();
+    await deleteTaskController(req, res);
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({ error: "L'identifiant non valide !" });
+  });
+});
