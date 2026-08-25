@@ -6,13 +6,23 @@ import victorySound from "../assets/victory-sound.mp3";
 // Durée de repli si la durée réelle du son n'a pas pu être lue à temps
 const FALLBACK_DURATION_MS = 1800;
 
-// show : booléen transmis par le parent (TaskCheckBox) pour déclencher la célébration
+// show : booléen transmis par le parent pour déclencher la célébration
 // onDone : callback appelée une fois le son terminé, pour que le parent masque le composant
 function TaskCelebration({ show, onDone }) {
   const audioRef = useRef(null);
   const safetyTimerRef = useRef(null);
   // Durée de l'animation, alignée sur la durée réelle du fichier son
   const [durationMs, setDurationMs] = useState(FALLBACK_DURATION_MS);
+
+  // onDone est recréée à chaque render du parent (ex: après refreshTasks).
+  // On la garde dans une ref pour toujours appeler la version la plus
+  // récente SANS que ça relance l'effet ci-dessous (qui, lui, ne doit
+  // se déclencher qu'au passage de show=false -> true, sinon le son
+  // repart de zéro en plein milieu et donne l'impression de se répéter).
+  const onDoneRef = useRef(onDone);
+  useEffect(() => {
+    onDoneRef.current = onDone;
+  }, [onDone]);
 
   useEffect(() => {
     if (!show) return;
@@ -22,7 +32,7 @@ function TaskCelebration({ show, onDone }) {
 
     const finish = () => {
       clearTimeout(safetyTimerRef.current);
-      onDone?.();
+      onDoneRef.current?.();
     };
 
     // Dès que la durée réelle du son est connue, l'animation se cale dessus
@@ -54,7 +64,7 @@ function TaskCelebration({ show, onDone }) {
       audio.removeEventListener("loadedmetadata", applyRealDuration);
       clearTimeout(safetyTimerRef.current);
     };
-  }, [show, onDone]);
+  }, [show]);
 
   if (!show) return null;
 

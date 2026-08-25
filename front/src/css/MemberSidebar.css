@@ -1,0 +1,106 @@
+/* ==========================================================================
+   MemberSidebar
+   Carte avatar : mascotte, badge du membre, points, progression.
+   ========================================================================== */
+
+.member-sidebar-card {
+  position: fixed;
+  top: 100px;
+  left: 20px;
+  z-index: 500;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  width: 180px;
+  padding: 20px 16px;
+
+  background: var(--palette-dark-green, #0b3d2e);
+  border: 2px solid var(--palette-pink);
+  border-radius: 10px;
+  box-shadow: 6px 6px 25px var(--palette-brown);
+}
+
+.member-sidebar-avatar {
+  width: 132px;
+  height: 132px;
+  object-fit: contain;
+}
+
+/* --- Badge : lettre + nom du membre --- */
+
+.member-sidebar-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.member-sidebar-initial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+
+  border: 2px solid var(--palette-mint, #5fd38d);
+  border-radius: 6px;
+  color: var(--palette-mint, #5fd38d);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.member-sidebar-name {
+  font-family: var(--heading);
+  font-size: 1.1rem;
+  color: var(--code-bg, #f4ead6);
+}
+
+/* --- Points --- */
+
+.member-sidebar-points-label {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--palette-yellow, #ede96f);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.member-sidebar-points-value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--code-bg, #f4ead6);
+}
+
+.member-sidebar-star {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* --- Barre de progression --- */
+
+.member-sidebar-progress-track {
+  width: 100%;
+  height: 10px;
+
+  background: rgba(244, 234, 214, 0.15);
+  border: 1.5px solid var(--palette-mint, #5fd38d);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.member-sidebar-progress-fill {
+  height: 100%;
+  background: var(--palette-mint, #5fd38d);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
