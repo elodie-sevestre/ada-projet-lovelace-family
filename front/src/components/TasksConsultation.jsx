@@ -5,6 +5,7 @@ import CreateTaskButton from "./CreateTaskButton";
 import CreateTaskModal from "./CreateTaskModal";
 import { createTask } from "../api/tasks";
 import { getUsers } from "../api/users";
+import TaskCelebration from "./TaskCelebration.jsx";
 import "../css/TasksConsultation.css";
 
 function TasksConsultation() {
@@ -12,6 +13,11 @@ function TasksConsultation() {
   const currentUser = { role: "ADMIN" };
   const [members, setMembers] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  // La célébration vit ici, au sommet de l'arbre : quand une tâche est
+  // validée, elle change de liste (toDoTasks -> finishedTasks) après
+  // refreshTasks, ce qui démonte le TaskCheckBox d'origine. En gardant
+  const [showCelebration, setShowCelebration] = useState(false);
+
   const fetchTasks = () => {
     getTasks().then((result) => setTasks(result));
   };
@@ -34,6 +40,7 @@ function TasksConsultation() {
           tasks={tasks.toDoTasks}
           currentUser={currentUser}
           refreshTasks={fetchTasks}
+          onCelebrate={() => setShowCelebration(true)}
         />
       </div>
       <div className="task-list-contener">
@@ -42,6 +49,7 @@ function TasksConsultation() {
           tasks={tasks.finishedTasks}
           currentUser={currentUser}
           refreshTasks={fetchTasks}
+          onCelebrate={() => setShowCelebration(true)}
         />
         <CreateTaskButton onOpen={() => setIsCreating(true)} />
         {isCreating && (
@@ -52,6 +60,11 @@ function TasksConsultation() {
           />
         )}
       </div>
+
+      <TaskCelebration
+        show={showCelebration}
+        onDone={() => setShowCelebration(false)}
+      />
     </div>
   );
 }
