@@ -17,7 +17,8 @@ const UPDATED_TASK = {
   status: 'TERMINE',
   points: 100,
 };
-// Mock des services
+// mock des services : pas de valeurs par défaut pour garder de la flexibilité
+// le mock sera configuré dans chaque test
 jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   createTaskServices: jest.fn(),
   updateTaskService: jest.fn(),
@@ -32,7 +33,8 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
 
 const { updateTaskController } =
   await import('../src/controllers/tasksControllers.js');
-await import('../src/services/tasksServices.js');
+
+// id pour le service
 const { updateTaskService } = await import('../src/services/tasksServices.js');
 
 //! MOCK res
