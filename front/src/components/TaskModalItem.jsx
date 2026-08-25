@@ -2,6 +2,12 @@ import "../css/TaskModalItem.css";
 // import du formulaire d'édition de la tâche à modifier
 import EditTaskForm from "./EditTaskForm.jsx";
 
+//mapping des statuts, en dehors du composant pour formater les données de statut:
+const STATUT_LABELS = {
+  A_FAIRE: "À faire",
+  TERMINE: "Terminée",
+};
+
 function TaskModalItem({ task, onClose, isEditing, refreshTasks }) {
   return (
     <div
@@ -26,22 +32,42 @@ function TaskModalItem({ task, onClose, isEditing, refreshTasks }) {
           />
         ) : (
           <>
-            <div className="task-modal-informations">
-              <p className="task-detail-modal-name">{task.task_name}</p>
-              <p className="task-detail-modal-description">
-                {task.description}
-              </p>
-              <p className="task-detail-modal-date-creation">
-                {task.created_at}
-              </p>
-              <p className="task-detail-modal-date-update">{task.updated_at}</p>
+            <div className="task-modal-informations-top">
+              <div className="task-modal-statut-label">
+                <p className="task-detail-modal-status">
+                  Statut : {STATUT_LABELS[task.status]}
+                </p>
+              </div>
+              <div
+                className="task-detail-modal-round-assignation"
+                title={`Assigné à ${task.assigned_to}`}
+              >
+                <p className="task-detail-modal-assignation">
+                  {task.assigned_to?.charAt(0).toUpperCase()}
+                </p>
+              </div>
             </div>
-            <div className="task-modal-informations-2">
-              <p className="task-detail-modal-status">{task.status}</p>
-              <p className="task-detail-modal-assignation">
-                {task.assigned_to}
+            <div className="task-modal-informations-middle">
+              <div className="task-modal-title-and-points">
+                {" "}
+                <p className="task-detail-modal-name">{task.task_name}</p>
+                <p className="task-detail-modal-points">{task.points} Points</p>
+              </div>
+              <div className="task-modal-description-case">
+                <p className="task-detail-modal-description">
+                  {task.description}
+                </p>
+              </div>
+            </div>
+            <div className="task-modal-informations-bottom">
+              <p className="task-detail-modal-date-creation">
+                Crée le :{" "}
+                {new Date(task.created_at).toLocaleDateString("fr-FR")}
               </p>
-              <p className="task-detail-modal-points">{task.points}</p>
+              <p className="task-detail-modal-date-update">
+                Modifié le :{" "}
+                {new Date(task.updated_at).toLocaleDateString("fr-FR")}
+              </p>
             </div>
           </>
         )}
