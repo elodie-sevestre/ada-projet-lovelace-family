@@ -1,8 +1,6 @@
 import { describe, it, expect, jest } from '@jest/globals';
 
-// ------------------------------------------------------------------------------
 // ------------------------------   MOCKS   -------------------------------------
-// ------------------------------------------------------------------------------
 
 //* On dit à Jest : "n'utilise pas le vrai fichier tasksServices.js, utilise plutôt une fausse version que je fabrique moi-même"
 //* Comme ça, pas besoin de vraie base de données pour faire le test4
@@ -53,9 +51,7 @@ function updateMockRes() {
   return res;
 }
 
-// ------------------------------------------------------------------------------
 // ------------------------------   TESTS   -------------------------------------
-// ------------------------------------------------------------------------------
 
 // describe = une boîte qui range tous les tests qui parlent du même sujet
 
