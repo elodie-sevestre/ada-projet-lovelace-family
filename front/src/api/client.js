@@ -19,7 +19,11 @@ async function request(url, options = {}) {
   }
 
   if (!response.ok) {
-    throw new Error(`Erreur API : ${response.status} ${response.statusText}`);
+    const error = new Error(
+      `Erreur API : ${response.status} ${response.statusText}`,
+    );
+    error.status = response.status;
+    throw error;
   }
 
   const contentType = response.headers.get("content-type");
