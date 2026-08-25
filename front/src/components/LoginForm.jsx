@@ -9,12 +9,40 @@ function LoginForm({ setToken }) {
   // indique si la requête est en cours (true = en attente, false = fini)
   const [loading, setLoading] = useState(false);
 
+  function validatedEmail(email) {
+    if (!email.includes("@") || !email.includes(".")) {
+      return "Format de l'email invalide";
+    }
+    return null;
+  }
+
+  function validatedPassword(password) {
+    if (password.length < 8) {
+      return "Format du mot de passe invalide";
+    }
+    return null;
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // désactivation du bouton 'connexion' (la requête peut prendre du temps)
     setLoading(true);
     // nettoie le message d'erreur précédent
     setError("");
+
+    const emailError = validatedEmail(email);
+    if (emailError) {
+      setError(emailError);
+      setLoading(false);
+      return;
+    }
+
+    const passwordError = validatedPassword(password);
+    if (passwordError) {
+      setError(passwordError);
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await post("/auth/connexion", {
@@ -23,11 +51,9 @@ function LoginForm({ setToken }) {
       });
 
       // Récupère le token de la réponse du serveur
-      // Le token est une clé qui prouve qu'on est connecté
       // localStorage : mémoire navigateur
       // .setItem() : méthode pour écrire ds la mémoire
-      // "token" : clé
-      // response.token: valeur de la clé
+      // "token" : clé / response.token: valeur de la clé
       localStorage.setItem("token", response.token);
 
       // mise à jour de l'état dans App.jsx
