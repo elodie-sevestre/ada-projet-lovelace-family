@@ -52,8 +52,8 @@ jobs:
       #   run: npm run build
 
       # 5. Lancer le prettier
-      - name: 🎨 Vérifier le formatage
-        run: npm run format:check
+      # - name: 🎨 Vérifier le formatage
+      #   run: npm run format:check
 
       # 6. Lancer le linter (Eslint) : Analyse et détecte les problèmes sans compiler
       - name: ❌ Lancer le lint

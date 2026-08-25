@@ -68,7 +68,7 @@ async function getTasksByUserModel(userId) {
   GROUP BY t.id
   ORDER BY t.created_at
     `,
-    [userId] //Attention à ne pas oublier de passer userId en paramètres de la pool query (WHERE ... $1)
+    [userId] //Attention à ne pas oublier de passer userId en paramètres de la pool query
   );
   return rows;
 }
