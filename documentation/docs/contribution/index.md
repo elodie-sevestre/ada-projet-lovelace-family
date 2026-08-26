@@ -37,3 +37,17 @@ docs: ajout fiche review fonctionnalité supprimer une tâche
 ## Règle de protection de `main`
 
 Une Pull Request est obligatoire avant tout merge sur `main`, après approbation de **deux contributrices**.
+
+## Intégration continue (CI)
+
+Chaque `push` et chaque Pull Request (toutes branches confondues) déclenche un workflow GitHub Actions (`.github/workflows/ci.yml`).
+
+Étapes exécutées sur le backend (`back/`) :
+
+1. Installation des dépendances (`npm ci`)
+2. Lint (`npm run lint`)
+3. Tests (`npm run test`)
+
+> Pas encore de job équivalent côté frontend, ni d'étape de build — à ajouter si besoin.
+
+Une PR ne devrait pas être mergée si la CI est en échec.
