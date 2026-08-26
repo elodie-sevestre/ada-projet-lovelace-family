@@ -1,10 +1,12 @@
 import "../css/MemberSidebar.css";
 import pointsIcon from "../assets/icon_points.png";
 import sproutAvatar from "../assets/sproot_avatar.png";
+
 // memberInitial : lettre affichée dans le badge (ex: "B")
 // memberName : nom complet affiché à côté du badge (ex: "Bernard")
 // totalPoints : total de points cumulés par le membre
 // progressPercent : avancement vers le prochain palier (0 à 100)
+
 function MemberSidebar({
   memberInitial,
   memberName,

@@ -39,9 +39,6 @@ function TasksConsultation() {
 
   return (
     <div className="tasks-consultation-contener">
-      {/* Petit compagnon flottant, visible en permanence
-      <MascotCompanion /> */}
-
       {/* Sidebar avatar : nom et points réels via l'API,
           progression toujours en dur (pas de source de données pour ça) */}
       <MemberSidebar
