@@ -49,8 +49,8 @@ function LoginForm({ setToken }) {
         mail: email,
         password: password,
       });
-      if (!response.ok) {
-        return { error: "" };
+      if (!response.token) {
+        return { error: "Réponse invalide, token manquant" };
       }
       // Récupère le token de la réponse du serveur
       // localStorage : mémoire navigateur
@@ -65,7 +65,7 @@ function LoginForm({ setToken }) {
       if (error.status === 401) {
         setError("Identifiants invalides");
       } else {
-        setError("Errur serveur");
+        setError("Erreur serveur");
       }
     } finally {
       // réactive le bouton (que ça marche ou que ça échoue)
