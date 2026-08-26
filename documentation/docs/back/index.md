@@ -128,6 +128,7 @@ Le service retourne un objet `{ toDoTasks, finishedTasks }` : le tri par statut 
 - **Tests du endpoint DELETE** : pas de test automatisé pour cet endpoint contrairement aux autres.
 - **Gestion d'erreurs unifiée** : les erreurs sont renvoyées avec un message générique, sans distinction des causes possibles.
 - **Refresh du token** : le token JWT n'expire jamais utilisateur-side — ajouter un mécanisme de refresh serait un plus.
+- **Calcul des points** : la colonne `total_points` existe en base mais rien côté back ne l'incrémente à la validation d'une tâche — le front affiche juste la valeur brute stockée.
 
 ## Connexion à la base de données
 
