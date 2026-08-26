@@ -1,16 +1,29 @@
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "http://localhost:5000";
 
 async function request(url, options = {}) {
+  const token = localStorage.getItem("token");
+
   const response = await fetch(`${BASE_URL}${url}`, {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
       ...options.headers,
     },
     ...options,
   });
 
+  // gestion erreur de token
+  if (response.status == 401) {
+    localStorage.removeItem("token"); // suppression du token dans le local storage
+    window.location.href = "/"; // redirection vers l'URL de base http://localhost:5173
+  }
+
   if (!response.ok) {
-    throw new Error(`Erreur API : ${response.status} ${response.statusText}`);
+    const error = new Error(
+      `Erreur API : ${response.status} ${response.statusText}`,
+    );
+    error.status = response.status;
+    throw error;
   }
 
   const contentType = response.headers.get("content-type");

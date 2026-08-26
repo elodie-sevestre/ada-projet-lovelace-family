@@ -1,5 +1,5 @@
 import { get, post, put, del } from "./client.js";
-const TASKS_ROUTE = "/tasks";
+const TASKS_ROUTE = "/api/tasks";
 // const ROUTE_TASKS_BY_ID = (id) => `/tasks/${id}`;
 
 export function getTasks() {

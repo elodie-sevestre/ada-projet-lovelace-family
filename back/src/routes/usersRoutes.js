@@ -1,5 +1,6 @@
-import { Router } from "express";
-import getAllUsersController from "../controllers/usersControllers.js";
+import { Router } from 'express';
+import requireAuth from '../middlewares/requireAuth.js';
+import getAllUsersController from '../controllers/usersControllers.js';
 
 const usersRoutes = Router();
 
@@ -8,6 +9,9 @@ const usersRoutes = Router();
 //   res.send("Hello Ada!\n");
 // });
 
-usersRoutes.get("/", getAllUsersController);
+// protection des routes usersRoutes
+usersRoutes.use(requireAuth);
+
+usersRoutes.get('/', getAllUsersController);
 
 export default usersRoutes;

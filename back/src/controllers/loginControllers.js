@@ -1,47 +1,56 @@
 import {
   createLoginService,
   connexionService,
-} from "../services/loginServices.js";
+} from '../services/loginServices.js';
 
-const loginController = async (req, res) => {
+const createLoginController = async (req, res) => {
   try {
-    const { role, name, mail, tribe_name, password_hash } = req.body;
+    const { role, name, mail, tribe_name, password } = req.body;
 
-    // On enregistre l'utilisateur avec le HASH (colonne password_hash)
-    const createLogin = await createLoginService(
-      role,
-      name,
-      mail,
-      tribe_name,
-      password_hash,
-    );
+    if (!name || !mail || !password) {
+      return res.status(400).json({ error: 'Champs requis manquants' });
+    }
+
+    await createLoginService(role, name, mail, tribe_name, password);
 
     // On ne renvoie jamais le hash au client
-    res.status(201).json(createLogin);
+    res.status(204).send();
   } catch (error) {
-    // console.error(error);
-    res.status(401).json({ error: error.message });
+    console.error(error);
+    res.status(400).json({ error: 'Inscription impossible' });
   }
 };
 
 const connexionController = async (req, res) => {
   const { mail, password } = req.body;
   if (!mail || !password) {
-    return res.status(400).json({ erreur: "Email et mot de passe requis" });
+    return res.status(400).json({ erreur: 'Email et mot de passe requis' });
+  }
+
+  //  expression régulière pour contrôler le format de l'email qui doit contenir le @ et le .
+  const emailRegex = new RegExp(
+    "^(?!\\.)(?!.*\\.\\.)([a-z0-9_'+\\-\\.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9\\-]*\\.)+[a-z]{2,}$"
+  );
+  if (!emailRegex.test(mail)) {
+    return res.status(400).json({ erreur: 'Format Email invalide' });
+  }
+
+  if (password.length < 8) {
+    return res.status(400).json({ erreur: 'Format password invalide' });
   }
 
   try {
     const token = await connexionService(mail, password);
 
     if (!token) {
-      return res.status(401).json({ erreur: "Identifiants invalides" });
+      return res.status(401).json({ erreur: 'Identifiants invalides' });
     }
 
     return res.json({ token });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ erreur: "Erreur serveur" });
+    return res.status(500).json({ erreur: 'Erreur serveur' });
   }
 };
 
-export { loginController, connexionController };
+export { createLoginController, connexionController };
