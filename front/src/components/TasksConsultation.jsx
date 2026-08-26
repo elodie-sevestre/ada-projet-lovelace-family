@@ -10,8 +10,11 @@ import leafIcon from "../assets/leaf_icon.png";
 import flowerIcon from "../assets/flower_icon.png";
 import { createTask } from "../api/tasks";
 import { getUsers } from "../api/users";
+import LogoutButton from "./LogoutButton";
 
-function TasksConsultation() {
+import "../css/TasksConsultation.css";
+
+function TasksConsultation({ onLogout }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
   const currentUser = { role: "ADMIN" };
   const [members, setMembers] = useState([]);
@@ -41,14 +44,19 @@ function TasksConsultation() {
     <div className="tasks-consultation-contener">
       {/* Sidebar avatar : nom et points réels via l'API,
           progression toujours en dur (pas de source de données pour ça) */}
-      <MemberSidebar
-        memberInitial={memberInitial}
-        memberName={memberName}
-        totalPoints={currentMember?.total_points ?? 0}
-        progressPercent={35}
-      />
-
+      <div className="member-side-bar">
+        <MemberSidebar
+          memberInitial={memberInitial}
+          memberName={memberName}
+          totalPoints={currentMember?.total_points ?? 0}
+          progressPercent={35}
+        />
+      </div>
+      <div className="logout-button">
+        <LogoutButton onLogout={onLogout} />
+      </div>
       <div className="task-list-contener">
+        <p className="tasks-list-title">Tâches à faire</p>
         <h2 className="tasks-list-title">
           <img src={leafIcon} alt="Icone de feuille d'une plante" />
           Tâches à faire
