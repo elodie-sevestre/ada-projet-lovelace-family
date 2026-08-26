@@ -1,44 +1,28 @@
 # Architecture
 
-Vue d'ensemble de la communication entre les trois couches : **Front-end** (React/Vite), **Back-end** (Node.js/Express) et **Base de données** (PostgreSQL).
-
-## Schéma général
+Lovelace Family suit une architecture classique en trois couches, orchestrée par Docker Compose :
 
 ```
-[ Front-end (React) ]  --fetch HTTP-->  [ Back-end (Express) ]  --pg-->  [ PostgreSQL ]
-  front/src/api/*.js        JSON         routes → controllers
-                                          → services → models
+┌────────────┐      HTTP / REST      ┌───────────┐      SQL (pg)       ┌────────────┐
+│ Frontend   │  ------------------>  │ Backend   │ ------------------> │ PostgreSQL │
+│ React+Vite │                       │ Express   │                     │            │
+│ :5173      │  <------------------  │ :5000     │ <------------------ │ :5432      │
+└────────────┘      JSON             └───────────┘                     └────────────┘
 ```
 
-## Front-end → Back-end
+## Frontend → Backend
 
-Le front n'utilise aucune librairie de requêtes tierce : `front/src/api/client.js` encapsule `fetch` (`get`, `post`, `put`, `del`) autour d'une `BASE_URL` fixe (`http://localhost:5000/api`).
+Le frontend appelle l'API via `fetch`, centralisé dans `front/src/api/client.js`. L'URL de base est actuellement codée en dur (`http://localhost:5000/api`) plutôt que lue depuis la variable d'environnement `VITE_API_URL` définie dans `docker-compose.yml` (point à corriger un jour).
 
-Chaque ressource a son propre module (`api/tasks.js`, `api/users.js`) qui appelle `client.js` et renvoie une Promise consommée par les composants (`.then(...)`). Pas de state manager global : chaque composant garde son état via `useState`/`useEffect`.
+## Backend : architecture en couches
 
-## Back-end : architecture en couches
+Le backend suit un découpage en couches, dossier par dossier dans `back/src/` :
 
-`back/src/` suit un découpage strict en 4 couches :
+- **`routes/`** : déclare les endpoints HTTP et les associe à un controller (aiguillage)
+- **`controllers/`** : valide les données de la requête (`req.body`, `req.params`) et formate la réponse HTTP
+- **`services/`** : contient la logique métier (ex: créer une tâche _et_ l'assigner à un membre en une seule opération)
+- **`models/`** : exécute les requêtes SQL brutes via `pg`
 
-1. **routes/** — déclare les endpoints HTTP, aiguille vers un controller
-2. **controllers/** — valide les entrées, appelle un service, formate la réponse HTTP
-3. **services/** — logique métier
-4. **models/** — requêtes SQL brutes via `pg`
+## Backend → Base de données
 
-Chaque requête traverse ces 4 couches dans l'ordre pour atteindre la base de données, puis remonte la réponse en sens inverse.
-
-## Back-end → Base de données
-
-`back/src/models/configDb.js` crée un `Pool` PostgreSQL unique (variables d'environnement `POSTGRES_*`), réutilisé par tous les models. Pas d'ORM : chaque model écrit ses requêtes SQL directement avec `pg`.
-
-## Authentification
-
-Le token JWT (émis par `POST /auth/connexion`) est stocké côté front en `localStorage` et doit être envoyé dans l'en-tête `Authorization: Bearer <token>` pour tout endpoint sous `/api/tasks` et `/api/users`. Le middleware `requireAuth` (back) vérifie ce token à chaque requête protégée.
-
-> À date, `front/src/api/client.js` n'ajoute pas encore cet en-tête automatiquement — voir axes d'amélioration du [Back-end](../back/index.md#axes-damélioration).
-
-## Voir aussi
-
-- [Front-end](../front/index.md) — détail des composants React
-- [Back-end](../back/index.md) — détail des routes et flux
-- [Base de données](../base-de-donnees/index.md) — schéma des tables
+La connexion à PostgreSQL est gérée par un `Pool` (`pg`), configuré une seule fois dans `back/src/models/configDb.js` à partir des variables d'environnement, puis réutilisé par tous les models.

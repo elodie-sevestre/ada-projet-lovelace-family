@@ -1,45 +1,49 @@
 # Front-end
 
-Stack : **React + Vite**. Pas de state manager global (Redux/Zustand) : état géré localement par composant via `useState`/`useEffect`.
+Stack : **React** + **Vite**.
 
 ## Structure
 
 ```
 front/src/
-├── main.jsx            # point d'entrée, monte <App />
-├── App.jsx              # monte TasksConsultation
-├── api/                 # couche d'appel au backend
-│   ├── client.js         # wrapper fetch (get/post/put/del)
-│   ├── tasks.js           # appels liés aux tâches
-│   └── users.js           # appels liés aux utilisateurs
-├── components/           # composants React
-└── css/                  # une feuille de style par composant
+├── App.jsx                  # composant racine
+├── main.jsx                 # point d'entrée, monte l'app React
+├── api/
+│   ├── client.js             # wrapper générique autour de fetch (get/post/put/del)
+│   ├── tasks.js               # appels API spécifiques aux tâches (getTasks, createTask, editTask, deleteTask)
+│   └── users.js               # récupère la liste des membres (getUsers)
+├── components/
+│   ├── TasksList.jsx           # liste des tâches
+│   ├── TasksConsultation.jsx   # vue de consultation des tâches
+│   ├── TaskItem.jsx             # une tâche dans la liste
+│   ├── TaskModalItem.jsx        # détail d'une tâche en modale
+│   ├── CreateTaskButton.jsx     # déclenche l'ouverture de la modal de création
+│   ├── CreateTaskModal.jsx      # encapsule TaskForm dans une modal
+│   ├── TaskForm.jsx             # formulaire de création de tâche
+│   ├── EditTaskForm.jsx         # formulaire de modification de tâche
+│   ├── EditTaskButton.jsx       # bouton déclenchant l'édition
+│   ├── DeleteTaskButton.jsx     # déclenche l'ouverture de la modal de confirmation
+│   └── DeleteConfirmModal.jsx    # confirmation + appel API + gestion d'erreur
+└── css/                       # une feuille de style par composant
 ```
 
-## Couche API (`api/`)
+La suppression suit le même principe que l'édition : `TaskItem` détient un état booléen (`isDeleteModalOpen`) qui pilote l'affichage conditionnel de `DeleteConfirmModal`. La suppression n'est déclenchée qu'après confirmation explicite de l'utilisateur (pas de "toast + annulation", pour rester simple et éviter les suppressions accidentelles).
 
-`client.js` encapsule `fetch` autour d'une `BASE_URL` fixe (`http://localhost:5000/api`) et lève une erreur si la réponse n'est pas OK. `tasks.js`/`users.js` exposent des fonctions métier (`getTasks`, `createTask`, `editTask`, `deleteTask`, `getUsers`) qui appellent ce client et renvoient des Promises.
+La création suit le même principe : `TasksConsultation` détient l'état `isCreating` qui pilote l'affichage de `CreateTaskModal`, laquelle encapsule `TaskForm`. La liste des membres assignables (`members`) est récupérée une fois via `getUsers()` au montage de `TasksConsultation`, puis transmise en prop jusqu'au formulaire.
 
-> Pas d'en-tête `Authorization` envoyé automatiquement pour l'instant — à ajouter pour que les appels passent le middleware `requireAuth` du back en conditions réelles.
+## Communication avec l'API
 
-## Composants principaux
+Tous les appels HTTP passent par `api/client.js`, qui centralise la gestion des headers JSON et des erreurs (`response.ok`). Les modules comme `api/tasks.js` n'ont qu'à appeler `get`/`post`/`put`/`del` avec la route voulue, sans se soucier des détails de `fetch`.
 
-- **`TasksConsultation`** — composant racine de la page : récupère les tâches (`getTasks`) et les membres (`getUsers`) au montage, sépare l'affichage en deux listes (« À faire » / « Terminées »), gère l'ouverture de la modale de création
-- **`TasksList`** — affiche une liste de `TaskItem` à partir d'un tableau de tâches
-- **`TaskItem`** — une tâche individuelle (actions d'édition/suppression/validation portées par les boutons dédiés)
-- **`CreateTaskButton` / `CreateTaskModal` / `TaskForm`** — flux de création d'une tâche en modale
-- **`EditTaskButton` / `EditTaskForm`** — flux d'édition d'une tâche
-- **`DeleteTaskButton` / `DeleteConfirmModal`** — flux de suppression avec confirmation
-- **`TaskModalItem`** — rendu d'une tâche dans le contexte d'une modale
+## Gestion d'état
 
-## Flux de données
+Pas de state manager global (Redux, Context API...) à ce jour : chaque composant gère son propre état local avec `useState`.
 
-Le composant racine (`TasksConsultation`) détient l'état des tâches et des membres, et transmet aux enfants les callbacks nécessaires (`onCreate`, `refreshTasks`) en props — pas de contexte React utilisé. Après chaque mutation (création/édition/suppression), le composant enfant appelle le callback reçu, qui redéclenche un `fetchTasks()` côté racine pour resynchroniser l'affichage avec le backend.
+React suit un flux de données unidirectionnel :
 
-## Rôle utilisateur
+- **les données descendent** du parent vers l'enfant via les **props**
+- **les actions remontent** de l'enfant vers le parent via des **callbacks** (des fonctions passées en props, que l'enfant se contente d'appeler)
 
-`currentUser` est actuellement codé en dur dans `TasksConsultation` (`{ role: "ADMIN" }`) plutôt que dérivé d'une session authentifiée réelle — à relier à l'authentification une fois le flux de connexion branché côté front.
+Exemple avec la suppression : `TaskItem` détient l'état `isDeleteModalOpen` et le passe à `DeleteTaskButton` sous forme de callback (`onDelete`). Le bouton ne sait pas ce que fait cette fonction ni où est stocké l'état, il se contente de l'appeler au clic — ce qui le rend réutilisable. `refreshTasks` suit le même principe sur plusieurs niveaux : `TasksConsultation` détient la vraie liste des tâches et transmet cette fonction en descendant jusqu'à `DeleteConfirmModal`, pour que ce composant profond dans l'arbre puisse déclencher un rechargement sans avoir accès à la liste lui-même.
 
-## Tests
-
-Aucun test automatisé côté frontend pour l'instant (voir [Back-end](../back/index.md#tests)).
+Un state manager global deviendrait utile si une même donnée (ex: l'utilisateur connecté) devait être partagée entre des composants éloignés dans l'arbre, obligeant à faire transiter une prop à travers plusieurs niveaux qui n'en ont pas besoin (_prop drilling_). Ce n'est pas encore le cas ici.

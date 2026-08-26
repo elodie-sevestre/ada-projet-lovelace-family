@@ -1,58 +1,29 @@
 # Base de données
 
-Stack : **PostgreSQL**, sans ORM. Scripts SQL bruts dans `db/` (`migration_up.sql`, `migration_down.sql`, `seed.sql`, `queries.sql`).
+**PostgreSQL**, sans ORM — les requêtes SQL sont écrites à la main dans les `models/` du backend.
 
-## Types énumérés
+## Fichiers
 
-```sql
-CREATE TYPE "status" AS ENUM ('A_FAIRE', 'TERMINE');
-CREATE TYPE "role" AS ENUM ('ADMIN', 'MEMBER');
-```
+Dans `db/` :
 
-## Tables
+- **`migration_up.sql`** : crée les tables et types (à jouer pour initialiser la BDD)
+- **`migration_down.sql`** : annule la migration (supprime tables/types)
+- **`seed.sql`** : données de test à insérer après la migration
+- **`queries.sql`** : requêtes utiles pour explorer/vérifier les données manuellement
 
-### `users`
+## Schéma
 
-| Colonne         | Type         | Contrainte                  |
-| --------------- | ------------ | --------------------------- |
-| `id`            | INTEGER      | PK, auto-généré             |
-| `role`          | ROLE         | NOT NULL (`ADMIN`/`MEMBER`) |
-| `name`          | VARCHAR(255) | NOT NULL                    |
-| `mail`          | VARCHAR(255) | NOT NULL                    |
-| `tribe_name`    | VARCHAR(255) | NOT NULL                    |
-| `password_hash` | VARCHAR(255) | NOT NULL                    |
-| `total_points`  | INTEGER      |                             |
-| `created_at`    | TIMESTAMP    | NOT NULL, défaut `NOW()`    |
-| `updated_at`    | TIMESTAMP    | NOT NULL, défaut `NOW()`    |
+Trois tables principales :
 
-### `tasks`
+| Table         | Rôle                                                                                    |
+| ------------- | --------------------------------------------------------------------------------------- |
+| `users`       | membres de la famille (`role`: `ADMIN`/`MEMBER`, `tribe_name`, `password_hash`, points) |
+| `tasks`       | tâches (`status`: `A_FAIRE`/`TERMINE`, points)                                          |
+| `users_tasks` | table pivot : assigne une tâche à un utilisateur                                        |
 
-| Colonne       | Type         | Contrainte                     |
-| ------------- | ------------ | ------------------------------ |
-| `id`          | INTEGER      | PK, auto-généré                |
-| `name`        | VARCHAR(255) | NOT NULL                       |
-| `description` | VARCHAR(255) |                                |
-| `status`      | STATUS       | NOT NULL (`A_FAIRE`/`TERMINE`) |
-| `points`      | INTEGER      |                                |
-| `created_at`  | TIMESTAMP    | NOT NULL, défaut `NOW()`       |
-| `updated_at`  | TIMESTAMP    | NOT NULL, défaut `NOW()`       |
+`users_tasks` fait le lien many-to-many entre `users` et `tasks`, avec `ON DELETE CASCADE` : supprimer un utilisateur ou une tâche supprime automatiquement les assignations liées.
 
-### `users_tasks` (table pivot)
+Deux types énumérés (`ENUM`) contraignent les valeurs possibles :
 
-| Colonne   | Type    | Contrainte                                     |
-| --------- | ------- | ---------------------------------------------- |
-| `id`      | INTEGER | PK, auto-généré                                |
-| `user_id` | INTEGER | NOT NULL, FK → `users.id`, `ON DELETE CASCADE` |
-| `task_id` | INTEGER | NOT NULL, FK → `tasks.id`, `ON DELETE CASCADE` |
-
-Une tâche peut être assignée à un ou plusieurs membres via cette table de liaison ; la suppression d'un user ou d'une task supprime automatiquement les lignes d'assignation correspondantes (cascade).
-
-## Données de test (`seed.sql`)
-
-- 2 users : un `ADMIN` (Bernard) et un `MEMBER` (Léa), même `tribe_name`
-- 5 tasks avec différents statuts et points
-- Assignations dans `users_tasks` reliant chaque user à plusieurs tâches
-
-## Migrations
-
-`back/src/scripts/migration_up.js` et `migration_down.js` exécutent respectivement `db/migration_up.sql` (création des types/tables) et `db/migration_down.sql` (rollback).
+- `status` : `A_FAIRE` | `TERMINE`
+- `role` : `ADMIN` | `MEMBER`
