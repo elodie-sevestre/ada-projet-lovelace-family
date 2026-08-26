@@ -1,18 +1,15 @@
+import { useState, useEffect } from "react";
+import { createTask, getTasks } from "../api/tasks";
+import { getUsers } from "../api/users";
 import "../css/TasksConsultation.css";
 import TasksList from "./TasksList";
-import { useState, useEffect } from "react";
-import { getTasks } from "../api/tasks";
 import CreateTaskButton from "./CreateTaskButton";
 import CreateTaskModal from "./CreateTaskModal";
 import MemberSidebar from "./MemberSideBar";
 import TaskCelebration from "./TaskCelebration";
 import leafIcon from "../assets/leaf_icon.png";
 import flowerIcon from "../assets/flower_icon.png";
-import { createTask } from "../api/tasks";
-import { getUsers } from "../api/users";
 import LogoutButton from "./LogoutButton";
-
-import "../css/TasksConsultation.css";
 
 function TasksConsultation({ onLogout }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
@@ -56,7 +53,6 @@ function TasksConsultation({ onLogout }) {
         <LogoutButton onLogout={onLogout} />
       </div>
       <div className="task-list-contener">
-        <p className="tasks-list-title">Tâches à faire</p>
         <h2 className="tasks-list-title">
           <img src={leafIcon} alt="Icone de feuille d'une plante" />
           Tâches à faire
