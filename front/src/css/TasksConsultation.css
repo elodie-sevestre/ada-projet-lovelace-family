@@ -1,3 +1,182 @@
+/* =========================================================
+   CONTENEUR PRINCIPAL
+   ========================================================= */
+
 .tasks-consultation-contener {
-  margin-top: 3.5em;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main";
+
+  min-height: 100vh;
+  gap: 1.2rem;
+  padding: 1.5rem;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.app-header {
+  grid-area: header;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  min-height: 90px;
+
+  padding: 0 28px;
+
+  background-color: var(--palette-dark-green);
+
+  border: 3px solid #2f5b4f;
+  border-radius: 18px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   PARTIE GAUCHE DU HEADER
+   ========================================================= */
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+
+  gap: 1.2rem;
+}
+
+/* Logo */
+
+.logo-web-site {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+/* =========================================================
+   TITRE DU HEADER
+   ========================================================= */
+
+.app-header-title {
+  display: flex;
+  align-items: center;
+}
+
+.app-header-title-main {
+  font-family: var(--heading);
+
+  font-size: 1.8rem;
+  font-weight: 700;
+
+  color: var(--palette-mint);
+
+  line-height: 1.2;
+}
+
+/* =========================================================
+   PARTIE DROITE DU HEADER
+   ========================================================= */
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+
+  gap: 1.5rem;
+}
+
+/* =========================================================
+   UTILISATEUR
+   ========================================================= */
+
+.app-header-user {
+  display: flex;
+  align-items: center;
+
+  gap: 0.7rem;
+}
+
+/* Initiale */
+
+.app-header-initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background-color: var(--palette-yellow);
+  color: var(--palette-dark-green);
+
+  font-family: var(--heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Nom */
+
+.app-header-name {
+  font-family: var(--heading);
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  color: #ffffff;
+}
+
+/* =========================================================
+   BOUTON DE DÉCONNEXION
+   ========================================================= */
+
+.logout-button {
+  margin-left: 0;
+}
+
+.logout-button button {
+  padding: 9px 16px;
+
+  background-color: transparent;
+
+  color: var(--palette-yellow);
+
+  border: 2px solid var(--palette-yellow);
+  border-radius: 8px;
+
+  font-family: var(--heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.logout-button button:hover {
+  background-color: var(--palette-yellow);
+  color: var(--palette-dark-green);
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.member-side-bar {
+  grid-area: sidebar;
+}
+
+/* =========================================================
+   CONTENU PRINCIPAL
+   ========================================================= */
+
+.task-content {
+  grid-area: main;
 }

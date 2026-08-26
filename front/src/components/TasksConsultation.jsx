@@ -9,7 +9,7 @@ import MemberSidebar from "./MemberSideBar";
 import TaskCelebration from "./TaskCelebration";
 import leafIcon from "../assets/leaf_icon.png";
 import flowerIcon from "../assets/flower_icon.png";
-import LogoutButton from "./LogoutButton";
+import AppHeader from "./AppHeader";
 
 function TasksConsultation({ onLogout }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
@@ -39,55 +39,60 @@ function TasksConsultation({ onLogout }) {
 
   return (
     <div className="tasks-consultation-contener">
+      <AppHeader
+        memberTribe="La Tribu de Bernard"
+        memberInitial={memberInitial}
+        memberName={memberName}
+        onLogout={onLogout}
+      />
       {/* Sidebar avatar : nom et points réels via l'API,
           progression toujours en dur (pas de source de données pour ça) */}
-      <div className="member-side-bar">
+      <aside className="member-side-bar">
         <MemberSidebar
           memberInitial={memberInitial}
           memberName={memberName}
           totalPoints={currentMember?.total_points ?? 0}
           progressPercent={35}
         />
-      </div>
-      <div className="logout-button">
-        <LogoutButton onLogout={onLogout} />
-      </div>
-      <div className="task-list-contener">
-        <h2 className="tasks-list-title">
-          <img src={leafIcon} alt="Icone de feuille d'une plante" />
-          Tâches à faire
-        </h2>
-        <TasksList
-          tasks={tasks.toDoTasks}
-          currentUser={currentUser}
-          refreshTasks={fetchTasks}
-          onCelebrate={handleCelebrate}
-        />
-      </div>
-      <div className="task-list-contener">
-        <h2 className="tasks-list-title">
-          <img src={flowerIcon} alt="Icone de feuille d'une plante" /> Tâches
-          terminées
-        </h2>
-        <TasksList
-          tasks={tasks.finishedTasks}
-          currentUser={currentUser}
-          refreshTasks={fetchTasks}
-          onCelebrate={handleCelebrate}
-        />
-        <CreateTaskButton onOpen={() => setIsCreating(true)} />
-        {isCreating && (
-          <CreateTaskModal
-            members={members}
-            onCreate={onCreate}
-            onClose={() => setIsCreating(false)}
+      </aside>
+      <main className="task-content">
+        <section className="task-list-contener">
+          <h2 className="tasks-list-title">
+            <img src={leafIcon} alt="Icone de feuille d'une plante" />
+            Tâches à faire
+          </h2>
+          <TasksList
+            tasks={tasks.toDoTasks}
+            currentUser={currentUser}
+            refreshTasks={fetchTasks}
+            onCelebrate={handleCelebrate}
           />
-        )}
-      </div>
-      <TaskCelebration
-        show={showCelebration}
-        onDone={() => setShowCelebration(false)}
-      />
+        </section>
+        <section className="task-list-contener completed">
+          <h2 className="tasks-list-title completed">
+            <img src={flowerIcon} alt="Icone de feuille d'une plante" /> Tâches
+            terminées
+          </h2>
+          <TasksList
+            tasks={tasks.finishedTasks}
+            currentUser={currentUser}
+            refreshTasks={fetchTasks}
+            onCelebrate={handleCelebrate}
+          />
+          <CreateTaskButton onOpen={() => setIsCreating(true)} />
+          {isCreating && (
+            <CreateTaskModal
+              members={members}
+              onCreate={onCreate}
+              onClose={() => setIsCreating(false)}
+            />
+          )}
+        </section>
+        <TaskCelebration
+          show={showCelebration}
+          onDone={() => setShowCelebration(false)}
+        />
+      </main>
     </div>
   );
 }
