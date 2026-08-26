@@ -15,6 +15,8 @@ sidebar_position: 1
 - ✅ Validation des tâches
 - ✏️ Modification des tâches
 - 🗑️ Suppression de tâche
+- 🚪 Déconnexion
+- 🏆 Gamification (points, progression, célébration)
 
 ## Stack technique
 
