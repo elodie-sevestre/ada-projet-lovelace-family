@@ -11,11 +11,16 @@ function App() {
     return localStorage.getItem("token");
   });
 
+  function handleLogout() {
+    localStorage.removeItem("token");
+    setToken(null);
+  }
+
   return (
     <>
       <section id="center">
         {token ? (
-          <TasksConsultation token={token} />
+          <TasksConsultation token={token} onLogout={handleLogout} />
         ) : (
           <LoginForm setToken={setToken} />
         )}

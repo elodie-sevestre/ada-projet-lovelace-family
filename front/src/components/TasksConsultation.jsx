@@ -5,9 +5,11 @@ import CreateTaskButton from "./CreateTaskButton";
 import CreateTaskModal from "./CreateTaskModal";
 import { createTask } from "../api/tasks";
 import { getUsers } from "../api/users";
+import LogoutButton from "./LogoutButton";
+
 import "../css/TasksConsultation.css";
 
-function TasksConsultation() {
+function TasksConsultation({ onLogout }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
   const currentUser = { role: "ADMIN" };
   const [members, setMembers] = useState([]);
@@ -27,6 +29,9 @@ function TasksConsultation() {
 
   return (
     <div className="tasks-consultation-contener">
+      <div className="logout-button">
+        <LogoutButton onLogout={onLogout} />
+      </div>
       <div className="task-list-contener">
         <p className="tasks-list-title">Tâches à faire</p>
 
