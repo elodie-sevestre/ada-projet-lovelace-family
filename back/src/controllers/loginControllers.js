@@ -29,7 +29,7 @@ const connexionController = async (req, res) => {
 
   //  expression régulière pour contrôler le format de l'email qui doit contenir le @ et le .
   const emailRegex = new RegExp(
-    "^(?!\.)(?!.*\.\.)([a-z0-9_'+\-\.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9\-]*\.)+[a-z]{2,}$"
+    "^(?!\\.)(?!.*\\.\\.)([a-z0-9_'+\\-\\.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9\\-]*\\.)+[a-z]{2,}$"
   );
   if (!emailRegex.test(mail)) {
     return res.status(400).json({ erreur: 'Format Email invalide' });
