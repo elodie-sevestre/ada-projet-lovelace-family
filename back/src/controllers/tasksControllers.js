@@ -149,8 +149,10 @@ async function deleteTaskController(req, res) {
       return res.status(404).json({ error: 'Ressource introuvable...' });
     }
     return res.status(204).send();
-  } catch (err) {
-    return res.status(500).json({ error: `Détail erreur ${err}` });
+  } catch {
+    return res
+      .status(500)
+      .json({ error: 'Erreur lors de la suppression de la tâche' });
   }
 }
 

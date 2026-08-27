@@ -1,5 +1,4 @@
 import { describe, it, expect, jest } from '@jest/globals';
-import { deleteTaskService } from '../src/services/tasksServices';
 
 // ------------------------------------------------------------------------------
 // ------------------------------   MOCKS   -------------------------------------
@@ -25,7 +24,7 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
 const { deleteTaskController } =
   await import('../src/controllers/tasksControllers.js');
 
-// const { deleteTaskService } = await import('../src/services/tasksServices.js');
+const { deleteTaskService } = await import('../src/services/tasksServices.js');
 
 function deleteMockRes() {
   const res = { statusCode: null, body: null };
@@ -37,6 +36,7 @@ function deleteMockRes() {
     res.body = payload;
     return res;
   };
+  res.send = jest.fn(() => res);
   return res;
 }
 
@@ -45,11 +45,44 @@ function deleteMockRes() {
 // describe = une boîte qui range tous les tests qui parlent du même sujet
 
 describe('Valider que les données sont bien supprimées', () => {
+  it('renvoi réponse avec status 204 si la tâche est bien supprimée', async () => {
+    const req = { params: { id: 2 }, body: {} };
+    const res = deleteMockRes();
+    deleteTaskService.mockResolvedValue(true);
+    await deleteTaskController(req, res);
+    expect(res.statusCode).toBe(204);
+    expect(res.send).toHaveBeenCalled();
+  });
   it("renvoi erreur 400 si ID n'existe pas", async () => {
     const req = { params: { id: null }, body: {} };
     const res = deleteMockRes();
     await deleteTaskController(req, res);
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual({ error: "L'identifiant non valide !" });
+  });
+  it("renvoi erreur 400 si ID n'est pas un nombre", async () => {
+    const req = { params: { id: 'deux' }, body: {} };
+    const res = deleteMockRes();
+    await deleteTaskController(req, res);
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({ error: "L'identifiant non valide !" });
+  });
+  it('renvoi erreur 404 si la tâche à supprimer est introuvable', async () => {
+    const req = { params: { id: 2 }, body: {} };
+    const res = deleteMockRes();
+    deleteTaskService.mockResolvedValue(false);
+    await deleteTaskController(req, res);
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toEqual({ error: 'Ressource introuvable...' });
+  });
+  it("renvoi erreur 500 s'il y a une erreur lors de la suppression de la tâche", async () => {
+    const req = { params: { id: 2 }, body: {} };
+    const res = deleteMockRes();
+    deleteTaskService.mockRejectedValue(new Error('DB down'));
+    await deleteTaskController(req, res);
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toEqual({
+      error: 'Erreur lors de la suppression de la tâche',
+    });
   });
 });
