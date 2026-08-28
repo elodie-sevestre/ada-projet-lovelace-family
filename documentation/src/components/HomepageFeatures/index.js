@@ -5,7 +5,7 @@ import styles from "./styles.module.css";
 const FeatureList = [
   {
     title: "Architecture claire",
-    Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
+    img: "/img/sprout-flower.png",
     description: (
       <>
         Frontend React, backend Express organisé en couches, base de données
@@ -15,7 +15,7 @@ const FeatureList = [
   },
   {
     title: "Pensé pour l'équipe",
-    Svg: require("@site/static/img/undraw_docusaurus_tree.svg").default,
+    img: "/img/sprout-avatar.png",
     description: (
       <>
         Conventions de branches, de commits et de Pull Requests documentées pour
@@ -25,21 +25,21 @@ const FeatureList = [
   },
   {
     title: "Installation en une commande",
-    Svg: require("@site/static/img/undraw_docusaurus_react.svg").default,
+    img: "/img/sprout-leaf.png",
     description: (
       <>
-        Grâce à Docker Compose, pas besoin d'installer Node.js en local :
+        Grâce à Docker Compose, pas besoin d'installer Node.js en local :{" "}
         <code>docker compose up --build</code> suffit.
       </>
     ),
   },
 ];
 
-function Feature({ Svg, title, description }) {
+function Feature({ img, title, description }) {
   return (
     <div className={clsx("col col--4")}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <img src={img} alt={title} className={styles.featureImg} />
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>

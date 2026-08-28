@@ -12,7 +12,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 const config = {
   title: "Lovelace Family",
   tagline: "Documentation technique",
-  favicon: "img/favicon.ico",
+  favicon: "img/sprout-avatar.png",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -61,15 +61,15 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: "img/docusaurus-social-card.jpg",
+      image: "img/sprout-wordmark.png",
       colorMode: {
         respectPrefersColorScheme: true,
       },
       navbar: {
         title: "Lovelace Family",
         logo: {
-          alt: "Lovelace Family Logo",
-          src: "img/logo.svg",
+          alt: "Sprout Quest",
+          src: "img/sprout-avatar.png",
         },
         items: [
           {

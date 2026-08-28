@@ -5,19 +5,65 @@
 
 .heroBanner {
   padding: 4rem 0;
-  text-align: center;
   position: relative;
   overflow: hidden;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.heroLogo {
+  max-width: min(300px, 45vw);
+  height: auto;
+  border-radius: 14px;
+  image-rendering: pixelated; /* garde le pixel-art net */
+  flex-shrink: 0;
+}
+
+.heroText {
+  flex: 1;
+  text-align: center;
 }
 
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Titre visuellement masqué mais lu par lecteurs d'écran / moteurs */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Empilé et centré sur mobile / tablette */
+@media screen and (max-width: 768px) {
+  .heroInner {
+    flex-direction: column;
+  }
+  .heroText {
+    text-align: center;
+  }
+  .buttons {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
 }
