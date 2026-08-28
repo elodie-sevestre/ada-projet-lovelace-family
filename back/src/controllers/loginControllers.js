@@ -24,7 +24,7 @@ const createLoginController = async (req, res) => {
 const connexionController = async (req, res) => {
   const { mail, password } = req.body;
   if (!mail || !password) {
-    return res.status(400).json({ erreur: 'Email et mot de passe requis' });
+    return res.status(400).json({ error: 'Email et mot de passe requis' });
   }
 
   //  expression régulière pour contrôler le format de l'email qui doit contenir le @ et le .
@@ -32,24 +32,24 @@ const connexionController = async (req, res) => {
     "^(?!\\.)(?!.*\\.\\.)([a-z0-9_'+\\-\\.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9\\-]*\\.)+[a-z]{2,}$"
   );
   if (!emailRegex.test(mail)) {
-    return res.status(400).json({ erreur: 'Format Email invalide' });
+    return res.status(400).json({ error: 'Format Email invalide' });
   }
 
   if (password.length < 8) {
-    return res.status(400).json({ erreur: 'Format password invalide' });
+    return res.status(400).json({ error: 'Format password invalide' });
   }
 
   try {
     const token = await connexionService(mail, password);
 
     if (!token) {
-      return res.status(401).json({ erreur: 'Identifiants invalides' });
+      return res.status(401).json({ error: 'Identifiants invalides' });
     }
 
     return res.json({ token });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ erreur: 'Erreur serveur' });
+    return res.status(500).json({ error: 'Erreur serveur' });
   }
 };
 
