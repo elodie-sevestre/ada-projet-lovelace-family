@@ -1,7 +1,7 @@
 import onLogoutIcon from "../assets/deconnexion.png";
 function LogoutButton({ onLogout }) {
   return (
-    <button onClick={onLogout}>
+    <button className="logout-button" onClick={onLogout}>
       <img
         src={onLogoutIcon}
         alt="icone deconnexion"
