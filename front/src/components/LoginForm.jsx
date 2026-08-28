@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { post } from "../api/client.js";
+import logoSproutQuest from "../assets/logo-sprout-quest.png";
+import "../css/LoginForm.css";
 
 function LoginForm({ setToken }) {
   // Etats : stocke email, password, message d'erreur
@@ -74,33 +76,37 @@ function LoginForm({ setToken }) {
   };
 
   return (
-    <div>
+    <div className="login-form-component">
+      <img className="logo-connexion" src={logoSproutQuest}></img>
       <h1>Connexion</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          // onChange = mise à jour de l'état quand l'utilisateur tape
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <button
-          type="submit"
-          // disabled = désactive le bouton si loading est true
-          disabled={loading}
-        >
-          {loading ? "Connexion..." : "Se connecter"}
-        </button>
-      </form>
-
-      {/* Affiche l'erreur seulement si error n'est pas vide */}
-      {error && <p>{error}</p>}
+      <div className="login-form-content">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            // onChange = mise à jour de l'état quand l'utilisateur tape
+            onChange={(event) => setEmail(event.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <button
+            type="submit"
+            // disabled = désactive le bouton si loading est true
+            disabled={loading}
+          >
+            {loading ? "Connexion..." : "Se connecter"}
+          </button>
+        </form>
+      </div>
+      <div className="login-form-error-message">
+        {/* Affiche l'erreur seulement si error n'est pas vide */}
+        {error && <p>{error}</p>}
+      </div>
     </div>
   );
 }
