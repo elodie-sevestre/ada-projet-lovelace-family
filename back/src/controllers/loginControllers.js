@@ -3,7 +3,7 @@ import {
   connexionService,
 } from '../services/loginServices.js';
 
-const createLoginController = async (req, res) => {
+async function createLoginController(req, res) {
   try {
     const { role, name, mail, tribe_name, password } = req.body;
 
@@ -19,9 +19,9 @@ const createLoginController = async (req, res) => {
     console.error(error);
     res.status(400).json({ error: 'Inscription impossible' });
   }
-};
+}
 
-const connexionController = async (req, res) => {
+async function connexionController(req, res) {
   const { mail, password } = req.body;
   if (!mail || !password) {
     return res.status(400).json({ error: 'Email et mot de passe requis' });
@@ -51,6 +51,6 @@ const connexionController = async (req, res) => {
     console.log(error);
     return res.status(500).json({ error: 'Erreur serveur' });
   }
-};
+}
 
 export { createLoginController, connexionController };
