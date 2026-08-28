@@ -1,43 +1,48 @@
-# Website
+# Documentation technique — Lovelace Family
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+Documentation technique du projet, générée avec [Docusaurus](https://docusaurus.io/).
 
-## Installation
+Pour installer et lancer **l'application** (frontend, backend, base de données),
+voir le [README racine](../README.md). Ce dossier concerne uniquement le site de
+documentation.
+
+## Prérequis
+
+Contrairement au reste du projet, la documentation ne tourne **pas** dans Docker.
+Elle nécessite [Node.js](https://nodejs.org/) **20 ou supérieur** installé
+localement.
+
+## Lancer la documentation en local
 
 ```bash
+cd documentation
 npm install
-```
-
-**Note**: feel free to use the package manager of your choice.
-
-## Local Development
-
-```bash
 npm run start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+Le site est accessible sur [http://localhost:3000](http://localhost:3000) et se
+recharge automatiquement à chaque modification d'un fichier `.md`.
 
-## Build
+## Construire la version statique
 
 ```bash
 npm run build
+npm run serve
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+`npm run build` génère le site dans `documentation/build/` ; `npm run serve` sert
+ce dossier pour vérifier le rendu final avant déploiement.
 
-## Deployment
+## Contenu
 
-Using SSH:
+Les pages se trouvent dans `documentation/docs/` :
 
-```bash
-USE_SSH=true npm run deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> npm run deploy
-```
-
-If you are using GitHub Pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+| Page            | Sujet                                      |
+| --------------- | ------------------------------------------ |
+| Vue d'ensemble  | objectif du projet, stack, flux principaux |
+| Installation    | lancer le projet en local avec Docker      |
+| Architecture    | communication entre les trois couches      |
+| Back-end        | structure en couches et flux de l'API      |
+| Front-end       | structure des composants React             |
+| Base de données | schéma des tables                          |
+| Contribution    | conventions de branches, commits, CI       |
