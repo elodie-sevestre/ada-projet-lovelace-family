@@ -44,24 +44,6 @@ const EditTaskForm = ({ task, onClose, refreshTasks }) => {
       onClose();
       refreshTasks();
     });
-
-    // const fetchOptions = {
-    //   method: "PUT",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     name: editName,
-    //     description: editDescription,
-    //     status: editStatus,
-    //     points: editPoints,
-    //     user_id: editUserId,
-    //   }),
-    // };
-    // fetch(`http://localhost:5000/api/tasks/${task.id}`, fetchOptions)
-    //   .then((response) => response.json())
-    //   .then(() => {
-    //     onClose();
-    //     refreshTasks();
-    //   });
   };
 
   return (

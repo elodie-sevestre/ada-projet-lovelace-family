@@ -6,6 +6,7 @@ import {
   deleteTaskService,
 } from '../services/tasksServices.js';
 
+//Attention ici à mieux sécuriser la donnée entrante en échappant certains caractères et en validant la forme de la donnée pour éviter les injections de code. Ex: utiliser une librairie comme zod. Ici pour le moment ça fonctionne car React protège.
 async function createTaskController(req, res) {
   try {
     const { name, description, assignment, points } = req.body;
@@ -149,8 +150,10 @@ async function deleteTaskController(req, res) {
       return res.status(404).json({ error: 'Ressource introuvable...' });
     }
     return res.status(204).send();
-  } catch (err) {
-    return res.status(500).json({ error: `Détail erreur ${err}` });
+  } catch {
+    return res
+      .status(500)
+      .json({ error: 'Erreur lors de la suppression de la tâche' });
   }
 }
 

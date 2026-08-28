@@ -1,7 +1,6 @@
 /* ==========================================================================
    Modales (task-modal-overlay / task-modal-card)
-   Classes partagées par CreateTaskModal, TaskModalItem, DeleteConfirmModal.
-   Un seul style ici = cohérence garantie sur les 3 popups du projet.
+  
    ========================================================================== */
 
 .task-modal-overlay {
@@ -72,13 +71,141 @@
 
 /* --- Contenu texte (mode lecture, dans TaskModalItem) --- */
 
-.task-modal-informations,
-.task-modal-informations-2 {
-  margin-top: 0.5rem;
+.task-detail-modal-name {
+  font-family: var(--heading);
+  font-size: 1.7em;
+  letter-spacing: 0.03em;
+  color: var(--text-h);
+}
+
+/* --- Barre du haut : statut + assignation --- */
+
+.task-modal-informations-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 1rem;
   text-align: left;
 }
 
-.task-modal-informations p,
-.task-modal-informations-2 p {
-  margin: 0.3rem 0;
+.task-detail-modal-status {
+  margin: 0;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1.5px solid transparent;
+
+  /* couleur par défaut : À faire */
+  background: red;
+  color: var(--code-bg);
+}
+
+.task-detail-modal-status[data-status="TERMINE"] {
+  background: var(--palette-purple);
+}
+
+.task-detail-modal-round-assignation {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--palette-pink);
+  border-radius: 50%;
+}
+
+.task-detail-modal-assignation {
+  margin: 0;
+  color: var(--code-bg);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* --- Bloc central : titre, points, description --- */
+
+.task-modal-informations-middle {
+  margin-top: 1.25rem;
+  text-align: left;
+}
+
+.task-modal-title-and-points {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.task-detail-modal-points {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.task-modal-description-case {
+  position: relative;
+  margin-top: 0.75rem;
+  padding: 1.5rem 1.75rem 1.25rem;
+  min-height: 4.5rem;
+
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.task-modal-description-case::before,
+.task-modal-description-case::after {
+  position: absolute;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.75rem;
+  line-height: 1;
+  color: var(--border);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.task-modal-description-case::before {
+  content: "\201C";
+  top: 0.2rem;
+  left: 0.6rem;
+}
+
+.task-modal-description-case::after {
+  content: "\201D";
+  bottom: -1.5rem;
+  right: 0.6rem;
+}
+
+.task-detail-modal-description {
+  margin: 0;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-h);
+}
+
+/* --- Bas de la modal : dates, discrètes --- */
+
+.task-modal-informations-bottom {
+  margin-top: 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.task-detail-modal-date-creation,
+.task-detail-modal-date-update {
+  margin: 0;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(100, 65, 34, 0.5);
 }

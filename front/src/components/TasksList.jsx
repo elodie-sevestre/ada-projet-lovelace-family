@@ -1,7 +1,7 @@
 import TaskItem from "./TaskItem.jsx";
 import "../css/TasksList.css";
 
-function TasksList({ tasks, currentUser, refreshTasks }) {
+function TasksList({ tasks, currentUser, refreshTasks, onCelebrate }) {
   const isAdmin = currentUser.role === "ADMIN";
 
   return (
@@ -16,6 +16,7 @@ function TasksList({ tasks, currentUser, refreshTasks }) {
           {isAdmin && (
             <span className="tasks-list-header-delete">Supprimer</span>
           )}
+          <span className="task-list-header-check-box">Valider</span>
         </div>
       </div>
 
@@ -26,6 +27,7 @@ function TasksList({ tasks, currentUser, refreshTasks }) {
             task={task}
             currentUser={currentUser}
             refreshTasks={refreshTasks}
+            onCelebrate={onCelebrate}
           />
         ))}
       </div>

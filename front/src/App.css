@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Jersey+10&family=Lexend:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jersey+15&display=swap");
 
 :root {
   /* ==========================================================================
@@ -20,7 +21,7 @@
      ========================================================================== */
   --text: var(--palette-brown);
   --text-h: var(--palette-dark-green);
-  --bg: var(--palette-yellow);
+  --bg: #f0ed83;
   --border: var(--palette-brown);
   --code-bg: #f4ead6;
   --accent: var(--palette-pink);
@@ -31,13 +32,13 @@
 
   /* Tâches terminées : bordure violette, fond grisé */
   --completed-border: var(--palette-purple);
-  --completed-bg: #9888a6;
+  --completed-bg: #d8c7e8;
 
   /* Lexend pour le texte courant, Jersey 10 pour les titres */
-  --sans: "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
+  --sans: "Jersey 15", "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Jersey 10", system-ui, "Segoe UI", Roboto, sans-serif;
 
-  font: 14px/145% var(--sans);
+  font: 19px var(--sans);
   letter-spacing: 0.18px;
   color: var(--text);
   background: var(--bg);
@@ -47,7 +48,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   @media (max-width: 1024px) {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 
@@ -56,7 +57,7 @@ body {
 }
 
 #root {
-  width: 1200px;
+  width: 1800px;
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -64,6 +65,19 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  padding: 0 24px;
+
+  @media (max-width: 1024px) {
+    padding: 0 20px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 12px;
+  }
 }
 
 h1,

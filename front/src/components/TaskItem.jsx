@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../css/TaskItem.css";
+import "../css/TaskCheckBox.css";
 import TaskModalItem from "./TaskModalItem.jsx";
 // import modal confirmation suppression tâche
 import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
@@ -7,8 +8,10 @@ import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
 import EditTaskButton from "./EditTaskButton.jsx";
 //import bouton suppression de la tâche
 import DeleteTaskButton from "./DeleteTaskButton.jsx";
+//import checkbox
+import TaskCheckbox from "./TaskCheckBox.jsx";
 
-function TaskItem({ task, currentUser, refreshTasks }) {
+function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
   // useState pour afficher le pop-up en mode édition
@@ -63,7 +66,13 @@ function TaskItem({ task, currentUser, refreshTasks }) {
               )}
             </div>
           )}
-          <div className="task-item-checkbox"></div>
+          <div className="task-item-check-box">
+            <TaskCheckbox
+              task={task}
+              refreshTasks={refreshTasks}
+              onCelebrate={onCelebrate}
+            />
+          </div>
         </div>
       </div>
       {isModalOpen && (
