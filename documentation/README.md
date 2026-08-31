@@ -35,14 +35,16 @@ ce dossier pour vérifier le rendu final avant déploiement.
 
 ## Contenu
 
-Les pages se trouvent dans `documentation/docs/` :
+Les pages se trouvent dans `documentation/docs/`, organisées selon le cadre
+[Diátaxis](https://diataxis.fr/) : chaque fichier répond à un seul besoin.
 
-| Page            | Sujet                                      |
-| --------------- | ------------------------------------------ |
-| Vue d'ensemble  | objectif du projet, stack, flux principaux |
-| Installation    | lancer le projet en local avec Docker      |
-| Architecture    | communication entre les trois couches      |
-| Back-end        | structure en couches et flux de l'API      |
-| Front-end       | structure des composants React             |
-| Base de données | schéma des tables                          |
-| Contribution    | conventions de branches, commits, CI       |
+| Quadrant           | Dossier          | Contenu                                                             |
+| ------------------ | ---------------- | ------------------------------------------------------------------ |
+| Tutoriels          | `tutoriels/`     | prise en main guidée, du clone à la première tâche validée         |
+| Guides pratiques   | `guides/`        | lancer le projet, initialiser la base, lancer les tests, contribuer, runbook |
+| Référence          | `reference/`     | API HTTP, structure back, structure front, schéma BDD, conventions |
+| Explications       | `explications/`  | architecture, flux applicatifs, gestion d'état front, limites, ADR |
+
+Règle : une modification de code qui rend la doc fausse doit être corrigée dans
+la même Pull Request. Le build (`npm run build`) échoue sur lien mort
+(`onBrokenLinks: "throw"`).
