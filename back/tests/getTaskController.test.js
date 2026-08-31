@@ -20,7 +20,7 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
     }
     return DEFAULT_TASKS;
   },
-  getTasksByUserService: async (id) => {
+  getTasksByUserService: async () => {
     if (simulerErreurGetByUser) {
       simulerErreurGetByUser = false;
       throw new Error('Erreur DB simulée');
@@ -105,7 +105,7 @@ describe('Valider récupération des tâches', () => {
 
   // Test 5 : getTasksByUserController — id valide
   it("Vérifier que si l'id est valide ça retourne bien 200", async () => {
-    const req = { params: { id: '3' } };
+    const req = { params: { id: 3 } };
     const res = createMockRes();
 
     await getTasksByUserController(req, res);
@@ -115,7 +115,7 @@ describe('Valider récupération des tâches', () => {
 
   // Test 6 : getTasksByUserController — le service échoue
   it('Vérifier que si le service rejette une erreur, retourne 500', async () => {
-    const req = { params: { id: '3' } };
+    const req = { params: { id: 3 } };
     const res = createMockRes();
     simulerErreurGetByUser = true;
 
