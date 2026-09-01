@@ -1,4 +1,4 @@
-function createCheckAuthorizationMiddleware(roleWaited) {
+function createCheckRoleMiddleware(roleWaited) {
   return (req, res, next) => {
     //le rôle provient du déchiffrement du JWT par le middleware require auth
     const roleUser = req.user.role;
@@ -7,7 +7,7 @@ function createCheckAuthorizationMiddleware(roleWaited) {
   };
 }
 
-export default createCheckAuthorizationMiddleware;
+export default createCheckRoleMiddleware;
 
 // function checkAdmin(req, res, next) {
 
