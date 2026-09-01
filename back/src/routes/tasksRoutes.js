@@ -21,17 +21,18 @@ tasksRoutes.post(
   createCheckRoleMiddleware(ROLE.Admin),
   createTaskController
 );
+
+// Ici la route pour aller consulter toutes les tâches
 tasksRoutes.get(
   '/',
   createCheckRoleMiddleware(ROLE.Admin),
   getAllTasksController
-); // Ici la route pour aller consulter toutes les tâches (Vue Bernard)
+);
 
-//* Ici la route pour aller consulter les tâches pour un utilisateur (Vue Léa)
-//! modification endpoint /users/:id par /users/:id_user
+//* Ici la route pour aller consulter les tâches de l'utilisateur connecté
 tasksRoutes.get(
-  '/users/:id_user',
-  createCheckRoleMiddleware(ROLE.Member),
+  '/users',
+  // createCheckRoleMiddleware(ROLE.Member),
   getTasksByUserController
 );
 

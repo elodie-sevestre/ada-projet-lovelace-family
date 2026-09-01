@@ -122,16 +122,8 @@ async function getAllTasksController(req, res) {
 }
 
 async function getTasksByUserController(req, res) {
-  //!   const { id: userId } = req.params modifié par ->  const { id_user: userId } = req.params;
-  const { id_user: userId } = req.params;
-  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
-  if (!userId || isNaN(Number(userId))) {
-    return res
-      .status(400)
-      .json({ error: "L'id de l'utilisateur doit être un nombre valide." });
-  }
   try {
-    const tasksByUser = await getTasksByUserService(userId); //Ne pas oublier de passer l'id en paramètre
+    const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
     res.status(200).json(tasksByUser);
   } catch (err) {
     res.status(500).json({
