@@ -8,7 +8,7 @@ import {
   getTasksByUserController,
   deleteTaskController,
 } from '../controllers/tasksControllers.js';
-import createCheckAuthorizationMiddleware from '../middlewares/checkAuthorization.js';
+import createCheckRoleMiddleware from '../middlewares/checkRole.js';
 
 //Aiguilleur, le router ici aiguille vers les bonnes routes: "Ecoute ce type de requêtes"
 const tasksRoutes = Router();
@@ -18,21 +18,28 @@ tasksRoutes.use(requireAuth);
 
 tasksRoutes.post(
   '/',
-  createCheckAuthorizationMiddleware(ROLE.Admin),
+  createCheckRoleMiddleware(ROLE.Admin),
   createTaskController
 );
 tasksRoutes.get(
   '/',
-  createCheckAuthorizationMiddleware(ROLE.Admin),
+  createCheckRoleMiddleware(ROLE.Admin),
   getAllTasksController
 ); // Ici la route pour aller consulter toutes les tâches (Vue Bernard)
-tasksRoutes.get('/users/:id', getTasksByUserController); // Ici la route pour aller consulter les tâches pour un utilisateur (Vue Léa)
+
+//* Ici la route pour aller consulter les tâches pour un utilisateur (Vue Léa)
+//! modification endpoint /users/:id par /users/:id_user
+tasksRoutes.get(
+  '/users/:id_user',
+  createCheckRoleMiddleware(ROLE.Member),
+  getTasksByUserController
+);
 
 // Modification tâche
 
 tasksRoutes.put(
   '/:id',
-  createCheckAuthorizationMiddleware(ROLE.Admin),
+  createCheckRoleMiddleware(ROLE.Admin),
   updateTaskController
 );
 
@@ -40,7 +47,7 @@ tasksRoutes.put(
 
 tasksRoutes.delete(
   '/:id',
-  createCheckAuthorizationMiddleware(ROLE.Admin),
+  createCheckRoleMiddleware(ROLE.Admin),
   deleteTaskController
 );
 

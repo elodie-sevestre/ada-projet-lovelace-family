@@ -122,7 +122,8 @@ async function getAllTasksController(req, res) {
 }
 
 async function getTasksByUserController(req, res) {
-  const { id: userId } = req.params;
+  //!   const { id: userId } = req.params modifié par ->  const { id_user: userId } = req.params;
+  const { id_user: userId } = req.params;
   //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
   if (!userId || isNaN(Number(userId))) {
     return res
