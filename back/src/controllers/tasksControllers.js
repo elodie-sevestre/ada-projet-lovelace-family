@@ -132,6 +132,24 @@ async function getTasksByUserController(req, res) {
   }
 }
 
+async function getTasksByUserIdController(req, res) {
+  const { id: userId } = req.params;
+  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
+  if (!userId || isNaN(Number(userId))) {
+    return res
+      .status(400)
+      .json({ error: "L'id de l'utilisateur doit être un nombre valide." });
+  }
+  try {
+    const tasksByUserId = await getTasksByUserService(userId);
+    res.status(200).json(tasksByUserId);
+  } catch (err) {
+    res.status(500).json({
+      error: `Détail erreur: ${err}`,
+    });
+  }
+}
+
 async function deleteTaskController(req, res) {
   try {
     const { id } = req.params;
@@ -155,5 +173,6 @@ export {
   updateTaskController,
   getAllTasksController,
   getTasksByUserController,
+  getTasksByUserIdController,
   deleteTaskController,
 };

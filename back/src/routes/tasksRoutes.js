@@ -5,6 +5,7 @@ import {
   createTaskController,
   updateTaskController,
   getAllTasksController,
+  getTasksByUserIdController,
   getTasksByUserController,
   deleteTaskController,
 } from '../controllers/tasksControllers.js';
@@ -34,6 +35,13 @@ tasksRoutes.get(
   '/users',
   // createCheckRoleMiddleware(ROLE.Member),
   getTasksByUserController
+);
+
+//* Ici la route pour consulter les tâches d'un utilisateur
+tasksRoutes.get(
+  '/users/:id',
+  createCheckRoleMiddleware(ROLE.Admin),
+  getTasksByUserIdController
 );
 
 // Modification tâche
