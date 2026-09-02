@@ -5,6 +5,7 @@ import {
   createTaskController,
   updateTaskController,
   getAllTasksController,
+  getTasksByUserIdController,
   getTasksByUserController,
   deleteTaskController,
 } from '../controllers/tasksControllers.js';
@@ -16,17 +17,11 @@ const tasksRoutes = Router();
 // protège les routes tasksRoutes
 tasksRoutes.use(requireAuth);
 
-tasksRoutes.post(
-  '/',
-  createCheckRoleMiddleware(ROLE.Admin),
-  createTaskController
-);
-
-// Ici la route pour aller consulter toutes les tâches
+//* Ici la route pour consulter les tâches d'un utilisateur
 tasksRoutes.get(
-  '/',
+  '/users/:id',
   createCheckRoleMiddleware(ROLE.Admin),
-  getAllTasksController
+  getTasksByUserIdController
 );
 
 //* Ici la route pour aller consulter les tâches de l'utilisateur connecté
@@ -50,6 +45,19 @@ tasksRoutes.delete(
   '/:id',
   createCheckRoleMiddleware(ROLE.Admin),
   deleteTaskController
+);
+
+tasksRoutes.post(
+  '/',
+  createCheckRoleMiddleware(ROLE.Admin),
+  createTaskController
+);
+
+// Ici la route pour aller consulter toutes les tâches
+tasksRoutes.get(
+  '/',
+  createCheckRoleMiddleware(ROLE.Admin),
+  getAllTasksController
 );
 
 export default tasksRoutes;
