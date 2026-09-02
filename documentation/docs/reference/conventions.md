@@ -1,8 +1,15 @@
-# Contribution
+---
+sidebar_position: 5
+description: Pour l'équipe au quotidien. Répond à « quel préfixe de branche, quel type de commit, que fait la CI ? ».
+---
+
+# Conventions
+
+Le circuit pas à pas est dans [Contribuer](../guides/contribuer.md). Cette page ne liste que les valeurs.
 
 ## Convention de nommage des branches
 
-Une nouvelle branche par fonctionnalité, bug ou fix, au format `préfixe/description_brève` :
+Une branche par fonctionnalité, bug ou fix, créée depuis `develop`, au format `préfixe/description_breve` :
 
 | Préfixe    | Usage                         |
 | ---------- | ----------------------------- |
@@ -14,7 +21,7 @@ Une nouvelle branche par fonctionnalité, bug ou fix, au format `préfixe/descri
 
 ## Convention de messages de commit
 
-Les commits suivent le format `type: description courte`, en français :
+Format `type: description courte`, en français :
 
 | Type       | Usage                         |
 | ---------- | ----------------------------- |
@@ -24,7 +31,7 @@ Les commits suivent le format `type: description courte`, en français :
 | `chore`    | Tâche technique / maintenance |
 | `refactor` | Refactorisation de code       |
 
-Exemples tirés de l'historique du projet :
+Exemples tirés de l'historique :
 
 ```
 feat: ajout du bouton supprimer et du pop-up de confirmation
@@ -32,22 +39,20 @@ fix: correctif seed users : admin to ADMIN
 docs: ajout fiche review fonctionnalité supprimer une tâche
 ```
 
-> ⚠️ Le type utilisé en commit (`feat`) diffère légèrement du préfixe utilisé pour les branches (`feature`) — ne pas confondre les deux conventions.
+> ⚠️ Le type de commit (`feat`) diffère du préfixe de branche (`feature`) — ne pas confondre les deux conventions.
 
-## Règle de protection de `main`
+## Protection de `main`
 
 Une Pull Request est obligatoire avant tout merge sur `main`, après approbation de **deux contributrices**.
 
 ## Intégration continue (CI)
 
-Chaque `push` et chaque Pull Request (toutes branches confondues) déclenche un workflow GitHub Actions (`.github/workflows/ci.yml`).
+Chaque `push` et chaque Pull Request (toutes branches confondues) déclenche `.github/workflows/ci.yml`.
 
 Étapes exécutées sur le backend (`back/`) :
 
-1. Installation des dépendances (`npm ci`)
-2. Lint (`npm run lint`)
-3. Tests (`npm run test`)
+1. `npm ci` — installation des dépendances
+2. `npm run lint`
+3. `npm run test`
 
-> Pas encore de job équivalent côté frontend, ni d'étape de build — à ajouter si besoin.
-
-Une PR ne devrait pas être mergée si la CI est en échec.
+> Pas encore de job équivalent côté frontend, ni d'étape de build. Une PR ne devrait pas être mergée si la CI est en échec.

@@ -43,7 +43,7 @@ async function connexionController(req, res) {
     const token = await connexionService(mail, password);
 
     if (!token) {
-      return res.status(401).json({ error: 'Identifiants invalides' });
+      return res.status(404).json({ error: 'Identifiants invalides' });
     }
 
     return res.json({ token });

@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+sidebar_position: 0
+description: Pour toute personne qui découvre le projet. Répond à « c'est quoi Lovelace Family et par où commencer ? ».
 ---
 
 # Vue d'ensemble du projet
@@ -16,7 +17,7 @@ sidebar_position: 1
 - ✏️ Modification des tâches
 - 🗑️ Suppression de tâche
 - 🚪 Déconnexion
-- 🏆 Gamification (célébration)
+- 🏆 Gamification (célébration à la validation)
 
 ## Stack technique
 
@@ -25,19 +26,17 @@ sidebar_position: 1
 - **Base de données** : PostgreSQL, sans ORM
 - **Orchestration** : Docker Compose
 
-## Flux principaux
+## Par où commencer
 
-La section Back-end détaille trois flux type, du frontend jusqu'à la base de données, ainsi que leurs axes d'amélioration :
+Cette documentation suit le cadre [Diátaxis](https://diataxis.fr/) : quatre entrées, selon ton besoin du moment.
 
-- **Création d'une tâche** — création puis assignation à un membre
-- **Consultation des tâches** — récupération de toutes les tâches ou de celles d'un utilisateur, déjà triées par statut
-- **Suppression d'une tâche** — confirmation utilisateur puis suppression en base
+- 🚀 **[Tutoriels](./tutoriels/prise-en-main.md)** — tu découvres le projet et tu veux le prendre en main pas à pas.
+- 🔧 **[Guides pratiques](./guides/lancer-le-projet-en-local.md)** — tu sais ce que tu cherches à faire : lancer le projet, jouer le schéma, contribuer, gérer un incident.
+- 📚 **[Référence](./reference/api.md)** — tu cherches une information précise : un endpoint, une variable, le schéma des tables.
+- 💡 **[Explications](./explications/architecture.md)** — tu veux comprendre *pourquoi* c'est construit comme ça : architecture, flux, décisions techniques ([ADR](./explications/adr/index.md)).
 
-## Pour aller plus loin
+:::note Toi dans six mois
 
-- [Installation](./installation/index.md) — lancer le projet en local
-- [Architecture](./architecture/index.md) — comment les trois couches communiquent
-- [Back-end](./back/index.md) — structure et flux de l'API
-- [Front-end](./front/index.md) — structure des composants React
-- [Base de données](./base-de-donnees/index.md) — schéma des tables
-- [Contribution](./contribution/index.md) — conventions de branches et de Pull Requests
+La destinataire qu'on oublie toujours : elle aura tout oublié du contexte actuel. Si une info te paraît « évidente » aujourd'hui, c'est justement celle-là qu'il faut écrire.
+
+:::
