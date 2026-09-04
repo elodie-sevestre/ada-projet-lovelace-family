@@ -1,0 +1,56 @@
+import {
+  createLoginService,
+  connexionService,
+} from '../services/loginServices.js';
+
+async function createLoginController(req, res) {
+  try {
+    const { role, name, mail, tribe_name, password } = req.body;
+
+    if (!name || !mail || !password) {
+      return res.status(400).json({ error: 'Champs requis manquants' });
+    }
+
+    await createLoginService(role, name, mail, tribe_name, password);
+
+    // On ne renvoie jamais le hash au client
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: 'Inscription impossible' });
+  }
+}
+
+async function connexionController(req, res) {
+  const { mail, password } = req.body;
+  if (!mail || !password) {
+    return res.status(400).json({ error: 'Email et mot de passe requis' });
+  }
+
+  //  expression régulière pour contrôler le format de l'email qui doit contenir le @ et le .
+  const emailRegex = new RegExp(
+    "^(?!\\.)(?!.*\\.\\.)([a-z0-9_'+\\-\\.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9\\-]*\\.)+[a-z]{2,}$"
+  );
+  if (!emailRegex.test(mail)) {
+    return res.status(400).json({ error: 'Format Email invalide' });
+  }
+
+  if (password.length < 8) {
+    return res.status(400).json({ error: 'Format password invalide' });
+  }
+
+  try {
+    const token = await connexionService(mail, password);
+
+    if (!token) {
+      return res.status(404).json({ error: 'Identifiants invalides' });
+    }
+
+    return res.json({ token });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Erreur serveur' });
+  }
+}
+
+export { createLoginController, connexionController };

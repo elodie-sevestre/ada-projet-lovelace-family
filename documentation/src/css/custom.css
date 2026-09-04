@@ -1,0 +1,248 @@
+/* ==========================================================================
+   Thème Sprout Quest pour Docusaurus
+   Charte reprise de l'app front : titres pixel Jersey, texte Lexend,
+   encre brun/vert, cartes crème, accent rose, bordures épaisses, coins arrondis.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Jersey+10&family=Jersey+15&family=Lexend:wght@400;500;600;700&display=swap");
+
+:root {
+  /* --- Palette projet --- */
+  --sq-brown: #644122;
+  --sq-dark-green: #0b3d2e;
+  --sq-green: #1f6f4a;
+  --sq-mint: #5fd38d;
+  --sq-purple: #7b2cbf;
+  --sq-yellow: #f0ed83;
+  --sq-cream: #f4ead6;
+  --sq-pink: #e16bc8;
+
+  /* Bordures / filets : brun en clair, bascule en sombre plus bas */
+  --sq-border: var(--sq-brown);
+  --sq-border-soft: rgba(100, 65, 34, 0.4);
+
+  /* --- Couleur primaire = vert --- */
+  --ifm-color-primary: #1f6f4a;
+  --ifm-color-primary-dark: #1c643f;
+  --ifm-color-primary-darker: #1a5e3b;
+  --ifm-color-primary-darkest: #154d31;
+  --ifm-color-primary-light: #237a55;
+  --ifm-color-primary-lighter: #258059;
+  --ifm-color-primary-lightest: #2c9166;
+
+  /* --- Typo --- */
+  --ifm-font-family-base: "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
+  --ifm-heading-font-family: "Jersey 10", "Lexend", system-ui, sans-serif;
+  --ifm-font-size-base: 17px;
+  --ifm-line-height-base: 1.7;
+  --ifm-heading-color: var(--sq-dark-green);
+  --ifm-font-color-base: var(--sq-brown);
+
+  --ifm-link-color: var(--sq-purple);
+  --ifm-link-hover-color: var(--sq-dark-green);
+
+  /* --- Fonds --- */
+  --ifm-background-color: var(--sq-cream);
+  --ifm-background-surface-color: #fbf5e9;
+  --ifm-navbar-background-color: var(--sq-cream);
+  --ifm-footer-background-color: var(--sq-dark-green);
+  --ifm-footer-color: var(--sq-cream);
+  --ifm-footer-link-color: var(--sq-mint);
+
+  /* --- Filets Infima pilotés par --sq-border --- */
+  --ifm-toc-border-color: var(--sq-border-soft);
+  --ifm-hr-border-color: var(--sq-border-soft);
+  --ifm-blockquote-border-left-color: var(--sq-border-soft);
+
+  /* --- Code --- */
+  --ifm-code-font-size: 90%;
+  --ifm-code-background: #efe4cf;
+  --ifm-code-border-radius: 8px;
+  --docusaurus-highlighted-code-line-bg: rgba(123, 44, 191, 0.12);
+
+  /* --- Formes --- */
+  --ifm-global-radius: 14px;
+  --ifm-button-border-radius: 999px;
+  --ifm-global-shadow-lw: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --ifm-global-shadow-md: 0 6px 14px rgba(0, 0, 0, 0.12);
+  --ifm-global-shadow-tl: 0 12px 32px rgba(0, 0, 0, 0.2);
+  --ifm-font-weight-bold: 600; /* au lieu de 700 : **texte** moins lourd partout */
+}
+
+/* ==========================================================================
+   Mode sombre — palette dérivée de la charte, contrastes renforcés
+   ========================================================================== */
+[data-theme="dark"] {
+  --ifm-color-primary: #7fdca5;
+  --ifm-color-primary-dark: #5fd38d;
+  --ifm-color-primary-darker: #4fce81;
+  --ifm-color-primary-darkest: #34b566;
+  --ifm-color-primary-light: #9fe4bd;
+  --ifm-color-primary-lighter: #afe9c9;
+  --ifm-color-primary-lightest: #d0f2e0;
+
+  --ifm-background-color: #14231c;
+  --ifm-background-surface-color: #21382c;
+  --ifm-navbar-background-color: #1a2e24;
+  --ifm-footer-background-color: #10201a;
+
+  /* Texte : crème froid, ~13:1 sur le fond */
+  --ifm-font-color-base: #ece7d9;
+  --ifm-heading-color: #8fe0b0;
+
+  /* Liens : rose clair (~9:1), hover menthe pâle */
+  --ifm-link-color: #f4a9e2;
+  --ifm-link-hover-color: #cdeedd;
+
+  /* Bordures claires translucides à la place du brun */
+  --sq-border: rgba(236, 231, 217, 0.55);
+  --sq-border-soft: rgba(236, 231, 217, 0.22);
+
+  --ifm-code-background: #10201a;
+  --docusaurus-highlighted-code-line-bg: rgba(143, 224, 176, 0.18);
+}
+
+/* ==========================================================================
+   Titres pixel Jersey — crénage ouvert, interligne aéré, pas de gras
+   ========================================================================== */
+:where(h1, h2, h3, .hero__title, .heroBanner h1) {
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 400;
+  letter-spacing: 0.09em;
+  line-height: 1.25;
+  word-spacing: 0.08em;
+}
+
+.markdown h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+.markdown h2 {
+  font-size: 2rem;
+  margin-top: 2.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--sq-border-soft);
+}
+.markdown h3 {
+  font-size: 1.4rem;
+}
+
+section h3 {
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+}
+
+/* Corps : gras allégé + léger interlettrage (comme l'app, ~0.18px) */
+body {
+  letter-spacing: 0.011em;
+}
+.markdown strong,
+.markdown b {
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Hero d'accueil — fond vert foncé (le wordmark image porte ses couleurs)
+   ========================================================================== */
+.hero--primary {
+  background-color: var(--sq-dark-green);
+  color: var(--sq-cream);
+  border-bottom: 3px solid var(--sq-border);
+}
+.hero__subtitle {
+  color: var(--sq-cream);
+  font-weight: 600;
+}
+.hero .button {
+  background: var(--sq-cream);
+  border: 2px solid var(--sq-brown);
+  color: var(--sq-brown);
+}
+.hero .button:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+/* ==========================================================================
+   Détails visuels repris du front
+   ========================================================================== */
+.navbar {
+  border-bottom: 2px solid var(--sq-border);
+  box-shadow: var(--ifm-global-shadow-lw);
+}
+
+.card,
+.theme-admonition {
+  border: 2px solid var(--sq-border);
+  border-radius: var(--ifm-global-radius);
+}
+
+.button {
+  border: 1.5px solid var(--sq-border);
+  font-weight: 600;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--ifm-global-shadow-md);
+}
+
+.theme-code-block,
+pre code {
+  border: 1.5px solid var(--sq-border-soft);
+  border-radius: 10px;
+}
+
+.menu__link {
+  color: var(--ifm-font-color-base);
+}
+.menu__link--active {
+  color: var(--sq-pink);
+  font-weight: 600;
+}
+[data-theme="dark"] .menu__link--active {
+  color: #f4a9e2;
+}
+
+/* ==========================================================================
+   Code inline (hors blocs) — puce contrastée, poids normal
+   ========================================================================== */
+:not(pre) > code {
+  background: var(--ifm-code-background);
+  border: 1px solid var(--sq-border-soft);
+  border-radius: 6px;
+  padding: 0.12rem 0.4rem;
+  font-size: 0.88em;
+  font-weight: 400; /* pas de gras même dans un **`fichier`** */
+  color: var(--sq-purple); /* encre violette en clair */
+}
+
+/* Un nom de fichier en gras garde une puce lisible */
+strong > code,
+code strong {
+  font-weight: 400;
+}
+
+[data-theme="dark"] :not(pre) > code {
+  background: #d8ccb2; /* crème sourd, moins éclatant sur le vert */
+  border-color: rgba(11, 61, 46, 0.4);
+  color: #0b3d2e;
+}
+
+/* Code inline dans un lien : garde la couleur du lien */
+a code,
+a:hover code {
+  color: inherit;
+}
+
+/* Tableaux : filets + en-tête teinté */
+.markdown table th,
+.markdown table td {
+  border-color: var(--sq-border-soft);
+}
+.markdown table thead th {
+  background: var(--ifm-code-background);
+}

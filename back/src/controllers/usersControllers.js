@@ -1,8 +1,11 @@
-import getAllUsersService from "./usersServices.js";
+import getAllUsersService from '../services/usersServices.js';
 
-function getAllUsersController(req, res) {
-  const usersResult = getAllUsersService();
-  res.json(usersResult);
+async function getAllUsersController(req, res) {
+  try {
+    const users = await getAllUsersService();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: `Détail erreur ${err}` });
+  }
 }
-
 export default getAllUsersController;

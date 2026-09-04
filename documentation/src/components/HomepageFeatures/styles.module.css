@@ -1,0 +1,13 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.featureImg {
+  height: 80px;
+  width: 80px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}

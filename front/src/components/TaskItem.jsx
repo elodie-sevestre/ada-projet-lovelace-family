@@ -1,18 +1,32 @@
 import { useState } from "react";
 import "../css/TaskItem.css";
+import "../css/TaskCheckBox.css";
 import TaskModalItem from "./TaskModalItem.jsx";
+// import modal confirmation suppression tâche
+import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
 //import bouton d'édition pour modifier la tâche
 import EditTaskButton from "./EditTaskButton.jsx";
+//import bouton suppression de la tâche
+import DeleteTaskButton from "./DeleteTaskButton.jsx";
+//import checkbox
+import TaskCheckbox from "./TaskCheckBox.jsx";
 
-function TaskItem({ task, currentUser }) {
+function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
   // useState pour afficher le pop-up en mode édition
   const [isModalEditing, setIsModalEditing] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const isCompleted = task.status === "TERMINE";
+  const cardClassName = `task-item-card${isCompleted ? " completed" : ""}`;
+
+  // Les libellés de colonnes ("Titre", "Assignée à", "Points"...) ne sont
+  // plus répétés ici : ils vivent une seule fois dans l'en-tête de
+  // TasksList, comme sur la maquette.
   return (
     <>
-      <div className="task-item-card" onClick={() => setIsModalOpen(true)}>
+      <div className={cardClassName} onClick={() => setIsModalOpen(true)}>
         <div className="task-item-left-card">
           <div className="task-item-name">{task.task_name}</div>
         </div>
@@ -37,15 +51,35 @@ function TaskItem({ task, currentUser }) {
             <div
               className="task-item-delete-button"
               onClick={(e) => e.stopPropagation()}
-            ></div>
+            >
+              <DeleteTaskButton
+                task={task}
+                onDelete={() => setIsDeleteModalOpen(true)}
+              />
+              {/* affichage du modal que si on clique sur le bouton supprimer */}
+              {isDeleteModalOpen && (
+                <DeleteConfirmModal
+                  task={task}
+                  refreshTasks={refreshTasks}
+                  onClose={() => setIsDeleteModalOpen(false)}
+                />
+              )}
+            </div>
           )}
-          <div className="task-item-checkbox"></div>
+          <div className="task-item-check-box">
+            <TaskCheckbox
+              task={task}
+              refreshTasks={refreshTasks}
+              onCelebrate={onCelebrate}
+            />
+          </div>
         </div>
       </div>
       {isModalOpen && (
         <TaskModalItem
           task={task}
           isEditing={isModalEditing}
+          refreshTasks={refreshTasks}
           onClose={() => {
             setIsModalOpen(false);
             setIsModalEditing(false);

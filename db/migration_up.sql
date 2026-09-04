@@ -4,8 +4,8 @@ CREATE TYPE "status" AS ENUM (
 );
 
 CREATE TYPE "role" AS ENUM (
-	'admin',
-	'member'
+	'ADMIN',
+	'MEMBER'
 );
 
 CREATE TABLE IF NOT EXISTS "users" (
@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"role" ROLE NOT NULL,
 	"name" VARCHAR(255) NOT NULL,
 	"mail" VARCHAR(255) NOT NULL,
-	"password" VARCHAR(255) NOT NULL,
+	"tribe_name" VARCHAR(255) NOT NULL,
+	"password_hash" VARCHAR(255) NOT NULL,
 	"total_points" INTEGER,
 	"created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"updated_at" TIMESTAMP NOT NULL DEFAULT NOW(),
