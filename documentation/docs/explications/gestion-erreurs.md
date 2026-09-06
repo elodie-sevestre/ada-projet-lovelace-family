@@ -99,6 +99,7 @@ controller / service  ──throw──▶  rejet de promesse
                                         ▼
                      errorHandler(err, req, res, next)
                                         │
+                                        ▼
               statusCode = err.statusCode || 500
               si ≥ 500 : console.error(err) + message = « Erreur serveur »
                                         │
@@ -128,19 +129,20 @@ async function getTaskController(req, res) {
 
 ## Codes HTTP
 
-| Code  | Signification                                 | Origine                                               |
-| ----- | --------------------------------------------- | ----------------------------------------------------- |
-| `400` | Données de requête invalides                  | `throw new AppError(msg, 400)` dans le controller     |
-| `404` | Ressource inexistante                         | `throw new AppError(msg, 404)`, controller ou service |
-| `500` | Erreur non maîtrisée (bug, base indisponible) | `statusCode` absent, message masqué                   |
+| Code  | Signification                                  | Origine                                                   |
+| ----- | ---------------------------------------------- | --------------------------------------------------------- |
+| `400` | Données de requête invalides                   | `throw new AppError(msg, 400)` dans le controller         |
+| `401` | Identifiants de connexion invalides            | `throw new AppError(msg, 401)` dans `connexionController` |
+| `404` | Ressource inexistante                          | `throw new AppError(msg, 404)`, controller ou service     |
+| `409` | Conflit : ressource déjà existante (mail pris) | `createLoginService` traduit le `code 23505` Postgres     |
+| `500` | Erreur non maîtrisée (bug, base indisponible)  | `statusCode` absent, message masqué                       |
 
 Les codes retour par endpoint sont détaillés dans la [Référence API](../reference/api.md).
 
 ## Limites et suites
 
 - La validation reste écrite à la main dans les controllers (`if (...) throw`). Elle pourrait être extraite dans un middleware dédié ou un schéma `zod` levant une `AppError` 400.
-- Les controllers de `loginControllers.js` gardent leur propre `try/catch` ; leur migration vers `errorHandler` fera l'objet d'un autre lot.
 - `errorHandler` pourrait recevoir un identifiant de corrélation (logs / réponse) et un logger structuré à la place de `console.error`.
-- Les tests unitaires des controllers de tâches ne sont pas encore adaptés au nouveau contrat (`throw` au lieu de `res.status`) ; un test isolé de errorHandler reste à écrire.
+- Les tests des controllers de tâches sont adaptés au contrat `throw` ; `createTaskController.test.js` reste à reprendre par son auteur·ice.
 
 Voir aussi [Limites et dette technique](./limites-et-dette.md).
