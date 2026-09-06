@@ -3,6 +3,7 @@ import cors from 'cors';
 import usersRoutes from './routes/usersRoutes.js';
 import tasksRoutes from './routes/tasksRoutes.js';
 import loginRoutes from './routes/loginRoutes.js';
+import errorHandler from './middlewares/errorHandler.js';
 import { config } from '../config/env.js';
 import dotenv from 'dotenv';
 
@@ -17,6 +18,9 @@ app.use(express.json());
 app.use('/api/users', usersRoutes);
 app.use('/api/tasks', tasksRoutes);
 app.use('/auth', loginRoutes);
+
+// middleware d'erreur placé après les routes
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   // console.log(`Backend running on http://localhost:${PORT}`);
