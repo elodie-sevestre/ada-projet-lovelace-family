@@ -122,6 +122,17 @@ async function getAllTasksController(req, res) {
 }
 
 async function getTasksByUserController(req, res) {
+  try {
+    const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
+    res.status(200).json(tasksByUser);
+  } catch (err) {
+    res.status(500).json({
+      error: `Détail erreur: ${err}`,
+    });
+  }
+}
+
+async function getTasksByUserIdController(req, res) {
   const { id: userId } = req.params;
   //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
   if (!userId || isNaN(Number(userId))) {
@@ -130,8 +141,8 @@ async function getTasksByUserController(req, res) {
       .json({ error: "L'id de l'utilisateur doit être un nombre valide." });
   }
   try {
-    const tasksByUser = await getTasksByUserService(userId); //Ne pas oublier de passer l'id en paramètre
-    res.status(200).json(tasksByUser);
+    const tasksByUserId = await getTasksByUserService(userId);
+    res.status(200).json(tasksByUserId);
   } catch (err) {
     res.status(500).json({
       error: `Détail erreur: ${err}`,
@@ -150,8 +161,10 @@ async function deleteTaskController(req, res) {
       return res.status(404).json({ error: 'Ressource introuvable...' });
     }
     return res.status(204).send();
-  } catch (err) {
-    return res.status(500).json({ error: `Détail erreur ${err}` });
+  } catch {
+    return res
+      .status(500)
+      .json({ error: 'Erreur lors de la suppression de la tâche' });
   }
 }
 
@@ -160,5 +173,6 @@ export {
   updateTaskController,
   getAllTasksController,
   getTasksByUserController,
+  getTasksByUserIdController,
   deleteTaskController,
 };

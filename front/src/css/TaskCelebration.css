@@ -1,0 +1,70 @@
+/* Overlay plein écran, au-dessus de tout le reste, mais qui ne bloque aucun clic.
+   Le fond s'assombrit légèrement pour faire ressortir le sprout au premier plan. */
+.task-celebration {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0) 65%
+  );
+  animation-name: task-celebration-backdrop;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  /* animation-duration est fixée en ligne (JS), calée sur la durée du son */
+}
+
+@keyframes task-celebration-backdrop {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Le sprout apparaît en grand au centre, bien au premier plan */
+.task-celebration-mascot {
+  width: 240px;
+  max-width: 60vw;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.35));
+  transform: scale(0);
+  animation-name: task-celebration-pop;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  /* animation-duration est fixée en ligne (JS), calée sur la durée du son */
+}
+
+@keyframes task-celebration-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  15% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  85% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+}

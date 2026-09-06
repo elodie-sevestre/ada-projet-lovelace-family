@@ -2,7 +2,7 @@ import { useState } from "react";
 import { editTask } from "../api/tasks";
 import "../css/TaskCheckBox.css";
 
-function TaskCheckBox({ task, refreshTasks }) {
+function TaskCheckBox({ task, refreshTasks, onCelebrate }) {
   const [isCheckboxAnimating, setCheckboxAnimating] = useState(false);
   const newStatus = task.status === "TERMINE" ? "A_FAIRE" : "TERMINE";
 
@@ -27,6 +27,11 @@ function TaskCheckBox({ task, refreshTasks }) {
 
     setCheckboxAnimating(true);
     setTimeout(() => setCheckboxAnimating(false), 400);
+
+    // Déclenche la célébration uniquement quand on valide la tâche
+    if (newStatus === "TERMINE") {
+      onCelebrate?.();
+    }
 
     editTask(task.id, {
       name: task.task_name,

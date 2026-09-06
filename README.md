@@ -21,6 +21,8 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 - ✅ Validation des tâches
 - ✏️ Modification des tâches
 - 🗑️ Suppression de tâche
+- 🚪 Déconnexion
+- 🏆 Gamification (célébration à la validation)
 
 ---
 
@@ -47,6 +49,25 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 - **Node.js / Express**
 - **PostgreSQL**
 - **Docker / Docker Compose**
+
+---
+
+## 📚 Documentation technique
+
+La documentation détaillée (architecture, API, flux, décisions techniques) est un
+site [Docusaurus](https://docusaurus.io/) dans le dossier [`documentation/`](./documentation/),
+organisé selon le cadre [Diátaxis](https://diataxis.fr/) :
+
+- **Tutoriels** — prise en main guidée
+- **Guides pratiques** — lancer le projet, initialiser la base, contribuer, runbook
+- **Référence** — API HTTP, structure back / front, schéma BDD, conventions
+- **Explications** — architecture, flux applicatifs, ADR, limites connues
+
+```bash
+cd documentation
+npm install
+npm run start
+```
 
 ---
 

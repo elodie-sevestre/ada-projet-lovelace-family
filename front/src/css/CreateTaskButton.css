@@ -13,9 +13,9 @@
 
   /* Apparence */
   background: var(--palette-cream, #f4ead6);
-  border: 2px solid var(--palette-brown, #644e28);
-  border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border: 2px solid var(--palette-pink);
+  border-radius: 10px;
+  box-shadow: 6px 6px 25px var(--palette-brown);
 
   /* Typo */
   font-family: var(--sans);
