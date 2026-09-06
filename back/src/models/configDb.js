@@ -24,12 +24,6 @@ const pool = new Pool({
 });
 
 // On tente de se connecter à la bdd et on affiche un message en fonction du résultat
-pool
-  .connect()
-  .then(() => {
-    // console.log('🟢 Connected to the database');
-  })
-  .catch(() => {
-    // console.error('🔴 Error connecting to the database', err);
-  });
+pool.connect();
+
 export default pool;

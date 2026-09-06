@@ -22,6 +22,4 @@ app.use('/auth', loginRoutes);
 // middleware d'erreur placé après les routes
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  // console.log(`Backend running on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => {});
