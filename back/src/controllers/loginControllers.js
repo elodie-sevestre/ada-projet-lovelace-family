@@ -4,6 +4,10 @@ import {
 } from '../services/loginServices.js';
 import AppError from '../utils/AppError.js';
 
+//  expression régulière pour contrôler le format de l'email qui doit contenir le @ et le .
+const EMAIL_REGEX =
+  /^(?!\.)(?!.*\.\.)([a-z0-9_'+\-.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9-]*\.)+[a-z]{2,}$/;
+
 async function createLoginController(req, res) {
   const { role, name, mail, tribe_name, password } = req.body;
 
@@ -23,11 +27,7 @@ async function connexionController(req, res) {
     throw new AppError('Email et mot de passe requis', 400);
   }
 
-  //  expression régulière pour contrôler le format de l'email qui doit contenir le @ et le .
-  const emailRegex = new RegExp(
-    "^(?!\\.)(?!.*\\.\\.)([a-z0-9_'+\\-\\.]*)[a-z0-9_+-]@([a-z0-9][a-z0-9\\-]*\\.)+[a-z]{2,}$"
-  );
-  if (!emailRegex.test(mail)) {
+  if (!EMAIL_REGEX.test(mail)) {
     throw new AppError('Format Email invalide', 400);
   }
 
