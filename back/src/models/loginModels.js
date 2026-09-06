@@ -11,7 +11,6 @@ const createLoginModel = async (
     'INSERT INTO users (role, name, mail, tribe_name, password_hash) VALUES ($1, $2, $3, $4, $5) RETURNING *',
     [role, name, mail, tribe_name, password_hash]
   );
-  // console.log(rows);
   return rows[0];
 };
 

@@ -1,15 +1,11 @@
 import pool from './configDb.js';
 
 async function createTaskModel(name, description, points) {
-  try {
-    const { rows } = await pool.query(
-      `INSERT INTO tasks (name,description,status,points) VALUES ($1, $2, 'A_FAIRE'::status, $3) RETURNING *`,
-      [name, description, points]
-    );
-    return rows[0];
-  } catch (error) {
-    throw error;
-  }
+  const { rows } = await pool.query(
+    `INSERT INTO tasks (name,description,status,points) VALUES ($1, $2, 'A_FAIRE'::status, $3) RETURNING *`,
+    [name, description, points]
+  );
+  return rows[0];
 }
 
 const updateTaskDetailsModel = async (task_id, task_details) => {
@@ -73,10 +69,6 @@ async function getTasksByUserModel(userId) {
 }
 
 const deleteTaskModel = async (task_id) => {
-  //todo vérifier le rôle de l'utilisateur ds services (authentification ?)
-  // si ADMIN : suppresion OK
-  // si MEMBRE : REFUSE
-
   // requête sql DELETE
   const { rows } = await pool.query(
     `DELETE FROM tasks WHERE id=$1 RETURNING *`,
