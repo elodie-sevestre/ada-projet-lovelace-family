@@ -1,9 +1,13 @@
+import AppError from '../utils/AppError.js';
+
 function createCheckRoleMiddleware(roleWaited) {
   return (req, res, next) => {
     //le rôle provient du déchiffrement du JWT par le middleware require auth
     const roleUser = req.user.role;
-    if (roleUser === roleWaited) next();
-    else return res.status(404).json({ erreur: 'Not found' });
+    if (roleUser === roleWaited) {
+      return next();
+    }
+    throw new AppError('Not found', 404);
   };
 }
 
