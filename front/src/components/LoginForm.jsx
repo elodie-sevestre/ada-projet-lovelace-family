@@ -49,9 +49,10 @@ function LoginForm({ setToken }) {
         mail: email,
         password: password,
       });
-      if (!response.ok) {
-        return { error: "" };
-      }
+      //! condition commentée pour régler soucis connexion
+      // if (!response.ok) {
+      //   return { error: "" };
+      // }
       // Récupère le token de la réponse du serveur
       // localStorage : mémoire navigateur
       // .setItem() : méthode pour écrire ds la mémoire
@@ -65,7 +66,7 @@ function LoginForm({ setToken }) {
       if (error.status === 401) {
         setError("Identifiants invalides");
       } else {
-        setError("Errur serveur");
+        setError("Erreur serveur");
       }
     } finally {
       // réactive le bouton (que ça marche ou que ça échoue)
