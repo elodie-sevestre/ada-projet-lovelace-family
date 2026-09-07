@@ -35,7 +35,7 @@ const connexionService = async (mail, password) => {
   const token = jwt.sign(
     { userId: user.id, role: user.role }, //payload : contenu du token
     config.jwt_secret, // à ajouter dans config/env.js et .env
-    { expiresIn: '24h' }
+    { expiresIn: '3h' }
   );
 
   return token;
