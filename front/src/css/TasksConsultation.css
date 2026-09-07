@@ -12,7 +12,6 @@
 
   min-height: 100vh;
   gap: 1.2rem;
-  padding: 1.5rem;
 }
 
 /* =========================================================
@@ -29,14 +28,15 @@
   width: 100%;
   min-height: 90px;
 
-  padding: 0 28px;
+  padding: 0 28px 0 0;
 
   background-color: var(--palette-dark-green);
 
-  border: 3px solid #2f5b4f;
+  border-top: 2px solid var(--palette-pink);
   border-radius: 18px;
 
   box-sizing: border-box;
+  box-shadow: 6px 6px 25px var(--palette-brown);
 }
 
 /* =========================================================
@@ -53,9 +53,9 @@
 /* Logo */
 
 .logo-web-site {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
+  width: 92px;
+  height: 92px;
+  border-radius: 18px;
 }
 
 /* =========================================================
@@ -128,7 +128,7 @@
   font-size: 1.1rem;
   font-weight: 700;
 
-  color: #ffffff;
+  color: var(--palette-green);
 }
 
 /* =========================================================

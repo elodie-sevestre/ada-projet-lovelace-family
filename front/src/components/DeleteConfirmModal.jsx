@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../css/DeleteConfirmModal.css";
 import { deleteTask } from "../api/tasks";
 
 const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
@@ -16,40 +17,52 @@ const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
         setError(err.message);
       });
   };
+
   return (
     <>
       {/* div overlay extérieur pour fermer si on clique en dehors */}
-      <div
-        className="task-modal-overlay"
-        onClick={() => {
-          onClose();
-        }}
-      >
-        {/* div card à l'intérieur pr ne pas fermer si on clique dedans */}
-        <div
-          className="task-modal-card"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <p>Confirmer suppression tâche {task.task_name}</p>
-          <button
-            type="button"
-            aria-label="Confirmer suppression"
-            onClick={() => handleConfirm()}
-          >
-            Confirmer
-          </button>
-          <button
-            type="button"
-            aria-label="Annuler suppression"
-            onClick={onClose}
-          >
-            Annuler
-          </button>
-          {error && (
-            <p className="error-message">
-              {"La suppression a échoué, réessayez"}
-            </p>
-          )}
+      <div className="task-modal-overlay" onClick={onClose}>
+        {/* div card à l'intérieur pour ne pas fermer si on clique dedans */}
+        <div className="app-modal" onClick={(event) => event.stopPropagation()}>
+          <div className="app-modal-tab">Supprimer la tâche</div>
+
+          <div className="app-modal-card">
+            <button
+              type="button"
+              className="app-modal-close"
+              aria-label="Fermer"
+              onClick={onClose}
+            >
+              ✕
+            </button>
+
+            <p>Confirmer la suppression de la tâche « {task.task_name} » ?</p>
+
+            {error && (
+              <p className="error-message">
+                La suppression a échoué, réessayez
+              </p>
+            )}
+
+            <div className="form-actions">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                aria-label="Annuler suppression"
+                onClick={onClose}
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                aria-label="Confirmer suppression"
+                onClick={handleConfirm}
+              >
+                Confirmer
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>

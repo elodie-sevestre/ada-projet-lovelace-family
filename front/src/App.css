@@ -1,12 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Jersey+10&family=Lexend:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Jersey+10&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Jersey+15&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jersey+10&family=Jersey+15&family=Lexend:wght@400;500;600;700&display=swap");
 
 :root {
   /* ==========================================================================
      Palette du projet
-     Noms génériques : assigne-les à tes usages réels (badges membres,
-     catégories de tâches, etc.) où tu en as besoin.
      ========================================================================== */
   --palette-brown: #644122;
   --palette-dark-green: #0b3d2e;
@@ -30,11 +26,11 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  /* Tâches terminées : bordure violette, fond grisé */
+  /* Tâches terminées : bordure violette, fond lilas */
   --completed-border: var(--palette-purple);
   --completed-bg: #d8c7e8;
 
-  /* Lexend pour le texte courant, Jersey 10 pour les titres */
+  /* Jersey 15 pour le texte courant, Jersey 10 pour les titres */
   --sans: "Jersey 15", "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Jersey 10", system-ui, "Segoe UI", Roboto, sans-serif;
 
@@ -123,11 +119,139 @@ p {
   }
 }
 
-/* Conteneur du titre : boîte pleine, fond crème.
-   À poser autour de ton <h1> dans #center, ex :
-   <div className="center-title-contener"><h1>sprout quest</h1></div> */
 .center-title-contener {
   background: var(--code-bg);
   border-radius: 20px;
   padding: 12px 32px;
+}
+
+/* ==========================================================================
+   Boutons pilule génériques
+   Utilisés par tous les formulaires/modales
+   ========================================================================== */
+
+.btn {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 9px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--palette-brown, #644122);
+  color: var(--palette-mint, #5fd38d);
+}
+
+.btn-secondary:hover {
+  background: rgba(100, 65, 34, 0.08);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Pattern "modal à bandeau"
+   ========================================================================== */
+
+.app-modal {
+  position: relative;
+  width: 90%;
+  max-width: 420px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.app-modal-tab {
+  position: relative;
+  z-index: 2;
+  margin-left: 24px;
+  margin-bottom: -16px;
+
+  background: var(--palette-dark-green);
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  padding: 8px 22px;
+
+  font-family: var(--heading);
+  font-size: 1.2rem;
+  color: var(--palette-mint);
+  max-width: calc(100% - 48px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-modal-card {
+  position: relative;
+  width: 100%;
+  padding: 32px 24px 24px;
+  text-align: left;
+
+  background: var(--code-bg);
+  border: 2.5px solid var(--accent, #e16bc8);
+  border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+
+  color: var(--text-h, #0b3d2e);
+  font-family: var(--sans);
+}
+
+.app-modal-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;
+  border: 2px solid var(--palette-brown, #644122);
+  border-radius: 50%;
+  color: var(--palette-brown, #644122);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.app-modal-close:hover {
+  transform: scale(1.08);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.error-message {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: #c0392b;
 }
