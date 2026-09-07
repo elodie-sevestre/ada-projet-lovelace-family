@@ -72,15 +72,11 @@ it('données invalides NAME manquant réponse 400', async () => {
     },
   };
   const res = createMockRes();
-
-  // WHEN : j'appelle le controller pour créer ma tâche
-  await createTaskController(req, res);
-
-  // THEN : je m'attends à une erreur car le nom de la tache est obligatoire
-  expect(res.body).toEqual({
-    error: 'Le nom de la tâche doit être un champ de caractère',
+  // WHEN + THEN
+  await expect(createTaskController(req, res)).rejects.toMatchObject({
+    statusCode: 400,
+    message: 'Le nom de la tâche doit être un champ de caractère',
   });
-  expect(res.statusCode).toBe(400);
 });
 
 it('données invalides NAME pas un string réponse 400', async () => {
@@ -96,14 +92,11 @@ it('données invalides NAME pas un string réponse 400', async () => {
   };
   const res = createMockRes();
 
-  // WHEN : j'appelle le controller pour créer ma tâche
-  await createTaskController(req, res);
-
-  // THEN : je m'attends à une erreur car le nom de la tache est obligatoire
-  expect(res.body).toEqual({
-    error: 'Le nom de la tâche doit être un champ de caractère',
+  // WHEN + THEN
+  await expect(createTaskController(req, res)).rejects.toMatchObject({
+    statusCode: 400,
+    message: 'Le nom de la tâche doit être un champ de caractère',
   });
-  expect(res.statusCode).toBe(400);
 });
 
 it('données invalides ASSIGNMENT manquant réponse 400', async () => {
@@ -121,15 +114,13 @@ it('données invalides ASSIGNMENT manquant réponse 400', async () => {
   // objet res fictif
   const res = createMockRes();
 
-  // WHEN : on appelle le controller
-  await createTaskController(req, res);
-
-  // THEN : erreur attendue = assignement non effectif
-  expect(res.body).toEqual({
-    error: 'Un membre doit être assigné à la tâche',
+  // WHEN + THEN
+  await expect(createTaskController(req, res)).rejects.toMatchObject({
+    statusCode: 400,
+    message: 'Un membre doit être assigné à la tâche',
   });
-  expect(res.statusCode).toBe(400);
 });
+
 it('données invalides si id membre n est pas un nombre entier réponse 400', async () => {
   //GIVEN: construction objet membre pas un nombre entier
 
@@ -146,13 +137,10 @@ it('données invalides si id membre n est pas un nombre entier réponse 400', as
 
   //WHEN: on appelle le controlleur
 
-  await createTaskController(req, res);
-
-  //THEN : erreur attendue = id n'est pas un nombre
-  expect(res.body).toEqual({
-    error: "L'identifiant du membre assigné doit être un nombre entier",
+  await expect(createTaskController(req, res)).rejects.toMatchObject({
+    statusCode: 400,
+    message: "L'identifiant du membre assigné doit être un nombre entier",
   });
-  expect(res.statusCode).toBe(400);
 });
 
 it('donnée invalide si POINT n est pas un nombre', async () => {
@@ -168,14 +156,11 @@ it('donnée invalide si POINT n est pas un nombre', async () => {
     },
   };
   const res = createMockRes();
-  await createTaskController(req, res);
-
-  //THEN: erreur attendue = point n'est pas un nombre
-  expect(res.body).toEqual({
-    error:
+  await expect(createTaskController(req, res)).rejects.toMatchObject({
+    statusCode: 400,
+    message:
       'La variable point est de type number et être strictement supérieur à zéro',
   });
-  expect(res.statusCode).toBe(400);
 });
 
 it('donnée invalide si POINT n est pas supérieur à zéro', async () => {
@@ -191,12 +176,9 @@ it('donnée invalide si POINT n est pas supérieur à zéro', async () => {
     },
   };
   const res = createMockRes();
-  await createTaskController(req, res);
-
-  //THEN: erreur attendue = point n'est pas un nombre
-  expect(res.body).toEqual({
-    error:
+  await expect(createTaskController(req, res)).rejects.toMatchObject({
+    statusCode: 400,
+    message:
       'La variable point est de type number et être strictement supérieur à zéro',
   });
-  expect(res.statusCode).toBe(400);
 });
