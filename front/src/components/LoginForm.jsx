@@ -51,9 +51,10 @@ function LoginForm({ setToken }) {
         mail: email,
         password: password,
       });
-      if (!response.token) {
-        return { error: "Réponse invalide, token manquant" };
-      }
+      //! condition commentée pour régler soucis connexion
+      // if (!response.ok) {
+      //   return { error: "" };
+      // }
       // Récupère le token de la réponse du serveur
       // localStorage : mémoire navigateur
       // .setItem() : méthode pour écrire ds la mémoire

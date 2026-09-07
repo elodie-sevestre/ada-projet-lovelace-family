@@ -19,10 +19,7 @@ const updateTaskAssignedUserModel = async (task_id, task_details) => {
   } catch (error) {
     // Annuler tout si une des deux actions a échoué
     await client.query('ROLLBACK');
-    // Relancer l'erreur avec un message clair, en gardant le message d'origine
-    throw new Error(
-      `Impossible de changer l'utilisateur de la tâche : ${error.message}`
-    );
+    throw error;
   } finally {
     // Rendre la connexion, que la transaction ait réussi ou échoué
     client.release();
@@ -30,16 +27,10 @@ const updateTaskAssignedUserModel = async (task_id, task_details) => {
 };
 // Nouvelle fonction : lier une tâche à un membre à la CRÉATION
 const createTaskAssignedUserModel = async (task_id, user_id) => {
-  try {
-    await pool.query(
-      `INSERT INTO users_tasks (task_id, user_id) VALUES ($1, $2)`,
-      [task_id, user_id]
-    );
-  } catch (error) {
-    throw new Error(
-      `Impossible d'assigner le membre à la tâche : ${error.message}`
-    );
-  }
+  await pool.query(
+    `INSERT INTO users_tasks (task_id, user_id) VALUES ($1, $2)`,
+    [task_id, user_id]
+  );
 };
 
 export { updateTaskAssignedUserModel, createTaskAssignedUserModel };
