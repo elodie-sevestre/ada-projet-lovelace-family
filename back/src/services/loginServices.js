@@ -1,13 +1,20 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { config } from '../../config/env.js';
+import AppError from '../utils/AppError.js';
 import { createLoginModel, findUserByEmail } from '../models/loginModels.js';
 
 const createLoginService = async (role, name, mail, tribe_name, password) => {
   // 1. On transforme le mot de passe en hash irréversible
   const hash = await bcrypt.hash(password, 10); // 10 = "coût" du calcul
-
-  await createLoginModel(role, name, mail, tribe_name, hash);
+  try {
+    await createLoginModel(role, name, mail, tribe_name, hash);
+  } catch (error) {
+    if (error.code === '23505') {
+      throw new AppError('Inscription impossible', 409);
+    }
+    throw error;
+  }
 };
 
 const connexionService = async (mail, password) => {

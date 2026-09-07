@@ -1,32 +1,22 @@
 import pool from './configDb.js';
 
 async function createTaskModel(name, description, points) {
-  try {
-    const { rows } = await pool.query(
-      `INSERT INTO tasks (name,description,status,points) VALUES ($1, $2, 'A_FAIRE'::status, $3) RETURNING *`,
-      [name, description, points]
-    );
-    // console.log("erreur pas trouvé :'(");
-    return rows[0];
-  } catch (error) {
-    throw error;
-  }
+  const { rows } = await pool.query(
+    `INSERT INTO tasks (name,description,status,points) VALUES ($1, $2, 'A_FAIRE'::status, $3) RETURNING *`,
+    [name, description, points]
+  );
+  return rows[0];
 }
 
 const updateTaskDetailsModel = async (task_id, task_details) => {
-  try {
-    const { name, description, status, points } = task_details;
-    // Mettre à jour la tâche en base et récupérer la ligne modifiée
-    const { rows } = await pool.query(
-      `UPDATE tasks SET (name,description,status,points) = ($1, $2, $3::status, $4) WHERE id=$5 RETURNING *`,
-      [name, description, status, points, task_id]
-    );
-    // Renvoyer la tâche mise à jour, ou undefined si aucune tâche ne correspond à cet id
-    return rows[0];
-  } catch (error) {
-    // Attraper toute erreur technique (connexion DB, valeur invalide pour l'enum status, etc.)
-    throw new Error(`Impossible de modifier la tâche : ${error.message}`);
-  }
+  const { name, description, status, points } = task_details;
+  // Mettre à jour la tâche en base et récupérer la ligne modifiée
+  const { rows } = await pool.query(
+    `UPDATE tasks SET (name,description,status,points) = ($1, $2, $3::status, $4) WHERE id=$5 RETURNING *`,
+    [name, description, status, points, task_id]
+  );
+  // Renvoyer la tâche mise à jour, ou undefined si aucune tâche ne correspond à cet id
+  return rows[0];
 };
 
 //Requête pour récupérer toutes les tâches:
@@ -74,10 +64,6 @@ async function getTasksByUserModel(userId) {
 }
 
 const deleteTaskModel = async (task_id) => {
-  //todo vérifier le rôle de l'utilisateur ds services (authentification ?)
-  // si ADMIN : suppresion OK
-  // si MEMBRE : REFUSE
-
   // requête sql DELETE
   const { rows } = await pool.query(
     `DELETE FROM tasks WHERE id=$1 RETURNING *`,
