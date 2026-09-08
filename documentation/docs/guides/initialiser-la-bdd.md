@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-description: Pour la dev qui doit créer ou réinitialiser la base. Répond à « comment je joue le schéma et le seed ? ».
+description: Guide pour initialiser la BDD.
 ---
 
 # Initialiser la base de données

@@ -1,10 +1,6 @@
 ---
 sidebar_position: 0
-description: Pour toute personne qui découvre le projet. Répond à « c'est quoi Lovelace Family et par où commencer ? ».
----
----
-sidebar_position: 0
-description: Pour toute personne qui découvre le projet. Répond à « c'est quoi Lovelace Family et par où commencer ? ».
+description: Présentation du projet et de la documentation ».
 ---
 
 # Vue d'ensemble du projet
