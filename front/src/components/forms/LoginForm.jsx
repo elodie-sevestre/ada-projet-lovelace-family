@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { post } from "../api/client.js";
-import logoSproutQuest from "../assets/logo-sprout-quest.png";
-import "../css/LoginForm.css";
+import { post } from "../../api/client.js";
+import logoSproutQuest from "../../assets/logo-sprout-quest.png";
+import "../../css/LoginForm.css";
 
 function LoginForm({ setToken }) {
-  // Etats : stocke email, password, message d'erreur
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  // indique si la requête est en cours (true = en attente, false = fini)
   const [loading, setLoading] = useState(false);
 
   function validatedEmail(email) {
@@ -27,9 +25,7 @@ function LoginForm({ setToken }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // désactivation du bouton 'connexion' (la requête peut prendre du temps)
     setLoading(true);
-    // nettoie le message d'erreur précédent
     setError("");
 
     const emailError = validatedEmail(email);
@@ -51,27 +47,15 @@ function LoginForm({ setToken }) {
         mail: email,
         password: password,
       });
-      //! condition commentée pour régler soucis connexion
-      // if (!response.ok) {
-      //   return { error: "" };
-      // }
-      // Récupère le token de la réponse du serveur
-      // localStorage : mémoire navigateur
-      // .setItem() : méthode pour écrire ds la mémoire
-      // "token" : clé / response.token: valeur de la clé
       localStorage.setItem("token", response.token);
-
-      // mise à jour de l'état dans App.jsx
       setToken(response.token);
     } catch (error) {
-      // si la requête échoue, affiche un message d'erreur
       if (error.status === 401) {
         setError("Identifiants invalides");
       } else {
         setError("Erreur serveur");
       }
     } finally {
-      // réactive le bouton (que ça marche ou que ça échoue)
       setLoading(false);
     }
   };
@@ -86,7 +70,6 @@ function LoginForm({ setToken }) {
             type="email"
             placeholder="Email"
             value={email}
-            // onChange = mise à jour de l'état quand l'utilisateur tape
             onChange={(event) => setEmail(event.target.value)}
           />
           <input
@@ -95,19 +78,12 @@ function LoginForm({ setToken }) {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-          <button
-            type="submit"
-            // disabled = désactive le bouton si loading est true
-            disabled={loading}
-          >
+          <button type="submit" disabled={loading}>
             {loading ? "Connexion..." : "Se connecter"}
           </button>
         </form>
       </div>
-      <div className="login-form-error-message">
-        {/* Affiche l'erreur seulement si error n'est pas vide */}
-        {error && <p>{error}</p>}
-      </div>
+      <div className="login-form-error-message">{error && <p>{error}</p>}</div>
     </div>
   );
 }

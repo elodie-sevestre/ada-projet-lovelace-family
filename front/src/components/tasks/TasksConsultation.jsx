@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import { createTask, getTasks } from "../api/tasks";
-import { getUsers } from "../api/users";
-import "../css/TasksConsultation.css";
-import TasksList from "./TasksList";
-import CreateTaskButton from "./CreateTaskButton";
-import CreateTaskModal from "./CreateTaskModal";
-import MemberSidebar from "./MemberSideBar";
-import TaskCelebration from "./TaskCelebration";
-import leafIcon from "../assets/leaf_icon.png";
-import flowerIcon from "../assets/flower_icon.png";
-import AppHeader from "./AppHeader";
+import { createTask, getTasks } from "../../api/tasks.js";
+import { getUsers } from "../../api/users.js";
+import AppHeader from "../layout/AppHeader.jsx";
+import MemberSidebar from "../layout/MemberSideBar.jsx";
+import CreateTaskButton from "../buttons/CreateTaskButton.jsx";
+import CreateTaskModal from "../modals/CreateTaskModal.jsx";
+import TasksList from "./TasksList.jsx";
+import TaskCelebration from "./TaskCelebration.jsx";
+import leafIcon from "../../assets/leaf_icon.png";
+import flowerIcon from "../../assets/flower_icon.png";
+import "../../css/TasksConsultation.css";
 
 function TasksConsultation({ onLogout }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });

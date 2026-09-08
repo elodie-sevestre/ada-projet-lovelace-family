@@ -1,17 +1,6 @@
-// Formulaire pour modifier une tâche
-
-// récupérer le bouton modifier
-// qd je clique sur le bouton modifier, un pop-up apparait pour modifier la tâche
-// les champs name, description, points, status et assigantion sont pré-remplis
-// récupérer l'état de chaque champs
-// l'utilisateur modifie les champs manuellement
-//todo l'utilisateur peut cliquer soit
-//todo sur le bouton enregistrer -> modification de la bdd (ajouter un toast de qqs secondes pour pouvoir annuler si clique par erreur)
-//todo sur le bouton annuler
-
 import { useState } from "react";
-import "../css/EditTaskForm.css";
-import { editTask } from "../api/tasks.js";
+import { editTask } from "../../api/tasks.js";
+import "../../css/EditTaskForm.css";
 
 const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   const [editName, setEditName] = useState(task.task_name);
@@ -20,7 +9,6 @@ const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   const [editStatus, setEditStatus] = useState(task.status);
   const [editUserId, setEditUserId] = useState(task.assigned_user_ids[0]);
 
-  // lister les utilisateurs sans fetch
   const usersName = [
     { id: 1, name: "Bernard" },
     { id: 2, name: "Léa" },

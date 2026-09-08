@@ -1,5 +1,5 @@
-import "../css/EditTaskButton.css";
-import editIcon from "../assets/icon-add-task.png";
+import editIcon from "../../assets/icon-add-task.png";
+import "../../css/EditTaskButton.css";
 
 const EditTaskButton = ({ task, onEdit }) => {
   return (

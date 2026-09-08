@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { editTask } from "../api/tasks";
-import "../css/TaskCheckBox.css";
+import { editTask } from "../../api/tasks";
+import "../../css/TaskCheckBox.css";
 
 function TaskCheckBox({ task, refreshTasks, onCelebrate }) {
   const [isCheckboxAnimating, setCheckboxAnimating] = useState(false);

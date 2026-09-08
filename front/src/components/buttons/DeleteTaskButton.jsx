@@ -1,5 +1,6 @@
-import "../css/DeleteTaskButton.css";
-import deleteIcon from "../assets/icon-delete-task.png";
+import deleteIcon from "../../assets/icon-delete-task.png";
+import "../../css/DeleteTaskButton.css";
+
 const DeleteTaskButton = ({ task, onDelete }) => {
   return (
     <>

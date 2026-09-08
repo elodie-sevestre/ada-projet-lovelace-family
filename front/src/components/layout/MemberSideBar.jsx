@@ -1,6 +1,6 @@
-import "../css/MemberSidebar.css";
-import pointsIcon from "../assets/icon_points.png";
-import sproutAvatar from "../assets/sproot_avatar.png";
+import pointsIcon from "../../assets/icon_points.png";
+import sproutAvatar from "../../assets/sproot_avatar.png";
+import "../../css/MemberSidebar.css";
 
 // memberInitial : lettre affichée dans le badge (ex: "B")
 // memberName : nom complet affiché à côté du badge (ex: "Bernard")

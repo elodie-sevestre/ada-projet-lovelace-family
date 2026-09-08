@@ -1,21 +1,17 @@
 import { useState } from "react";
-import "../css/TaskItem.css";
-import "../css/TaskCheckBox.css";
-import TaskModalItem from "./TaskModalItem.jsx";
-// import modal confirmation suppression tâche
-import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
-//import bouton d'édition pour modifier la tâche
-import EditTaskButton from "./EditTaskButton.jsx";
-//import bouton suppression de la tâche
-import DeleteTaskButton from "./DeleteTaskButton.jsx";
-//import checkbox
+import TaskItemModal from "../modals/TaskItemModal.jsx";
+import EditTaskModal from "../modals/EditTaskModal.jsx";
+import DeleteConfirmModal from "../modals/DeleteConfirmModal.jsx";
+import EditTaskButton from "../buttons/EditTaskButton.jsx";
+import DeleteTaskButton from "../buttons/DeleteTaskButton.jsx";
 import TaskCheckbox from "./TaskCheckBox.jsx";
+import "../../css/TaskItem.css";
+import "../../css/TaskCheckBox.css";
 
 function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // useState pour afficher le pop-up en mode édition
-  const [isModalEditing, setIsModalEditing] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const isCompleted = task.status === "TERMINE";
@@ -41,8 +37,7 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
               <EditTaskButton
                 task={task}
                 onEdit={() => {
-                  setIsModalOpen(true);
-                  setIsModalEditing(true);
+                  setIsEditModalOpen(true);
                 }}
               />
             </div>
@@ -76,14 +71,19 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
         </div>
       </div>
       {isModalOpen && (
-        <TaskModalItem
+        <TaskItemModal
           task={task}
-          isEditing={isModalEditing}
           refreshTasks={refreshTasks}
           onClose={() => {
             setIsModalOpen(false);
-            setIsModalEditing(false);
           }}
+        />
+      )}
+      {isEditModalOpen && (
+        <EditTaskModal
+          task={task}
+          refreshTasks={refreshTasks}
+          onClose={() => setIsEditModalOpen(false)}
         />
       )}
     </>
