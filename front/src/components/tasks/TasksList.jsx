@@ -1,5 +1,5 @@
 import TaskItem from "./TaskItem.jsx";
-import "../css/TasksList.css";
+import "../../css/TasksList.css";
 
 function TasksList({ tasks, currentUser, refreshTasks, onCelebrate }) {
   const isAdmin = currentUser.role === "ADMIN";

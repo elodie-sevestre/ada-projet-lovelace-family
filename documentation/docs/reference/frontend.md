@@ -18,22 +18,29 @@ front/src/
 │   ├── tasks.js             # appels API tâches (getTasks, createTask, editTask, deleteTask)
 │   └── users.js             # liste des membres (getUsers)
 ├── components/
-│   ├── LoginForm.jsx           # formulaire de connexion
-│   ├── LogoutButton.jsx        # bouton de déconnexion
-│   ├── TasksList.jsx           # liste des tâches
-│   ├── TasksConsultation.jsx   # vue de consultation des tâches (une fois connectée)
-│   ├── MemberSideBar.jsx       # carte membre : avatar, points, progression
-│   ├── TaskCelebration.jsx     # animation + son à la validation d'une tâche
-│   ├── TaskItem.jsx            # une tâche dans la liste
-│   ├── TaskCheckBox.jsx        # checkbox de validation d'une tâche (change son statut)
-│   ├── TaskModalItem.jsx       # détail d'une tâche en modale
-│   ├── CreateTaskButton.jsx    # ouvre la modale de création
-│   ├── CreateTaskModal.jsx     # encapsule TaskForm dans une modale
-│   ├── TaskForm.jsx            # formulaire de création de tâche
-│   ├── EditTaskForm.jsx        # formulaire de modification de tâche
-│   ├── EditTaskButton.jsx      # bouton déclenchant l'édition
-│   ├── DeleteTaskButton.jsx    # ouvre la modale de confirmation
-│   └── DeleteConfirmModal.jsx  # confirmation + appel API + gestion d'erreur
+│   ├── buttons/
+│   │   ├── CreateTaskButton.jsx   # ouvre la modale de création
+│   │   ├── EditTaskButton.jsx     # ouvre la modale d'édition (admin, dans TaskItem)
+│   │   ├── DeleteTaskButton.jsx   # ouvre la modale de confirmation de suppression
+│   │   └── LogoutButton.jsx       # bouton de déconnexion
+│   ├── forms/
+│   │   ├── LoginForm.jsx          # formulaire de connexion
+│   │   ├── TaskForm.jsx           # formulaire de création de tâche
+│   │   └── EditTaskForm.jsx       # formulaire de modification de tâche (champs pré-remplis)
+│   ├── layout/
+│   │   ├── AppHeader.jsx          # en-tête : logo, titre de la tribu, membre, déconnexion
+│   │   └── MemberSideBar.jsx      # carte membre : avatar, points, progression
+│   ├── modals/
+│   │   ├── CreateTaskModal.jsx    # encapsule TaskForm dans une modale
+│   │   ├── EditTaskModal.jsx      # encapsule EditTaskForm dans une modale
+│   │   ├── TaskItemModal.jsx      # détail d'une tâche en modale (lecture seule)
+│   │   └── DeleteConfirmModal.jsx # confirmation + appel API + gestion d'erreur
+│   └── tasks/
+│       ├── TasksConsultation.jsx  # vue de consultation des tâches (une fois connectée)
+│       ├── TasksList.jsx          # liste des tâches
+│       ├── TaskItem.jsx           # une tâche dans la liste
+│       ├── TaskCheckBox.jsx       # checkbox de validation d'une tâche (change son statut)
+│       └── TaskCelebration.jsx    # animation + son à la validation d'une tâche
 └── css/                     # une feuille de style par composant
 ```
 

@@ -1,4 +1,4 @@
-import "../css/CreateTaskButton.css";
+import "../../css/CreateTaskButton.css";
 
 // onOpen : fonction transmise par le parent pour ouvrir la modal de création
 const CreateTaskButton = ({ onOpen }) => {

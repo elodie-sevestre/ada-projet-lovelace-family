@@ -1,6 +1,6 @@
 import { useState } from "react";
-import LoginForm from "./components/LoginForm.jsx";
-import TasksConsultation from "./components/TasksConsultation.jsx";
+import LoginForm from "./components/forms/LoginForm.jsx";
+import TasksConsultation from "./components/tasks/TasksConsultation.jsx";
 
 import "./App.css";
 

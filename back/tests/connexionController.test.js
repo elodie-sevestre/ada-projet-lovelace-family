@@ -39,12 +39,12 @@ describe('Valider les entrées de connexion', () => {
     const req = { body: {} };
     const res = connexionMockRes();
 
-    // WHEN
-    await connexionController(req, res);
+    // WHEN // THEN
 
-    // THEN (note : le controller renvoie la clé "erreur", pas "error")
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Email et mot de passe requis' });
+    await expect(connexionController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Email et mot de passe requis',
+    });
   });
 
   it("renvoie 400 si le format de l'email est invalide", async () => {
@@ -52,12 +52,11 @@ describe('Valider les entrées de connexion', () => {
     const req = { body: { ...VALID_BODY, mail: 'lea-mail.com' } };
     const res = connexionMockRes();
 
-    // WHEN
-    await connexionController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Format Email invalide' });
+    // WHEN // THEN
+    await expect(connexionController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Format Email invalide',
+    });
   });
 
   it('renvoie 400 si le password fait moins de 8 caractères', async () => {
@@ -65,12 +64,11 @@ describe('Valider les entrées de connexion', () => {
     const req = { body: { ...VALID_BODY, password: 'court' } };
     const res = connexionMockRes();
 
-    // WHEN
-    await connexionController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Format password invalide' });
+    // WHEN // THEN
+    await expect(connexionController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Format password invalide',
+    });
   });
 });
 
@@ -81,12 +79,11 @@ describe('Valider la connexion elle-même', () => {
     const res = connexionMockRes();
     connexionService.mockResolvedValue(null);
 
-    // WHEN
-    await connexionController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(401);
-    expect(res.body).toEqual({ error: 'Identifiants invalides' });
+    // WHEN // THEN
+    await expect(connexionController(req, res)).rejects.toMatchObject({
+      statusCode: 401,
+      message: 'Identifiants invalides',
+    });
   });
 
   it('renvoie le token si les identifiants sont valides', async () => {
@@ -103,17 +100,13 @@ describe('Valider la connexion elle-même', () => {
     expect(connexionService).toHaveBeenCalledWith('lea@mail.com', 'password');
   });
 
-  it('renvoie 500 si le service lève une erreur', async () => {
+  it("propage l'erreur levée par le service", async () => {
     // GIVEN : service throw
     const req = { body: { ...VALID_BODY } };
     const res = connexionMockRes();
     connexionService.mockRejectedValue(new Error('DB down'));
 
-    // WHEN
-    await connexionController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({ error: 'Erreur serveur' });
+    // WHEN // THEN
+    await expect(connexionController(req, res)).rejects.toThrow('DB down');
   });
 });
