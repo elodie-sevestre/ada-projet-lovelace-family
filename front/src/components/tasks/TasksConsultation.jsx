@@ -57,10 +57,21 @@ function TasksConsultation({ onLogout }) {
       </aside>
       <main className="task-content">
         <section className="task-list-contener">
-          <h2 className="tasks-list-title">
-            <img src={leafIcon} alt="Icone de feuille d'une plante" />
-            Tâches à faire
-          </h2>
+          <div className="task-list-section-header">
+            <h2 className="tasks-list-title">
+              <img src={leafIcon} alt="Icone de feuille d'une plante" />
+              Tâches à faire
+            </h2>
+            <CreateTaskButton onOpen={() => setIsCreating(true)} />
+            {isCreating && (
+              <CreateTaskModal
+                members={members}
+                onCreate={onCreate}
+                onClose={() => setIsCreating(false)}
+              />
+            )}
+          </div>
+
           <TasksList
             tasks={tasks.toDoTasks}
             currentUser={currentUser}
@@ -79,14 +90,6 @@ function TasksConsultation({ onLogout }) {
             refreshTasks={fetchTasks}
             onCelebrate={handleCelebrate}
           />
-          <CreateTaskButton onOpen={() => setIsCreating(true)} />
-          {isCreating && (
-            <CreateTaskModal
-              members={members}
-              onCreate={onCreate}
-              onClose={() => setIsCreating(false)}
-            />
-          )}
         </section>
         <TaskCelebration
           show={showCelebration}

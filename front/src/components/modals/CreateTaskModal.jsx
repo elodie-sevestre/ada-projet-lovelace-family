@@ -8,10 +8,7 @@ function CreateTaskModal({ members, onCreate, onClose }) {
         onClose();
       }}
     >
-      <div
-        className="task-modal-card"
-        onClick={(event) => event.stopPropagation()}
-      >
+      <div className="app-modal" onClick={(event) => event.stopPropagation()}>
         <TaskForm members={members} onCreate={onCreate} onClose={onClose} />
       </div>
     </div>

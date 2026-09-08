@@ -89,102 +89,101 @@ function TaskForm({ members, onCreate, onClose }) {
   //**  Affichage
 
   return (
-    <form className="task-form" onSubmit={handleSubmit}>
+    <form className="app-modal" onSubmit={handleSubmit}>
       {/* En-tête du formulaire */}
-      <div className="task-form-header">
-        <h2>Ajouter une tâche</h2>
-
-        {/* Bouton fermeture */}
-        <button type="button" className="close-btn" onClick={onClose}>
+      <h2 className="app-modal-tab">Ajouter une tâche</h2>
+      {/* Bouton fermeture */}
+      <div className="app-modal-card">
+        <button type="button" className="app-modal-close" onClick={onClose}>
           ✕
         </button>
-      </div>
 
-      {/* Nom */}
-      <div className="form-group">
-        <label htmlFor="name">
-          Nom de la tâche <span className="required-star">*</span>
-        </label>
+        {/* Nom */}
+        <div className="form-group">
+          <label htmlFor="name">
+            Nom de la tâche <span className="required-star">*</span>
+          </label>
 
-        <input
-          id="name"
-          className="form-input"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
+          <input
+            id="name"
+            className="form-input"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
 
-      {/* Description */}
-      <div className="form-group">
-        <label htmlFor="description">Description</label>
+        {/* Description */}
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
 
-        <textarea
-          id="description"
-          className="form-textarea"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </div>
+          <textarea
+            id="description"
+            className="form-textarea"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
 
-      {/* Points */}
-      <div className="form-group">
-        <label htmlFor="points">
-          Points <span className="required-star">*</span>
-        </label>
+        {/* Points */}
+        <div className="form-group">
+          <label htmlFor="points">
+            Points <span className="required-star">*</span>
+          </label>
 
-        <input
-          id="points"
-          className="form-input"
-          type="number"
-          min="1"
-          value={points}
-          onChange={(e) => setPoints(e.target.value)}
-        />
-      </div>
+          <input
+            id="points"
+            className="form-input"
+            type="number"
+            min="1"
+            value={points}
+            onChange={(e) => setPoints(e.target.value)}
+          />
+        </div>
 
-      {/* Membre assigné */}
-      <div className="form-group">
-        <label htmlFor="assignment">
-          Assignée à <span className="required-star">*</span>
-        </label>
+        {/* Membre assigné */}
+        <div className="form-group">
+          <label htmlFor="assignment">
+            Assignée à <span className="required-star">*</span>
+          </label>
 
-        <select
-          id="assignment"
-          className="form-select"
-          value={assignment}
-          onChange={(e) => setAssignment(e.target.value)}
-        >
-          <option value="">Choisir un membre</option>
+          <select
+            id="assignment"
+            className="form-select"
+            value={assignment}
+            onChange={(e) => setAssignment(e.target.value)}
+          >
+            <option value="">Choisir un membre</option>
 
-          {members.map((member) => (
-            <option key={member.id} value={member.id}>
-              {member.name}
-            </option>
-          ))}
-        </select>
-      </div>
+            {members.map((member) => (
+              <option key={member.id} value={member.id}>
+                {member.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      {/* Message d'erreur */}
-      {error && <p className="error-message">{error}</p>}
+        {/* Message d'erreur */}
+        {error && <p className="error-message">{error}</p>}
 
-      {/* Boutons d'action */}
-      <div className="form-actions">
-        <button
-          className="btn btn-primary"
-          type="submit"
-          disabled={!isFormValid}
-        >
-          Créer
-        </button>
+        {/* Boutons d'action */}
+        <div className="form-actions">
+          <button
+            className="btn btn-primary"
+            type="submit"
+            disabled={!isFormValid}
+          >
+            Créer
+          </button>
 
-        <button
-          className="btn btn-secondary"
-          type="button"
-          onClick={handleCancel}
-        >
-          Annuler
-        </button>
+          <button
+            className="btn btn-secondary"
+            type="button"
+            onClick={handleCancel}
+          >
+            Annuler
+          </button>
+        </div>
       </div>
     </form>
   );
