@@ -70,7 +70,7 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
   it("renvoie une erreur 400 si le champ NAME n'est pas une string", async () => {
     // GIVEN
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 5,
         description: null,
@@ -90,7 +90,7 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
   it('renvoie une erreur 400 si le champ NAME est vide', async () => {
     // GIVEN
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: '  ',
         description: null,
@@ -109,7 +109,7 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
   it("renvoie une erreur 400 si le champ DESCRIPTION n'est pas du texte", async () => {
     // GIVEN
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 'Test du champ description',
         description: 5,
@@ -129,7 +129,7 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
   it("renvoie une erreur 400 si le champ STATUS n'est pas renseigné", async () => {
     // GIVEN
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 'Test du champ status',
         description: 'test',
@@ -147,7 +147,7 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
   it("renvoie une erreur 400 si la valeur du champ STATUS n'est pas autorisée", async () => {
     // GIVEN
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 'Test du champ status',
         description: 'test',
@@ -167,7 +167,7 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
   it("erreur 400 si POINTS n'est pas un nombre", async () => {
     // GIVEN
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 'Test du champ points',
         description: 'test',
@@ -180,13 +180,13 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
     // WHEN + THEN
     await expect(updateTaskController(req, res)).rejects.toMatchObject({
       statusCode: 400,
-      message: 'Les points doivent être un nombre entier !',
+      message: 'Les points doivent être un nombre entier supérieur ou égal à 1',
     });
   });
 
   it("erreur 400 si l'ID de l'utilisateur n'est pas un nombre entier", async () => {
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: "Test de l'ID",
         description: 'test',
@@ -207,7 +207,7 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
 describe('Valider que la tâche est bien modifiée', () => {
   it('succés 200 si tâche a bien été mise à jour', async () => {
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 'Test pour mise à jour de la tâche',
         description: 'Hourra !!',
@@ -224,6 +224,30 @@ describe('Valider que la tâche est bien modifiée', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual(UPDATED_TASK);
   });
+
+  it('passe le nom trimmé au service', async () => {
+    const req = {
+      params: { id: 1 },
+      body: {
+        name: '  Ranger  ',
+        description: 'test',
+        status: 'A_FAIRE',
+        points: 10,
+      },
+    };
+    const res = updateMockRes();
+    updateTaskService.mockResolvedValue(UPDATED_TASK);
+
+    await updateTaskController(req, res);
+
+    expect(updateTaskService).toHaveBeenCalledWith(1, {
+      name: 'Ranger',
+      description: 'test',
+      status: 'A_FAIRE',
+      points: 10,
+      user_id: undefined,
+    });
+  });
 });
 
 describe('Propagation des erreurs du service', () => {
@@ -234,7 +258,7 @@ describe('Propagation des erreurs du service', () => {
     updateTaskService.mockRejectedValue(mockError);
 
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 'Test',
         description: 'test',
@@ -258,7 +282,7 @@ describe('Propagation des erreurs du service', () => {
     updateTaskService.mockRejectedValue(mockError);
 
     const req = {
-      params: { id: 1 },
+      params: { id: '1' },
       body: {
         name: 'Test',
         description: 'test',

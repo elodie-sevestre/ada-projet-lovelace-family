@@ -19,6 +19,17 @@ async function createTaskController(req, res) {
       400
     );
   }
+
+  const trimmedName = name.trim();
+
+  if (
+    description !== undefined &&
+    description !== null &&
+    typeof description !== 'string'
+  ) {
+    throw new AppError('La description doit être du texte !', 400);
+  }
+
   if (assignment === undefined || assignment === null || assignment === '') {
     throw new AppError('Un membre doit être assigné à la tâche', 400);
   }
@@ -30,14 +41,14 @@ async function createTaskController(req, res) {
       400
     );
   }
-  if (typeof points !== 'number' || points < 1) {
+  if (!Number.isInteger(points) || points < 1) {
     throw new AppError(
-      'La variable point est de type number et être strictement supérieur à zéro',
+      'Les points doivent être un nombre entier supérieur ou égal à 1',
       400
     );
   }
   const createTask = await createTaskServices(
-    name,
+    trimmedName,
     description,
     points,
     assignedMember
@@ -50,7 +61,7 @@ async function updateTaskController(req, res) {
   const { name, description, status, points, user_id } = req.body;
 
   // Vérifier que l'identifiant de la tâche est bien un nombre entier valide
-  if (!id || !Number.isInteger(Number(id))) {
+  if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
     throw new AppError("L'identifiant de la tâche n'est pas valide !", 400);
   }
 
@@ -58,6 +69,8 @@ async function updateTaskController(req, res) {
   if (typeof name !== 'string' || name.trim() === '') {
     throw new AppError('Le nom de la tâche est requis ou mal renseigné!', 400);
   }
+
+  const trimmedName = name.trim();
 
   // Vérifier que la description, si elle est fournie, est bien du texte
   if (
@@ -79,8 +92,11 @@ async function updateTaskController(req, res) {
   }
 
   // Vérifier que les points, si fournis, sont un nombre entier
-  if (points !== undefined && !Number.isInteger(points)) {
-    throw new AppError('Les points doivent être un nombre entier !', 400);
+  if (points !== undefined && (!Number.isInteger(points) || points < 1)) {
+    throw new AppError(
+      'Les points doivent être un nombre entier supérieur ou égal à 1',
+      400
+    );
   }
 
   // Vérifier que l'identifiant de l'utilisateur, si fourni, est un nombre entier
@@ -92,8 +108,8 @@ async function updateTaskController(req, res) {
   }
 
   // Appeler le service pour mettre à jour la tâche
-  const rows = await updateTaskService(id, {
-    name,
+  const rows = await updateTaskService(Number(id), {
+    name: trimmedName,
     description,
     status,
     points,
@@ -118,22 +134,22 @@ async function getTasksByUserController(req, res) {
 async function getTasksByUserIdController(req, res) {
   const { id: userId } = req.params;
   //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
-  if (!userId || isNaN(Number(userId))) {
+  if (!userId || !Number.isInteger(Number(userId)) || Number(userId) <= 0) {
     throw new AppError(
       "L'id de l'utilisateur doit être un nombre valide.",
       400
     );
   }
-  const tasksByUserId = await getTasksByUserService(userId);
+  const tasksByUserId = await getTasksByUserService(Number(userId));
   res.status(200).json(tasksByUserId);
 }
 
 async function deleteTaskController(req, res) {
   const { id } = req.params;
-  if (!id || !Number.isInteger(Number(id))) {
+  if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
     throw new AppError("L'identifiant non valide !", 400);
   }
-  const rows = await deleteTaskService(id);
+  const rows = await deleteTaskService(Number(id));
   if (rows === false) {
     throw new AppError('Ressource introuvable...', 404);
   }

@@ -60,6 +60,17 @@ it('données valides tâche crée réponse 201', async () => {
   expect(res.statusCode).toBe(201);
 });
 
+it('le nom est trimmé avant envoi au service', async () => {
+  const { createTaskServices } =
+    await import('../src/services/tasksServices.js');
+  const req = {
+    body: { name: '  Ranger  ', description: null, points: 5, assignment: '1' },
+  };
+  const res = createMockRes();
+  await createTaskController(req, res);
+  expect(createTaskServices).toHaveBeenCalledWith('Ranger', null, 5, 1);
+});
+
 it('données invalides NAME manquant réponse 400', async () => {
   // GIVEN : je définis mes données d'entrée au départ du test
   // ici une tache sans nom
@@ -96,6 +107,22 @@ it('données invalides NAME pas un string réponse 400', async () => {
   await expect(createTaskController(req, res)).rejects.toMatchObject({
     statusCode: 400,
     message: 'Le nom de la tâche doit être un champ de caractère',
+  });
+});
+
+it('données invalides DESCRIPTION pas du texte réponse 400', async () => {
+  const req = {
+    body: {
+      name: 'Ranger',
+      description: 5,
+      points: 5,
+      assignment: '1',
+    },
+  };
+  const res = createMockRes();
+  await expect(createTaskController(req, res)).rejects.toMatchObject({
+    statusCode: 400,
+    message: 'La description doit être du texte !',
   });
 });
 
@@ -158,8 +185,7 @@ it('donnée invalide si POINT n est pas un nombre', async () => {
   const res = createMockRes();
   await expect(createTaskController(req, res)).rejects.toMatchObject({
     statusCode: 400,
-    message:
-      'La variable point est de type number et être strictement supérieur à zéro',
+    message: 'Les points doivent être un nombre entier supérieur ou égal à 1',
   });
 });
 
@@ -178,7 +204,6 @@ it('donnée invalide si POINT n est pas supérieur à zéro', async () => {
   const res = createMockRes();
   await expect(createTaskController(req, res)).rejects.toMatchObject({
     statusCode: 400,
-    message:
-      'La variable point est de type number et être strictement supérieur à zéro',
+    message: 'Les points doivent être un nombre entier supérieur ou égal à 1',
   });
 });
