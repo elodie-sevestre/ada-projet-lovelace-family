@@ -49,13 +49,6 @@ const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   return (
     <>
       <form className="edit-task-form" onSubmit={handleSubmit}>
-        <div className="app-modal-tab">
-          Modifier la tâche
-          {/* Bouton fermeture */}
-          <button type="button" className="close-btn" onClick={onClose}>
-            ✕
-          </button>
-        </div>
         <label>
           {" "}
           Nom de la tâche

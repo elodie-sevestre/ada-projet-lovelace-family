@@ -71,9 +71,9 @@
   font-family: var(--heading);
 
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 600;
 
-  color: var(--palette-mint);
+  color: var(--palette-green-light);
 
   line-height: 1.2;
 }
@@ -128,7 +128,7 @@
   font-size: 1.1rem;
   font-weight: 700;
 
-  color: var(--palette-green);
+  color: var(--palette-green-light);
 }
 
 /* =========================================================
@@ -168,7 +168,24 @@
   outline: 2px solid var(--palette-green, #1f6f4a);
   outline-offset: 2px;
 }
+/* =========================================================
+   SECTION HEADER TACHE A FAIRE & AJOUT DE TACHE
+   ========================================================= */
+.task-list-section-header {
+  display: flex;
 
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 1em;
+}
+
+.task-list-section-header .tasks-list-title {
+  margin-top: 1rem;
+}
 /* =========================================================
    SIDEBAR
    ========================================================= */

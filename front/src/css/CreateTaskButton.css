@@ -1,8 +1,8 @@
 /* ==========================================================================
    CreateTaskButton
    Bouton pilule qui ouvre la modal de création de tâche.
-   Utilise les variables globales définies dans App.css :
-   --palette-cream, --accent, --sans
+   Même langage visuel que .tasks-list-title (fond sombre, bordure rose,
+   texte menthe) pour rester cohérent avec les étiquettes de section.
    ========================================================================== */
 
 .create-task-button {
@@ -12,7 +12,7 @@
   gap: 8px;
 
   /* Apparence */
-  background: var(--palette-cream, #f4ead6);
+  background: var(--palette-dark-green, #0b3d2e);
   border: 2px solid var(--palette-pink);
   border-radius: 10px;
   box-shadow: 6px 6px 25px var(--palette-brown);
@@ -21,11 +21,11 @@
   font-family: var(--sans);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--accent, #e0629c);
+  color: var(--palette-mint, #5fd38d);
 
   /* Espacement interne (un peu moins à gauche pour équilibrer avec l'icône) */
   padding: 8px 18px 8px 10px;
-
+  margin-right: 2.5rem;
   cursor: pointer;
   transition:
     transform 0.15s ease,
@@ -39,8 +39,8 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--palette-green, #1f6f4a);
-  color: #fff;
+  background: var(--palette-yellow);
+  color: var(--palette-dark-green, #0b3d2e);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1;
@@ -50,15 +50,15 @@
 
 .create-task-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 8px 8px 28px var(--palette-brown);
 }
 
 .create-task-button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 6px 6px 25px var(--palette-brown);
 }
 
 .create-task-button:focus-visible {
-  outline: 2px solid var(--accent, #e0629c);
+  outline: 2px solid var(--palette-mint, #5fd38d);
   outline-offset: 2px;
 }
