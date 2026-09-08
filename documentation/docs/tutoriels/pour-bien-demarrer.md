@@ -1,10 +1,6 @@
 ---
 sidebar_position: 1
-description: Pour la dev qui rejoint l'équipe. Répond à « comment je lance le projet et je fais une première tâche de bout en bout ? ».
----
----
-title: Bien démarrer sur Lovelace Family
-sidebar_position: 1
+description: Pour la dev qui rejoint l'équipe. Répond à « comment j'installe et je lance le projet pour la première fois ? ».
 ---
 
 # Bien démarrer sur Lovelace Family
@@ -13,9 +9,9 @@ Ce tutoriel t'accompagne pas à pas pour faire tourner **Lovelace Family** sur t
 
 Tu n'as besoin d'aucune connaissance préalable du projet pour suivre ce tutoriel — c'est justement l'objectif.
 
-:::info Ce que tu vas obtenir à la fin
-Une application accessible dans ton navigateur, avec une base de données déjà remplie de données de test, sur laquelle tu pourras te connecter avec un compte "parent" ou un compte "enfant".
-:::
+> **💡 Ce que tu vas obtenir à la fin**
+>
+> Une application accessible dans ton navigateur, avec une base de données déjà remplie de données de test, sur laquelle tu pourras te connecter avec un compte "parent" ou un compte "enfant".
 
 ## Avant de commencer
 
@@ -84,9 +80,9 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
 Colle la chaîne obtenue comme valeur de `JWT_SECRET`.
 
-:::note Pourquoi je ne dois pas inventer n'importe quelle valeur ?
-`POSTGRES_HOST=postgres` n'est **pas** à modifier : ce n'est pas une adresse réseau classique, c'est le nom du service tel qu'il est déclaré dans `docker-compose.yml`. Les conteneurs Docker se parlent entre eux par leur nom de service, pas par `localhost`.
-:::
+> **📌 Pourquoi je ne dois pas inventer n'importe quelle valeur ?**
+>
+> `POSTGRES_HOST=postgres` n'est **pas** à modifier : ce n'est pas une adresse réseau classique, c'est le nom du service tel qu'il est déclaré dans `docker-compose.yml`. Les conteneurs Docker se parlent entre eux par leur nom de service, pas par `localhost`.
 
 **3. `PORT` et `NODE_ENV`** — Laisse-les tels quels pour l'instant, les valeurs par défaut conviennent parfaitement à un premier lancement en local.
 
@@ -108,9 +104,11 @@ Une fois que les logs se stabilisent (plus de messages d'erreur qui défilent), 
 | Backend    | `5000`       |
 | PostgreSQL | `5432`       |
 
-:::tip Un port est déjà utilisé chez toi ?
-Rien de grave — modifie le port concerné dans `docker-compose.yml` et dans `back/.env`, puis relance `docker compose up --build`.
-:::
+> **⚠️ Un port est déjà utilisé chez toi ?**
+>
+> Ne modifie **pas** `docker-compose.yml` pour ça : ce fichier est versionné et partagé par toute l'équipe — le changer changerait la config pour tout le monde dès que tu pousserais ta branche.
+>
+> La bonne pratique est plutôt de libérer le port en local : identifie quel service tourne déjà sur ce port sur ta machine (par exemple un PostgreSQL déjà installé en local qui occupe le `5432`) et arrête-le, avant de relancer `docker compose up --build`.
 
 ## Étape 4 — Vérifier que ça fonctionne
 
@@ -124,6 +122,56 @@ Le projet est livré avec deux comptes de démonstration déjà présents en bas
 | **Léa**     | MEMBER | lillychat@gmail.com   | kawai3000     |
 
 Connecte-toi avec le compte **Bernard** : tu arrives sur la vue "parent", avec la liste des tâches déjà créées par le seed. Si tu vois cette liste, c'est que le frontend, le backend et la base de données communiquent correctement entre eux — bravo, ton environnement est opérationnel !
+
+## Alternative — lancer front et back sans Docker
+
+Docker reste la voie recommandée pour ce tutoriel, mais tu peux aussi lancer le frontend et le backend directement en ligne de commande, en gardant uniquement PostgreSQL dans Docker. C'est utile par exemple pour profiter pleinement du serveur de développement Vite pendant que tu travailles sur le front.
+
+**1. Ne démarrer que la base de données via Docker**
+
+```bash
+docker compose up postgres
+```
+
+Laisse cette commande tourner dans un terminal — seul le conteneur PostgreSQL démarre, pas le frontend ni le backend.
+
+> **⚠️ Une valeur à changer dans ton `.env`**
+>
+> Dans le tutoriel avec Docker complet, `POSTGRES_HOST=postgres` fonctionne parce que le backend tourne lui aussi dans un conteneur, sur le même réseau Docker. Ici, le backend va tourner directement sur ta machine et devra atteindre PostgreSQL via le port exposé sur ton système : remplace cette valeur par `POSTGRES_HOST=localhost` dans `back/.env`.
+
+**2. Installer les dépendances de chaque service**
+
+```bash
+cd back && npm install
+cd ../front && npm install
+```
+
+**3. Initialiser la base de données**
+
+Depuis le dossier `back`, applique les migrations puis charge les données de test :
+
+```bash
+npm run db:migrate:up
+npm run db:seed
+```
+
+**4. Lancer le backend**
+
+Toujours depuis `back`, dans un second terminal :
+
+```bash
+npm run dev
+```
+
+**5. Lancer le frontend**
+
+Depuis `front`, dans un troisième terminal :
+
+```bash
+npm run dev
+```
+
+Vite démarre le frontend sur [http://localhost:5173](http://localhost:5173) avec le rechargement à chaud — retrouve-toi à l'[étape de vérification](#étape-4--vérifier-que-ça-fonctionne) ci-dessus pour te connecter avec un compte de test.
 
 ## Ce que tu viens de faire
 
