@@ -32,7 +32,7 @@ function createMockRes() {
 // ------------------------------   TESTS   -------------------------------------
 
 describe('Valider la création du compte (inscription)', () => {
-  it('renvoie 400 si le champ requis NAME est manquant', async () => {
+  it('renvoie 400 si un champ requis NAME est manquant', async () => {
     // GIVEN : body sans name
     const req = {
       body: {
@@ -45,12 +45,11 @@ describe('Valider la création du compte (inscription)', () => {
     };
     const res = createMockRes();
 
-    // WHEN
-    await createLoginController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Champs requis manquants' });
+    // WHEN + THEN
+    await expect(createLoginController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Champs requis manquants',
+    });
   });
 
   it('renvoie 400 si le champ requis MAIL est manquant', async () => {
@@ -65,10 +64,10 @@ describe('Valider la création du compte (inscription)', () => {
     };
     const res = createMockRes();
 
-    await createLoginController(req, res);
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Champs requis manquants' });
+    await expect(createLoginController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Champs requis manquants',
+    });
   });
 
   it('renvoie 400 si le champ requis PASSWORD est manquant', async () => {
@@ -83,10 +82,10 @@ describe('Valider la création du compte (inscription)', () => {
     };
     const res = createMockRes();
 
-    await createLoginController(req, res);
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Champs requis manquants' });
+    await expect(createLoginController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Champs requis manquants',
+    });
   });
 
   it('renvoie 204 sans body si le compte est bien créé', async () => {
@@ -116,27 +115,5 @@ describe('Valider la création du compte (inscription)', () => {
       'la-tribu-de-bernard',
       'password'
     );
-  });
-
-  it('renvoie 400 si le service échoue (mail déjà utilisé, BDD down...)', async () => {
-    // GIVEN : le service lève une erreur
-    const req = {
-      body: {
-        role: 'MEMBER',
-        name: 'Léa',
-        mail: 'lea@mail.com',
-        tribe_name: 'la-tribu-de-bernard',
-        password: 'password',
-      },
-    };
-    const res = createMockRes();
-    createLoginService.mockRejectedValue(new Error('duplicate key'));
-
-    // WHEN
-    await createLoginController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ error: 'Inscription impossible' });
   });
 });

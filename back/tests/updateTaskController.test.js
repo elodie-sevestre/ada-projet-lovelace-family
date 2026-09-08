@@ -2,12 +2,9 @@ import { describe, it, expect, jest } from '@jest/globals';
 
 // ------------------------------   MOCKS   -------------------------------------
 
-//* On dit à Jest : "n'utilise pas le vrai fichier tasksServices.js, utilise plutôt une fausse version que je fabrique moi-même"
-//* Comme ça, pas besoin de vraie base de données pour faire le test4
-
-// Initialisation
-
+// 1. Données de tests
 // Objet renvoyé par défaut par le service mocké, pour ne jamais taper la vraie BDD
+
 const UPDATED_TASK = {
   id: 1,
   name: 'Test pour mise à jour de la tâche',
@@ -15,8 +12,11 @@ const UPDATED_TASK = {
   status: 'TERMINE',
   points: 100,
 };
-// mock des services : pas de valeurs par défaut pour garder de la flexibilité
+
+// 2. Mock des services
+// pas de valeurs par défaut pour garder de la flexibilité
 // le mock sera configuré dans chaque test
+
 jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   createTaskServices: jest.fn(),
   updateTaskService: jest.fn(),
@@ -25,18 +25,19 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   deleteTaskService: jest.fn(),
 }));
 
-//! Important
-// On récupère le controller APRÈS avoir créé la fausse version au-dessus.
-// Si on le faisait avant, le controller irait chercher le vrai fichier, pas le faux.
+// 3. Controller
+// import APRÈS le mock, sinon c'est le vrai tasksServices.js qui est chargé
 
 const { updateTaskController } =
   await import('../src/controllers/tasksControllers.js');
 
-// id pour le service
+// 4. Service
+// on récupère la référence au mock pour le configurer dans chaque test
+// (updateTaskService.mockResolvedValue / mockRejectedValue)
+
 const { updateTaskService } = await import('../src/services/tasksServices.js');
 
-//! MOCK res
-// création d'une fausse response avec le pattern AAA (Arrange Act Assert) -> part du body et crée l'objet res qui va circuler dans le code
+// 5. MOCK res
 
 function updateMockRes() {
   const res = { statusCode: null, body: null };
@@ -53,36 +54,21 @@ function updateMockRes() {
 
 // ------------------------------   TESTS   -------------------------------------
 
-// describe = une boîte qui range tous les tests qui parlent du même sujet
-
 describe('Valider que les données à modifier sont bien récupérées', () => {
-  // it = un seul test, une seule histoire qu'on raconte à Jest
   it("renvoie une erreur 400 si l'id n'est pas valide", async () => {
-    //! GIVEN
-    // préparation d'une fausse request pour tester si le controller détecte l'erreur
-    // req : je mets "deux" au lieu d'un vrai chiffre, exprès, pour le piéger
-
+    // GIVEN
     const req = { params: { id: 'deux' }, body: {} };
-
-    // res : on récupère la fausse réponse
-
     const res = updateMockRes();
 
-    //! WHEN
-    // On lance le controller avec les faux "objets" req et res
-
-    await updateTaskController(req, res);
-
-    //! THEN
-    // On vérifie qu'on récupère l'erreur : code HTTP + message (même message que dans le service)
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: "L'identifiant de la tâche n'est pas valide !",
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: "L'identifiant de la tâche n'est pas valide !",
     });
   });
+
   it("renvoie une erreur 400 si le champ NAME n'est pas une string", async () => {
-    //! GIVEN
+    // GIVEN
     const req = {
       params: { id: 1 },
       body: {
@@ -93,16 +79,16 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
       },
     };
     const res = updateMockRes();
-    //! WHEN
-    await updateTaskController(req, res);
-    //! THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: 'Le nom de la tâche est requis ou mal renseigné!',
+
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Le nom de la tâche est requis ou mal renseigné!',
     });
   });
+
   it('renvoie une erreur 400 si le champ NAME est vide', async () => {
-    //! GIVEN
+    // GIVEN
     const req = {
       params: { id: 1 },
       body: {
@@ -113,16 +99,15 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
       },
     };
     const res = updateMockRes();
-    //! WHEN
-    await updateTaskController(req, res);
-    //! THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: 'Le nom de la tâche est requis ou mal renseigné!',
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Le nom de la tâche est requis ou mal renseigné!',
     });
   });
+
   it("renvoie une erreur 400 si le champ DESCRIPTION n'est pas du texte", async () => {
-    //! GIVEN
+    // GIVEN
     const req = {
       params: { id: 1 },
       body: {
@@ -133,16 +118,16 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
       },
     };
     const res = updateMockRes();
-    //! WHEN
-    await updateTaskController(req, res);
-    //! THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: 'La description doit être du texte !',
+
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'La description doit être du texte !',
     });
   });
+
   it("renvoie une erreur 400 si le champ STATUS n'est pas renseigné", async () => {
-    //! GIVEN
+    // GIVEN
     const req = {
       params: { id: 1 },
       body: {
@@ -152,16 +137,15 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
       },
     };
     const res = updateMockRes();
-    //! WHEN
-    await updateTaskController(req, res);
-    //! THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: 'Le statut est requis !',
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Le statut est requis !',
     });
   });
+
   it("renvoie une erreur 400 si la valeur du champ STATUS n'est pas autorisée", async () => {
-    //! GIVEN
+    // GIVEN
     const req = {
       params: { id: 1 },
       body: {
@@ -172,16 +156,16 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
       },
     };
     const res = updateMockRes();
-    //! WHEN
-    await updateTaskController(req, res);
-    //! THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: "La valeur du statut n'est pas autorisée !",
+
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: "La valeur du statut n'est pas autorisée !",
     });
   });
+
   it("erreur 400 si POINTS n'est pas un nombre", async () => {
-    //! GIVEN
+    // GIVEN
     const req = {
       params: { id: 1 },
       body: {
@@ -192,14 +176,14 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
       },
     };
     const res = updateMockRes();
-    //!WHEN
-    await updateTaskController(req, res);
-    //! THEN
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: 'Les points doivent être un nombre entier !',
+
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: 'Les points doivent être un nombre entier !',
     });
   });
+
   it("erreur 400 si l'ID de l'utilisateur n'est pas un nombre entier", async () => {
     const req = {
       params: { id: 1 },
@@ -212,13 +196,14 @@ describe('Valider que les données à modifier sont bien récupérées', () => {
       },
     };
     const res = updateMockRes();
-    await updateTaskController(req, res);
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: "L'identifiant de l'utilisateur n'est pas valide !",
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 400,
+      message: "L'identifiant de l'utilisateur n'est pas valide !",
     });
   });
 });
+
 describe('Valider que la tâche est bien modifiée', () => {
   it('succés 200 si tâche a bien été mise à jour', async () => {
     const req = {
@@ -241,8 +226,8 @@ describe('Valider que la tâche est bien modifiée', () => {
   });
 });
 
-describe('Gérer les erreurs du service', () => {
-  it('retourne le statusCode et le message si le service renvoie une erreur', async () => {
+describe('Propagation des erreurs du service', () => {
+  it('propage le statusCode et le message si le service porte un statusCode', async () => {
     // GIVEN: configurer le mock pour qu'il lance une erreur
     const mockError = new Error('Erreur base de données');
     mockError.statusCode = 404;
@@ -259,14 +244,14 @@ describe('Gérer les erreurs du service', () => {
     };
     const res = updateMockRes();
 
-    // WHEN
-    await updateTaskController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(404);
-    expect(res.body.error).toBeDefined(); // Juste vérifier qu'il y a un message
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toMatchObject({
+      statusCode: 404,
+      message: 'Erreur base de données',
+    });
   });
-  it('retourne le status par défaut et le message si le service renvoie une erreur', async () => {
+
+  it("propage l'erreur brute si le service n'a pas de statusCode", async () => {
     // GIVEN: configurer le mock pour qu'il lance une erreur
     const mockError = new Error('Erreur base de données');
     // mockError.statusCode = 404;
@@ -283,11 +268,9 @@ describe('Gérer les erreurs du service', () => {
     };
     const res = updateMockRes();
 
-    // WHEN
-    await updateTaskController(req, res);
-
-    // THEN
-    expect(res.statusCode).toBe(500);
-    expect(res.body.error).toBeDefined(); // Juste vérifier qu'il y a un message
+    // WHEN + THEN
+    await expect(updateTaskController(req, res)).rejects.toThrow(
+      'Erreur base de données'
+    );
   });
 });
