@@ -23,16 +23,7 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
     }
     return DEFAULT_TASKS; //Sinon on retourne la donnée simulée
   },
-  // Un seul et même service est utilisé par getTasksByUserController
-  // ET getTasksByUserIdController — donc un seul interrupteur suffit ici
-  getTasksByUserService: async () => {
-    if (mockErrorGetTasksByUser) {
-      mockErrorGetTasksByUser = false;
-      throw new Error('Erreur DB simulée');
-    }
-    return undefined;
-  },
-  //Service mocké pour vérifier que l'id :
+  //Service mocké capture l'id et simule une erreur si besoin
   getTasksByUserService: async (userId) => {
   receivedUserId = userId; // on note ce qu'on a vraiment reçu
   if (mockErrorGetTasksByUser) {
@@ -157,7 +148,7 @@ describe("getTasksByUserIdController : Vérification que l'admin peut récupére
 
   it("Vérifier que si l'id est valide, ça retourne bien 200", async () => {
     // GIVEN
-    const req = { params: { id: '3' } };
+    const req = { params: { id: '3' } }; //Ici l'id est passé en string car dans l'URL il est en format string
     const res = createMockRes();
 
     // WHEN
