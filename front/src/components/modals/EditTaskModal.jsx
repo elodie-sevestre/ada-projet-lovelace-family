@@ -1,4 +1,4 @@
-import EditTaskForm from "./EditTaskForm.jsx";
+import EditTaskForm from "../forms/EditTaskForm.jsx";
 
 function EditTaskModal({ task, onClose, refreshTasks }) {
   return (

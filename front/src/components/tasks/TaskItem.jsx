@@ -1,12 +1,12 @@
 import { useState } from "react";
-import TaskModalItem from "./TaskItemModal.jsx";
-import EditTaskModal from "./EditTaskModal.jsx";
-import DeleteConfirmModal from "./DeleteConfirmModal.jsx";
-import EditTaskButton from "./EditTaskButton.jsx";
-import DeleteTaskButton from "./DeleteTaskButton.jsx";
+import TaskItemModal from "../modals/TaskItemModal.jsx";
+import EditTaskModal from "../modals/EditTaskModal.jsx";
+import DeleteConfirmModal from "../modals/DeleteConfirmModal.jsx";
+import EditTaskButton from "../buttons/EditTaskButton.jsx";
+import DeleteTaskButton from "../buttons/DeleteTaskButton.jsx";
 import TaskCheckbox from "./TaskCheckBox.jsx";
-import "../css/TaskItem.css";
-import "../css/TaskCheckBox.css";
+import "../../css/TaskItem.css";
+import "../../css/TaskCheckBox.css";
 
 function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
   const isAdmin = currentUser.role === "ADMIN";
@@ -71,7 +71,7 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
         </div>
       </div>
       {isModalOpen && (
-        <TaskModalItem
+        <TaskItemModal
           task={task}
           refreshTasks={refreshTasks}
           onClose={() => {

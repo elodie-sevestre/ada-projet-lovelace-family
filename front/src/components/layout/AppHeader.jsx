@@ -1,5 +1,5 @@
-import LogoutButton from "./LogoutButton";
-import logoWebSite from "../assets/logo-sprout-quest.png";
+import LogoutButton from "../buttons/LogoutButton.jsx";
+import logoWebSite from "../../assets/logo-sprout-quest.png";
 
 function AppHeader({ memberTribe, memberInitial, memberName, onLogout }) {
   return (

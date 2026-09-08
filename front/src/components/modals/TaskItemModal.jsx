@@ -1,4 +1,4 @@
-import "../css/TaskModalItem.css";
+import "../../css/TaskItemModal.css";
 
 //mapping des statuts, en dehors du composant pour formater les données de statut:
 const STATUT_LABELS = {
@@ -6,7 +6,7 @@ const STATUT_LABELS = {
   TERMINE: "Terminée",
 };
 
-function TaskModalItem({ task, onClose, refreshTasks }) {
+function TaskItemModal({ task, onClose, refreshTasks }) {
   return (
     <div
       className="task-modal-overlay"
@@ -57,4 +57,4 @@ function TaskModalItem({ task, onClose, refreshTasks }) {
   );
 }
 
-export default TaskModalItem;
+export default TaskItemModal;

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import "../css/TaskCelebration.css";
-import sproutVictory from "../assets/sprout-victory.gif";
-import victorySound from "../assets/victory-sound.mp3";
+import sproutVictory from "../../assets/sprout-victory.gif";
+import victorySound from "../../assets/victory-sound.mp3";
+import "../../css/TaskCelebration.css";
 
 // Durée de repli si la durée réelle du son n'a pas pu être lue à temps
 const FALLBACK_DURATION_MS = 1800;
