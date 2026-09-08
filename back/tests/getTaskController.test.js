@@ -6,37 +6,55 @@ const DEFAULT_TASKS = [
   { id: 2, name: 'Nourrir' },
 ];
 
-// Variables de contrôle : permettent de faire échouer volontairement
-// un service pour UN SEUL test précis, sans toucher aux méthodes Jest
-let simulerErreurGetAll = false;
-let simulerErreurGetByUser = false;
+// Interrupteurs : permettent de faire échouer volontairement
+// un service pour UN SEUL test précis, sans méthode Jest de mock
+let mockErrorGetAllTasks = false;
+let mockErrorGetTasksByUser = false;
 
-// 1 - MOCK DU SERVICE, écrit entièrement à la main
+//Capture l'id reçu par getTaskUserService:
+let receivedUserId = null;
+
+// 1 - MOCK DU SERVICE: Qaund on appelle le service, plutôt que d'utiliser le service, on utilise cette fonction de simulation
 jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   getAllTasksService: async () => {
-    if (simulerErreurGetAll) {
-      simulerErreurGetAll = false; // on réinitialise pour ne pas affecter les tests suivants
-      throw new Error('Erreur DB simulée');
+    if (mockErrorGetAllTasks) {// si l'erreur est attendue dans le test
+      mockErrorGetAllTasks = false; // on réinitialise pour ne pas affecter les tests suivants
+      throw new Error('Erreur DB simulée'); //on renvoie une erreur
     }
-    return DEFAULT_TASKS;
+    return DEFAULT_TASKS; //Sinon on retourne la donnée simulée
   },
+  // Un seul et même service est utilisé par getTasksByUserController
+  // ET getTasksByUserIdController — donc un seul interrupteur suffit ici
   getTasksByUserService: async () => {
-    if (simulerErreurGetByUser) {
-      simulerErreurGetByUser = false;
+    if (mockErrorGetTasksByUser) {
+      mockErrorGetTasksByUser = false;
       throw new Error('Erreur DB simulée');
     }
     return undefined;
   },
+  //Service mocké pour vérifier que l'id :
+  getTasksByUserService: async (userId) => {
+  receivedUserId = userId; // on note ce qu'on a vraiment reçu
+  if (mockErrorGetTasksByUser) {
+    mockErrorGetTasksByUser = false;
+    throw new Error('Erreur DB simulée');
+  }
+  return DEFAULT_TASKS;
+},
   createTaskServices: async () => undefined,
   updateTaskService: async () => undefined,
   deleteTaskService: async () => undefined,
 }));
 
 // 2 - IMPORT DYNAMIQUE, après le mock
-const { getTasksByUserController, getAllTasksController } =
-  await import('../src/controllers/tasksControllers.js');
+const {
+  getAllTasksController,
+  getTasksByUserController,
+  getTasksByUserIdController,
+} = await import('../src/controllers/tasksControllers.js');
 
-// 3 - FONCTION POUR CREER UNE FAUSSE RESPONSE
+// 3 - FONCTION POUR CREER UNE FAUSSE RESPONSE: 
+
 function createMockRes() {
   const res = { statusCode: null, body: null };
   res.status = (code) => {
@@ -51,79 +69,114 @@ function createMockRes() {
 }
 
 // 4 - SUITE DE TESTS
-describe('Valider récupération des tâches', () => {
-  // Test 1 : getAllTasksController — succès
+
+describe('getAllTasksController : Vérification de la récupération de toutes les tâches', () => {
   it('Vérifier que les tâches sont bien récupérées', async () => {
+    // GIVEN
     const req = {};
     const res = createMockRes();
 
+    // WHEN
     await getAllTasksController(req, res);
 
+    // THEN
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual(DEFAULT_TASKS);
   });
 
-  // Test 2 : getAllTasksController — le service échoue
-  it('Vérifier que si getAllTasksService échoue, retourne 500', async () => {
+  it("Vérifier que si le service échoue, l'erreur remonte", async () => {
+    // GIVEN
     const req = {};
     const res = createMockRes();
-    simulerErreurGetAll = true;
+    mockErrorGetAllTasks = true;
 
-    await getAllTasksController(req, res);
+    // WHEN / THEN
+    // Comme il n'y a plus de try/catch dans le controller,
+    // l'appel rejette directement avec l'erreur du service
+    await expect(getAllTasksController(req, res)).rejects.toThrow(
+      'Erreur DB simulée'
+    );
+  });
+});
 
-    expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({
-      error: 'Détails erreur Error: Erreur DB simulée',
-    });
+describe('getTasksByUserController : Vérification de la récupération des tâches par utilisateur connecté', () => {
+  it('Vérifier que les tâches du user connecté sont bien récupérées', async () => {
+    // GIVEN : req.user est rempli par le middleware requireAuth (simulé ici directement)
+    const req = { user: { userId: 5, role: 'Member' } };
+    const res = createMockRes();
+
+    // WHEN
+    await getTasksByUserController(req, res);
+
+    // THEN
+    expect(res.statusCode).toBe(200);
+    expect(receivedUserId).toBe(5);
   });
 
-  // Test 3 : getTasksByUserController — id manquant
-  it("Vérifier que si l'id est manquant, retourne 400", async () => {
+  it("Vérifier que si le service échoue, l'erreur remonte", async () => {
+    // GIVEN
+    const req = { user: { userId: 5, role: 'Member' } };
+    const res = createMockRes();
+    mockErrorGetTasksByUser = true;
+
+    // WHEN / THEN
+    await expect(getTasksByUserController(req, res)).rejects.toThrow(
+      'Erreur DB simulée'
+    );
+  });
+});
+
+describe("getTasksByUserIdController : Vérification que l'admin peut récupérer les tâches d'un utilisateur en particulier", () => {
+  it("Vérifier que si l'id est manquant, l'erreur AppError 400 est levée", async () => {
+    // GIVEN
     const req = { params: {} };
     const res = createMockRes();
 
-    await getTasksByUserController(req, res);
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: "L'id de l'utilisateur doit être un nombre valide.",
+    // WHEN / THEN
+    await expect(
+      getTasksByUserIdController(req, res)
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      message: "L'id de l'utilisateur doit être un nombre valide.",
     });
   });
 
-  // Test 4 : getTasksByUserController — mauvais format
-  it("Vérifier que si l'id n'est pas un nombre, retourne 400", async () => {
+  it("Vérifier que si l'id n'est pas un nombre, l'erreur AppError 400 est levée", async () => {
+    // GIVEN
     const req = { params: { id: 'abc' } };
     const res = createMockRes();
 
-    await getTasksByUserController(req, res);
-
-    expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({
-      error: "L'id de l'utilisateur doit être un nombre valide.",
+    // WHEN / THEN
+    await expect(
+      getTasksByUserIdController(req, res)
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      message: "L'id de l'utilisateur doit être un nombre valide.",
     });
   });
 
-  // Test 5 : getTasksByUserController — id valide
-  it("Vérifier que si l'id est valide ça retourne bien 200", async () => {
-    const req = { params: { id: 3 } };
+  it("Vérifier que si l'id est valide, ça retourne bien 200", async () => {
+    // GIVEN
+    const req = { params: { id: '3' } };
     const res = createMockRes();
 
-    await getTasksByUserController(req, res);
+    // WHEN
+    await getTasksByUserIdController(req, res);
 
+    // THEN
     expect(res.statusCode).toBe(200);
+    expect(receivedUserId).toBe('3');
   });
 
-  // Test 6 : getTasksByUserController — le service échoue
-  it('Vérifier que si le service rejette une erreur, retourne 500', async () => {
-    const req = { params: { id: 3 } };
+  it("Vérifier que si le service échoue, l'erreur remonte", async () => {
+    // GIVEN
+    const req = { params: { id: '3' } };
     const res = createMockRes();
-    simulerErreurGetByUser = true;
+    mockErrorGetTasksByUser = true;
 
-    await getTasksByUserController(req, res);
-
-    expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({
-      error: 'Détail erreur: Error: Erreur DB simulée',
-    });
+    // WHEN / THEN
+    await expect(
+      getTasksByUserIdController(req, res)
+    ).rejects.toThrow('Erreur DB simulée');
   });
 });
