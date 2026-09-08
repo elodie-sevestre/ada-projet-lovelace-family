@@ -2,71 +2,144 @@
 sidebar_position: 1
 description: Pour la dev qui rejoint l'équipe. Répond à « comment je lance le projet et je fais une première tâche de bout en bout ? ».
 ---
+---
+title: Bien démarrer sur Lovelace Family
+sidebar_position: 1
+---
 
-# Prise en main
+# Bien démarrer sur Lovelace Family
 
-Objectif : partir d'un dépôt fraîchement cloné et arriver à créer puis valider une tâche dans l'application. Compte 15 minutes.
+Ce tutoriel t'accompagne pas à pas pour faire tourner **Lovelace Family** sur ta machine, jusqu'à te connecter dans l'application avec un compte de test. À la fin, tu auras un environnement complet qui fonctionne (frontend, backend, base de données) et tu comprendras ce que fait chaque étape.
 
-Ce tutoriel te fait suivre un chemin balisé, sans décision à prendre. Pour le détail de chaque commande, les [guides pratiques](../guides/lancer-le-projet-en-local.md) prennent le relais.
+Tu n'as besoin d'aucune connaissance préalable du projet pour suivre ce tutoriel — c'est justement l'objectif.
 
-## Prérequis
+:::info Ce que tu vas obtenir à la fin
+Une application accessible dans ton navigateur, avec une base de données déjà remplie de données de test, sur laquelle tu pourras te connecter avec un compte "parent" ou un compte "enfant".
+:::
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Docker Compose est inclus)
-- [Git](https://git-scm.com/downloads)
+## Avant de commencer
 
-Node.js n'est **pas** nécessaire : le frontend et le backend tournent dans des conteneurs.
+Deux outils doivent être installés sur ta machine :
 
-## 1. Récupérer le projet
+- **[Git](https://git-scm.com/downloads)** — pour récupérer le code du projet et gérer les branches.
+- **[Docker](https://www.docker.com/products/docker-desktop/)** (Docker Desktop) — pour lancer le frontend, le backend et la base de données ensemble, sans avoir à installer Node.js ou PostgreSQL toi-même.
+
+C'est tout l'intérêt de Docker ici : tu n'as rien d'autre à installer. Tous les services tournent dans des conteneurs isolés, préconfigurés pour communiquer entre eux.
+
+## Étape 1 — Cloner le projet
+
+Récupère le code sur ta machine :
 
 ```bash
 git clone git@github.com:elodie-sevestre/ada-projet-lovelace-family.git
 cd ada-projet-lovelace-family
+```
+
+Tu te retrouves avec trois dossiers principaux : `back` (le serveur Node.js/Express), `front` (l'interface React), et `db` (tout ce qui concerne PostgreSQL).
+
+## Étape 2 — Préparer le fichier de configuration
+
+Le backend a besoin de connaître certaines informations pour démarrer (comment se connecter à la base de données, quelle clé utiliser pour sécuriser les connexions, etc.). Ces informations vivent dans un fichier `.env`, qui n'est **jamais** versionné dans Git — c'est pour ça qu'un fichier `.env.example` sert de modèle.
+
+Copie ce modèle :
+
+```bash
 cp back/.env.example back/.env
 ```
 
-## 2. Renseigner le `.env`
+Ouvre le fichier `back/.env` que tu viens de créer. Tu devrais voir quelque chose comme ceci :
 
-Ouvre `back/.env` et remplis les deux valeurs laissées vides :
+```bash
+# Base de données PostgreSQL — obligatoire
+POSTGRES_USER=            # à remplir (au choix, en local)
+POSTGRES_PASSWORD=        # à remplir (au choix, en local)
+POSTGRES_DB=lovelace_db
+POSTGRES_HOST=postgres    # nom du service docker-compose
+POSTGRES_PORT=5432
 
-- `POSTGRES_USER` et `POSTGRES_PASSWORD` : choisis ce que tu veux, ce sont des identifiants locaux sans enjeu.
-- `JWT_SECRET` : pour un usage local, génère une clé avec
+# Secret JWT — obligatoire — minimum 32 caractères en production
+JWT_SECRET=               # à demander au/à la responsable sécurité, ou à générer en local (voir commande ci-dessous)
 
-  ```bash
-  node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-  ```
+# Port d'écoute du serveur — optionnel, défaut 3000
+PORT=5000
 
-  (pour un environnement partagé, demande la vraie clé à Elodie).
+# Environnement d'exécution — development | production | test
+NODE_ENV=development
+```
 
-Les autres variables (`POSTGRES_DB`, `POSTGRES_HOST`, `POSTGRES_PORT`, `PORT`, `NODE_ENV`) sont déjà renseignées, n'y touche pas.
+Trois choses à faire ici :
 
-## 3. Démarrer les services
+**1. `POSTGRES_USER` et `POSTGRES_PASSWORD`** — Choisis librement n'importe quelles valeurs. En local, il n'y a aucun enjeu de sécurité : c'est simplement l'identifiant/mot de passe que ta base de données Docker utilisera sur ta machine. Par exemple :
+
+```bash
+POSTGRES_USER=lovelace
+POSTGRES_PASSWORD=devlocal
+```
+
+**2. `JWT_SECRET`** — Cette clé sert à signer les jetons de connexion (JWT) des utilisateurs. Pour un usage local, génère la tienne avec cette commande :
+
+```bash
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+```
+
+Colle la chaîne obtenue comme valeur de `JWT_SECRET`.
+
+:::note Pourquoi je ne dois pas inventer n'importe quelle valeur ?
+`POSTGRES_HOST=postgres` n'est **pas** à modifier : ce n'est pas une adresse réseau classique, c'est le nom du service tel qu'il est déclaré dans `docker-compose.yml`. Les conteneurs Docker se parlent entre eux par leur nom de service, pas par `localhost`.
+:::
+
+**3. `PORT` et `NODE_ENV`** — Laisse-les tels quels pour l'instant, les valeurs par défaut conviennent parfaitement à un premier lancement en local.
+
+## Étape 3 — Lancer le projet
+
+Une seule commande suffit pour démarrer les trois services (frontend, backend, base de données) :
 
 ```bash
 docker compose up --build
 ```
 
-Trois services démarrent : `frontend` (port `5173`), `backend` (`5000`), `postgres` (`5432`). Le backend attend que PostgreSQL soit prêt (`healthcheck`) avant de se lancer.
+L'option `--build` reconstruit les images Docker — utile la première fois, ou après une modification des dépendances. Laisse tourner cette commande dans ton terminal ; les logs des trois services vont s'afficher au fur et à mesure qu'ils démarrent.
 
-## 4. Initialiser la base
+Une fois que les logs se stabilisent (plus de messages d'erreur qui défilent), les trois services sont prêts :
 
-La base démarre vide. Charge le schéma et les données de test en suivant [Initialiser la base de données](../guides/initialiser-la-bdd.md). Le seed crée notamment deux comptes de démonstration.
+| Service    | Port (local) |
+| ---------- | ------------ |
+| Frontend   | `5173`       |
+| Backend    | `5000`       |
+| PostgreSQL | `5432`       |
 
-## 5. Ouvrir l'application et se connecter
+:::tip Un port est déjà utilisé chez toi ?
+Rien de grave — modifie le port concerné dans `docker-compose.yml` et dans `back/.env`, puis relance `docker compose up --build`.
+:::
 
-Va sur [http://localhost:5173](http://localhost:5173). L'écran de connexion s'affiche.
+## Étape 4 — Vérifier que ça fonctionne
 
-Connecte-toi avec le compte **ADMIN** de démonstration (voir la table des [utilisateurs de test](../guides/initialiser-la-bdd.md#utilisateurs-de-test)). Le formulaire appelle `POST /auth/connexion`, stocke le token JWT reçu dans le `localStorage`, et affiche la vue des tâches.
+Ouvre ton navigateur à l'adresse [http://localhost:5173](http://localhost:5173). Tu devrais voir l'écran de connexion de Lovelace Family.
 
-## 6. Créer une tâche
+Le projet est livré avec deux comptes de démonstration déjà présents en base (via le seed), pour que tu puisses tester sans créer de compte :
 
-En tant qu'ADMIN, le bouton **＋** ouvre la modale de création. Renseigne un nom, un nombre de points, un membre assigné, valide : la tâche apparaît dans la colonne « À faire ».
+| Persona     | Rôle   | Identifiant / Email | Mot de passe |
+| ----------- | ------ | -------------------- | ------------- |
+| **Bernard** | ADMIN  | bernard@aol.com       | lemotdepasse  |
+| **Léa**     | MEMBER | lillychat@gmail.com   | kawai3000     |
 
-## 7. Valider la tâche
+Connecte-toi avec le compte **Bernard** : tu arrives sur la vue "parent", avec la liste des tâches déjà créées par le seed. Si tu vois cette liste, c'est que le frontend, le backend et la base de données communiquent correctement entre eux — bravo, ton environnement est opérationnel !
 
-Coche la case de la tâche. Son statut passe à `TERMINE`, une animation et un son de célébration se déclenchent, et la tâche bascule dans « Terminées ».
+## Ce que tu viens de faire
 
-## Et ensuite ?
+Récapitulons ce qui s'est passé pendant ce tutoriel :
 
-- Comprendre ce qui s'est passé côté serveur → [Flux applicatifs](../explications/flux-applicatifs.md)
-- Comprendre l'architecture d'ensemble → [Architecture](../explications/architecture.md)
-- Modifier le code et contribuer → [Contribuer](../guides/contribuer.md)
+1. Tu as récupéré le code source du projet.
+2. Tu as configuré les variables d'environnement dont le backend a besoin pour se connecter à la base et sécuriser les jetons de connexion.
+3. Docker Compose a construit et démarré trois conteneurs (frontend, backend, PostgreSQL) qui communiquent entre eux par leurs noms de service.
+4. Tu as vérifié que tout fonctionnait en te connectant avec un compte de test.
+
+## Et maintenant ?
+
+Ce tutoriel t'a fait démarrer une fois. Pour la suite de ton travail au quotidien sur le projet, tu n'auras plus besoin de ces explications détaillées — tu iras directement chercher la commande dont tu as besoin :
+
+- **[Relancer le projet en local](../guides/lancer-le-projet-en-local.md)** — pour les fois suivantes, sans le détail pédagogique.
+- **[Initialiser ou réinitialiser la base de données](../guides/initialiser-la-bdd.md)** — si tu dois repartir d'un état propre.
+- **[Contribuer au projet](../guides/contribuer.md)** — conventions de branches, workflow `develop`/`main`, Pull Requests.
+
+Si tu veux comprendre le *pourquoi* des choix techniques (pourquoi PostgreSQL, pourquoi cette architecture), direction la section **Explications**.
