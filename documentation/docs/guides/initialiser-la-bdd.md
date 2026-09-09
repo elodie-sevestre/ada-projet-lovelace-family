@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-description: Pour la dev qui doit créer ou réinitialiser la base. Répond à « comment je joue le schéma et le seed ? ».
+description: Guide pour initialiser la BDD.
 ---
 
 # Initialiser la base de données
@@ -18,7 +18,7 @@ Les scripts SQL sont dans `db/` :
 
 ## Option A — extension PostgreSQL de VS Code
 
-Installe une extension type *PostgreSQL* (Chris Kolkman ou Weijan Chen), connecte-toi à `localhost:5432` avec les identifiants du `.env`, puis exécute `migration_up.sql` et `seed.sql` depuis l'éditeur.
+Installe une extension type *PostgreSQL* (Celle certifiée par Microsoft est très bien), connecte-toi à `localhost:5432` avec les identifiants du `.env`, puis exécute `migration_up.sql` et `seed.sql` depuis l'éditeur.
 
 ## Option B — `psql` dans le conteneur
 

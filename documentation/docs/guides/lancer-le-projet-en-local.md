@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-description: Pour toute personne qui doit faire tourner le projet sur sa machine. Répond à « comment je lance le projet en local ? ».
+description: Guide pour lancer le projet.
 ---
 
 # Lancer le projet en local
@@ -41,11 +41,11 @@ docker compose up --build
 
 `--build` force la reconstruction des images (première fois, ou après modification des `Dockerfile` / dépendances). Ensuite, `docker compose up` suffit.
 
-| Service    | Rôle                       | Port exposé |
-| ---------- | -------------------------- | ----------- |
-| `frontend` | Application React (Vite)   | `5173`      |
-| `backend`  | API Express (Node.js)      | `5000`      |
-| `postgres` | Base de données PostgreSQL | `5432`      |
+| Service    | Rôle                        | Port exposé |
+| ---------- | --------------------------- | ----------- |
+| `frontend` | Application React (Vite)    | `5173`      |
+| `backend`  | API Express (Node.js)       | `5000`      |
+| `postgres` | Base de données PostgreSQL  | `5432`      |
 
 Le service `backend` attend que `postgres` soit prêt (`healthcheck`) avant de démarrer.
 
@@ -68,5 +68,3 @@ La base démarre vide. Voir [Initialiser la base de données](./initialiser-la-b
 - **Base de données** : PostgreSQL sur le port `5432` (client type DBeaver, extension VS Code, ou `psql`).
 
 Si le frontend n'arrive pas à contacter le backend, vérifie `VITE_API_URL` dans `docker-compose.yml` — voir aussi [ADR 003](../explications/adr/003-url-api-en-dur.md).
-
-> Ports déjà pris sur ta machine ? Ils s'adaptent dans `docker-compose.yml` et le `.env`.
