@@ -20,6 +20,6 @@ Exemple avec la suppression : `TaskItem` détient l'état `isDeleteModalOpen` et
 
 ## Quand un state manager deviendrait utile
 
-Le jour où une même donnée (par exemple l'utilisatrice connectée) doit être partagée entre des composants éloignés dans l'arbre, obligeant à faire transiter une prop à travers plusieurs niveaux qui n'en ont pas besoin — c'est le *prop drilling*.
+Le jour où une même donnée (par exemple l'utilisatrice connectée) doit être partagée entre des composants éloignés dans l'arbre, obligeant à faire transiter une prop à travers plusieurs niveaux qui n'en ont pas besoin — c'est le _prop drilling_.
 
-Le token d'authentification s'en approche déjà un peu (`App.jsx` → `TasksConsultation` → `LogoutButton`), mais reste gérable à ce stade. Voir [ADR 004](./adr/004-pas-de-state-manager.md).
+Le token d'authentification s'en approche déjà un peu (`App.jsx` → `TasksConsultation` → `LogoutButton`), mais reste gérable à ce stade.
