@@ -9,7 +9,7 @@ description: "Décision : le token JWT est stocké côté navigateur dans le loc
 
 ## Contexte
 
-Après `POST /auth/connexion`, le frontend reçoit un JWT (valide 24 h) qu'il doit conserver pour l'envoyer sur chaque requête protégée.
+Après `POST /auth/connexion`, le frontend reçoit un JWT à durée de vie courte (valeur exacte fixée côté backend, voir [Référence API](../../reference/api.md#post-authconnexion)) qu'il doit conserver pour l'envoyer sur chaque requête protégée.
 
 ## Décision
 
@@ -24,4 +24,5 @@ Stockage dans le `localStorage`, relu par `front/src/api/client.js` à chaque ap
 
 - Simple à implémenter, persiste au rechargement.
 - Vulnérable au vol de token si une faille XSS est présente dans le frontend.
-- Le token n'ayant ni révocation ni refresh (voir [Limites et dette](../limites-et-dette.md)), une fuite reste exploitable jusqu'à expiration.
+- Le token n'ayant ni révocation ni refresh (voir [Limites et dette](../limites-et-dette.md)), une fuite reste exploitable jusqu'à son expiration.
+- Sur une réponse `401`, `client.js` purge le token du `localStorage` et renvoie l'utilisatrice vers l'écran de connexion.

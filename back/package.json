@@ -9,10 +9,7 @@
     "start": "node ./src/server.js",
     "lint": "eslint .",
     "format:check": "prettier --check .",
-    "format": "prettier --write .",
-    "db:migrate:up": "node ./src/scripts/migration_up.js",
-    "db:migrate:down": "node ./src/scripts/migration_down.js",
-    "db:seed": "node ./src/scripts/seed.js"
+    "format": "prettier --write ."
   },
   "type": "module",
   "keywords": [],

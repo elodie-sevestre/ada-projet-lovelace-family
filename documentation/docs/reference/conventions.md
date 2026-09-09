@@ -23,13 +23,14 @@ Une branche par fonctionnalité, bug ou fix, créée depuis `develop`, au format
 
 Format `type: description courte`, en français :
 
-| Type       | Usage                         |
-| ---------- | ----------------------------- |
-| `feat`     | Nouvelle fonctionnalité       |
-| `fix`      | Correction de bug             |
-| `docs`     | Documentation                 |
-| `chore`    | Tâche technique / maintenance |
-| `refactor` | Refactorisation de code       |
+| Type       | Usage                          |
+| ---------- | ------------------------------ |
+| `feat`     | Nouvelle fonctionnalité        |
+| `fix`      | Correction de bug              |
+| `docs`     | Documentation                  |
+| `chore`    | Tâche technique / maintenance  |
+| `refactor` | Refactorisation de code        |
+| `test`     | Ajout ou modification de tests |
 
 Exemples tirés de l'historique :
 
