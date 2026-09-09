@@ -6,7 +6,7 @@ const STATUT_LABELS = {
   TERMINE: "Terminée",
 };
 
-function TaskItemModal({ task, onClose, refreshTasks }) {
+function TaskItemModal({ task, onClose }) {
   return (
     <div
       className="task-modal-overlay"

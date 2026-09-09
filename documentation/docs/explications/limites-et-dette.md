@@ -9,20 +9,19 @@ Ces points sont **identifiés et assumés**. Une limite écrite vaut mieux qu'un
 
 ## Backend
 
-- **Contrôle d'accès granulaire** — seul un ADMIN ou l'utilisateur assigné devrait pouvoir modifier / valider une tâche. Actuellement, n'importe quel token valide le permet.
-- **Validation de l'id utilisateur** — dans `getTasksByUserController`, l'id n'est pas validé avant d'être passé au service (contrairement à `updateTaskController` / `deleteTaskController`).
-- **Tests du endpoint `DELETE`** — pas de test automatisé, contrairement aux autres controllers.
-- **Gestion d'erreurs unifiée** — les erreurs sont renvoyées avec un message générique, sans distinction des causes.
-- **Refresh du token** — le JWT n'expire jamais côté utilisateur ; un mécanisme de refresh serait un plus.
-- **Calcul des points** — la colonne `total_points` existe en base mais rien côté backend ne l'incrémente à la validation d'une tâche ; le frontend affiche la valeur brute stockée.
+- **Contrôle d'accès granulaire** — le CRUD a été livré en priorité, la vérification du rôle (`checkRole`) est écrite mais pas encore branchée sur update / validate / delete. Voir [Référence backend](../reference/backend.md) pour le détail des routes concernées.
+- **Validation de l'id utilisateur** — `getTasksByUserController` n'a pas encore été aligné sur le même standard de validation que les autres controllers ; écart non intentionnel plutôt que choix assumé. Détail dans la [Référence backend](../reference/backend.md).
+- **Tests du endpoint `DELETE`** — seul controller sans test automatisé à ce jour, à combler avant d'étendre la couverture ailleurs.
+- **Refresh du token** — le JWT n'expire jamais côté utilisateur ; un mécanisme de refresh reste à concevoir.
+- **Calcul des points** — fonctionnalité prévue dès la V1 mais jugée plus complexe qu'anticipé une fois entamée ; la colonne `total_points` existe en base mais rien ne l'incrémente côté backend, le frontend affiche donc la valeur brute stockée.
 
 ## Frontend
 
-- **`currentUser` / `currentMember` en dur** — dans `TasksConsultation.jsx` (`{ role: "ADMIN" }`, `members[0]`) : pas encore de lien réel entre le token décodé et l'utilisatrice affichée / ses droits (`// TODO` explicite dans le code).
-- **`progressPercent` figé** — la barre de progression de `MemberSideBar` n'a pas de source de données.
-- **Pas de tests frontend.**
+- **`currentUser` / `currentMember` en dur** — priorité donnée à l'affichage pendant la V1 ; le lien entre le token décodé et l'utilisatrice réelle n'a pas été fait (`// TODO` explicite dans `TasksConsultation.jsx`). Bloque un contrôle d'accès réel côté client. Détail des composants concernés : [Référence frontend](../reference/frontend.md#authentification).
+- **`progressPercent` figé** — même origine que le calcul des points ci-dessus : fonctionnalité de gamification partiellement codée. Voir [Référence frontend](../reference/frontend.md#gamification).
+- **Pas de tests frontend** — aucun test automatisé côté React à ce jour.
 
 ## Infrastructure / CI
 
-- **CI frontend absente** — `.github/workflows/ci.yml` ne couvre que `back/` (lint + test). Pas d'étape de build.
+- **CI frontend absente** — `.github/workflows/ci.yml` ne couvre que `back/` (lint + test) ; le backend a été priorisé pendant la V1, le frontend reste à couvrir.
 - **Vérification de la documentation en CI** — le build Docusaurus (`npm run build`, qui échoue sur lien mort grâce à `onBrokenLinks: "throw"`) n'est pas encore branché dans la CI.
