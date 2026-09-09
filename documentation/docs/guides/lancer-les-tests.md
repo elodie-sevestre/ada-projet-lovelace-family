@@ -5,24 +5,26 @@ description: Pour la dev qui veut vérifier le backend. Répond à « comment je
 
 # Lancer les tests
 
-Le backend a des tests unitaires **Jest**, dans `back/tests/` :
+Le backend a des tests unitaires **Jest** dans `back/tests/`.  
+L'inventaire de ce qui est couvert est dans [Référence — Tests](../reference/tests.md).
 
-- `createTaskController.test.js`
-- `updateTaskController.test.js`
+## Lancer tous les tests
+
+Commandes à exécuter à la racine du projet :
 
 ```bash
-cd back
-npm test
+cd back && npm test
 ```
 
-Ces tests **mockent la couche `services`** au lieu d'appeler la vraie base de données : ils vérifient la validation des entrées et le formatage des réponses HTTP, pas le SQL.
+## Lancer un seul test
 
-## Couverture actuelle
+```bash
+cd back && npm test -- updateTaskController.test.js
+```
 
-- ✅ `createTaskController`, `updateTaskController`
-- ❌ `deleteTaskController` — pas encore testé (voir [Limites et dette](../explications/limites-et-dette.md))
-- ❌ Frontend — pas de tests automatisés à ce jour
+> Portée exacte de ces tests (couche mockée, ce qui n'est pas couvert) : [Référence — Tests](../reference/tests.md#portée).
 
 ## En intégration continue
 
-Chaque `push` et chaque Pull Request (toutes branches) déclenche `.github/workflows/ci.yml`, qui exécute sur `back/` : `npm ci` → `npm run lint` → `npm run test`. Détail dans [Conventions — Intégration continue](../reference/conventions.md#intégration-continue-ci).
+Chaque **push** et chaque **Pull Request** (toutes branches) déclenche `.github/workflows/ci.yml`, qui exécute sur `back/` : `npm ci` → `npm run lint` → `npm run test`.
+Détail dans [Conventions — Intégration continue](../reference/conventions.md#intégration-continue-ci).
