@@ -1,7 +1,9 @@
+import { getToken, clearToken } from "../lib/session.js";
+
 const BASE_URL = "http://localhost:5000";
 
 async function request(url, options = {}) {
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   const response = await fetch(`${BASE_URL}${url}`, {
     headers: {
@@ -13,8 +15,8 @@ async function request(url, options = {}) {
   });
 
   // gestion erreur de token
-  if (response.status == 401) {
-    localStorage.removeItem("token"); // suppression du token dans le local storage
+  if (response.status === 401) {
+    clearToken();
     window.location.href = "/"; // redirection vers l'URL de base http://localhost:5173
   }
 
