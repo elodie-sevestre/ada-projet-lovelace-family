@@ -2,7 +2,7 @@ import { useState } from "react";
 import { editTask } from "../../api/tasks.js";
 import "../../css/EditTaskForm.css";
 
-const EditTaskForm = ({ task, onClose, refreshTasks }) => {
+const EditTaskForm = ({ task, onClose, refreshTasks, members }) => {
   const [editName, setEditName] = useState(task.task_name);
   const [editDescription, setEditDescription] = useState(
     task.description ?? "",
@@ -11,13 +11,9 @@ const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   const [editStatus, setEditStatus] = useState(task.status);
   const [editUserId, setEditUserId] = useState(task.assigned_user_ids[0]);
 
-  const usersName = [
-    { id: 1, name: "Bernard" },
-    { id: 2, name: "Léa" },
-  ];
-  const usersList = usersName.map((user) => (
-    <option key={user.id} value={user.id}>
-      {user.name}
+  const membersList = members.map((member) => (
+    <option key={member.id} value={member.id}>
+      {member.name}
     </option>
   ));
 
@@ -96,7 +92,7 @@ const EditTaskForm = ({ task, onClose, refreshTasks }) => {
               value={editUserId}
               onChange={(event) => setEditUserId(Number(event.target.value))}
             >
-              {usersList}
+              {membersList}
             </select>
           </div>
           <div className="form-actions">

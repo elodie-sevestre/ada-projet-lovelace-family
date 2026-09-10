@@ -8,7 +8,7 @@ import TaskCheckbox from "./TaskCheckBox.jsx";
 import "../../css/TaskItem.css";
 import "../../css/TaskCheckBox.css";
 
-function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
+function TaskItem({ task, currentUser, refreshTasks, onCelebrate, members }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -84,6 +84,7 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
           task={task}
           refreshTasks={refreshTasks}
           onClose={() => setIsEditModalOpen(false)}
+          members={members}
         />
       )}
     </>
