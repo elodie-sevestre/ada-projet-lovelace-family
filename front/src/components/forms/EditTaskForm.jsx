@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { editTask } from "../../api/tasks.js";
+import { TASK_STATUS } from "../../constants.js";
 import "../../css/EditTaskForm.css";
 
 const EditTaskForm = ({ task, onClose, refreshTasks, members }) => {
@@ -80,8 +81,8 @@ const EditTaskForm = ({ task, onClose, refreshTasks, members }) => {
               value={editStatus}
               onChange={(event) => setEditStatus(event.target.value)}
             >
-              <option value={"A_FAIRE"}>A faire</option>
-              <option value={"TERMINE"}>Terminée</option>
+              <option value={TASK_STATUS.TODO}>À faire</option>
+              <option value={TASK_STATUS.DONE}>Terminée</option>
             </select>
           </div>
 
