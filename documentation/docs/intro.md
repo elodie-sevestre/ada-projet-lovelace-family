@@ -30,7 +30,7 @@ description: Présentation du projet et de la documentation ».
 
 Cette documentation suit le cadre [Diátaxis](https://diataxis.fr/) : quatre entrées, selon ton besoin du moment.
 
-- 🚀 **[Tutoriels](./tutoriels/prise-en-main.md)** — tu découvres le projet, tu veux le prendre en main pas à pas.
+- 🚀 **[Tutoriels](./tutoriels/pour-bien-demarrer.md)** — tu découvres le projet, tu veux le prendre en main pas à pas.
 - 🔧 **[Guides pratiques](./guides/lancer-le-projet-en-local.md)** — tu sais ce que tu cherches à faire : lancer le projet, initialiser la base, contribuer, gérer un incident.
 - 📚 **[Référence](./reference/api.md)** — tu cherches une information précise : un endpoint, une variable, le schéma des tables.
-- 💡 **[Explications](./explications/architecture.md)** — tu veux comprendre *pourquoi* c'est construit comme ça : architecture, flux, décisions techniques ([ADR](./explications/adr/index.md)).
+- 💡 **[Explications](./explications/architecture.md)** — tu veux comprendre _pourquoi_ c'est construit comme ça : architecture, flux, décisions techniques ([ADR](./explications/adr/index.md)).

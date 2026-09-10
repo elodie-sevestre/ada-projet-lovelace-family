@@ -9,11 +9,11 @@ Ces points sont **identifiés et assumés**. Une limite écrite vaut mieux qu'un
 
 ## Backend
 
-- **Contrôle d'accès granulaire** — le CRUD a été livré en priorité, la vérification du rôle (`checkRole`) est écrite mais pas encore branchée sur update / validate / delete. Voir [Référence backend](../reference/backend.md) pour le détail des routes concernées.
-- **Validation de l'id utilisateur** — `getTasksByUserController` n'a pas encore été aligné sur le même standard de validation que les autres controllers ; écart non intentionnel plutôt que choix assumé. Détail dans la [Référence backend](../reference/backend.md).
-- **Tests du endpoint `DELETE`** — seul controller sans test automatisé à ce jour, à combler avant d'étendre la couverture ailleurs.
+- **Contrôle d'accès « ADMIN ou membre assigné »** — les routes de modification / suppression / création vérifient le rôle ADMIN (`checkRole(ROLE.Admin)` est bien branché dans `tasksRoutes.js` sur PUT / DELETE / POST et GET `/`), mais le cas « un membre peut agir sur _sa_ tâche » n'est pas implémenté : le contrôle reste tout-ou-rien par rôle. Détail des routes : [Référence API](../reference/api.md#routes-apitasks).
+- **Validation de l'id utilisateur** — `getTasksByUserController` n'a pas encore été aligné sur le même standard de validation que les autres controllers ; écart non intentionnel plutôt que choix assumé. Détail dans la [Référence API](../reference/api.md).
 - **Refresh du token** — le JWT n'expire jamais côté utilisateur ; un mécanisme de refresh reste à concevoir.
 - **Calcul des points** — fonctionnalité prévue dès la V1 mais jugée plus complexe qu'anticipé une fois entamée ; la colonne `total_points` existe en base mais rien ne l'incrémente côté backend, le frontend affiche donc la valeur brute stockée.
+- **Validation des entrées éparpillée** — chaque controller valide ses champs à la main (`if (...) throw new AppError(..., 400)`), avec de la logique répétée d'un controller à l'autre. Pas de bibliothèque de schéma (type `zod`), pas de borne de longueur côté serveur (le `maxLength` du front n'est pas répliqué). L'injection SQL est déjà couverte : les `models/` utilisent des requêtes paramétrées (`$1`, `$2`). Piste : centraliser la validation dans des schémas `zod` levant une `AppError` 400.
 
 ## Frontend
 

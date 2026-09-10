@@ -37,7 +37,7 @@ Si échec → passer à la section [La base de données ne répond plus](#la-bas
 
 Attendre ~10 s, recharger la page, puis rejouer la requête `SELECT 1` ci-dessus pour confirmer. 4. Si le service ne repart toujours pas :
 
-- vérifier `back/.env` (voir [Référence](../reference/backend.md#variables-denvironnement)) ;
+- vérifier `back/.env` (voir la Référence — Variables d'environnement) ;
 - vérifier qu'aucun autre processus n'occupe le port `5000` ;
 - vérifier que le schéma est bien en place, sinon [rejouer les migrations](./initialiser-la-bdd.md).
 

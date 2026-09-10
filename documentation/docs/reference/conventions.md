@@ -5,7 +5,7 @@ description: Pour l'équipe au quotidien. Répond à « quel préfixe de branche
 
 # Conventions
 
-Le circuit pas à pas est dans [Contribuer](../guides/contribuer.md). Cette page ne liste que les valeurs.
+Cette page ne liste que les valeurs : préfixes de branche, types de commit, règles partagées.
 
 ## Convention de nommage des branches
 
@@ -21,26 +21,42 @@ Une branche par fonctionnalité, bug ou fix, créée depuis `develop`, au format
 
 ## Convention de messages de commit
 
-Format `type: description courte`, en français :
+Format `type: description courte` (ou `type(portée): description courte`), en français :
 
-| Type       | Usage                          |
-| ---------- | ------------------------------ |
-| `feat`     | Nouvelle fonctionnalité        |
-| `fix`      | Correction de bug              |
-| `docs`     | Documentation                  |
-| `chore`    | Tâche technique / maintenance  |
-| `refactor` | Refactorisation de code        |
-| `test`     | Ajout ou modification de tests |
+| Type       | Usage                                                       |
+| ---------- | ----------------------------------------------------------- |
+| `feat`     | Nouvelle fonctionnalité                                     |
+| `fix`      | Correction de bug                                           |
+| `docs`     | Documentation                                               |
+| `chore`    | Tâche technique / maintenance                               |
+| `refactor` | Refactorisation de code                                     |
+| `test`     | Ajout ou modification de tests                              |
+| `style`    | Formatage sans effet sur le code (quotes, points-virgules…) |
 
 Exemples tirés de l'historique :
 
 ```
 feat: ajout du bouton supprimer et du pop-up de confirmation
 fix: correctif seed users : admin to ADMIN
-docs: ajout fiche review fonctionnalité supprimer une tâche
+refactor(back): centralise les statuts de tâche dans TASK_STATUS
 ```
 
 > ⚠️ Le type de commit (`feat`) diffère du préfixe de branche (`feature`) — ne pas confondre les deux conventions.
+
+## Constantes partagées
+
+Les valeurs d'énumération de la base ne sont jamais écrites en dur dans le code :
+
+| Constante     | Fichier(s)                                        | Valeurs            |
+| ------------- | ------------------------------------------------- | ------------------ |
+| `TASK_STATUS` | `back/src/constants.js`, `front/src/constants.js` | `TODO` / `DONE`    |
+| `ROLE`        | `back/src/constants.js`                           | `Admin` / `Member` |
+
+Back et front ont chacun leur copie (pas de paquet partagé) : les deux fichiers doivent rester alignés. Toute comparaison de statut ou de rôle passe par la constante, pas par la chaîne littérale.
+
+## Formatage
+
+Le backend utilise **Prettier** (`back/.prettierrc` : quotes simples, points-virgules, 2 espaces, `trailingComma: es5`), lançable avec `npm run format`. Le frontend n'a pas encore Prettier : la convention de fait est double quotes + points-virgules + 2 espaces. L'adoption de Prettier côté front est une tâche à part.
 
 ## Protection de `main`
 

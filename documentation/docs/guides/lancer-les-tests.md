@@ -22,7 +22,7 @@ cd back && npm test
 cd back && npm test -- updateTaskController.test.js
 ```
 
-> Portée exacte de ces tests (couche mockée, ce qui n'est pas couvert) : [Référence — Tests](../reference/tests.md#portée).
+> Portée exacte de ces tests (couche mockée, ce qui n'est pas couvert) : [Référence — Tests](../reference/tests.md#couverture).
 
 ## En intégration continue
 

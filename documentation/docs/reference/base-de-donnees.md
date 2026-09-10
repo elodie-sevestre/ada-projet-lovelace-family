@@ -27,6 +27,8 @@ Dans `db/` :
 | `status` | `A_FAIRE` \| `TERMINE` |
 | `role`   | `ADMIN` \| `MEMBER`    |
 
+Ces valeurs sont reprises dans le code sous forme de constantes, pour éviter les chaînes en dur : `TASK_STATUS` (`back/src/constants.js` **et** `front/src/constants.js`) et `ROLE` (`back/src/constants.js`). Voir [Conventions](./conventions.md#constantes-partagées).
+
 ## Table `users`
 
 Membres de la famille.
