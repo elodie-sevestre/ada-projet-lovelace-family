@@ -234,70 +234,7 @@ Récapitulons ce qui s'est passé pendant ce tutoriel :
 4. Tu as initialisé la base de données en exécutant les fichiers SQL du projet via l'extension PostgreSQL de VS Code.
 5. Tu as vérifié que tout fonctionnait en te connectant avec un compte de test.
 
----
-title: Bien démarrer sur Lovelace Family
-sidebar_position: 1
----
 
-# Bien démarrer sur Lovelace Family
-
-Ce tutoriel t'accompagne pas à pas pour faire tourner **Lovelace Family** sur ta machine, jusqu'à te connecter dans l'application avec un compte de test. À la fin, tu auras un environnement complet qui fonctionne (frontend, backend, base de données) et tu comprendras ce que fait chaque étape.
-
-Tu n'as besoin d'aucune connaissance préalable du projet pour suivre ce tutoriel — c'est justement l'objectif.
-
-> **💡 Ce que tu vas obtenir à la fin**
->
-> Une application accessible dans ton navigateur, avec une base de données déjà remplie de données de test, sur laquelle tu pourras te connecter avec un compte "parent" ou un compte "enfant".
-
-## Avant de commencer
-
-Deux outils doivent être installés sur ta machine :
-
-- **[Git](https://git-scm.com/downloads)** — pour récupérer le code du projet et gérer les branches.
-- **[Docker](https://www.docker.com/products/docker-desktop/)** (Docker Desktop) — pour lancer le frontend, le backend et la base de données ensemble, sans avoir à installer Node.js ou PostgreSQL toi-même.
-
-C'est tout l'intérêt de Docker ici : tu n'as rien d'autre à installer. Tous les services tournent dans des conteneurs isolés, préconfigurés pour communiquer entre eux.
-
-## Étape 1 — Cloner le projet
-
-> **📌 Un mot sur les droits d'accès**
->
-> Le dépôt est public : n'importe qui peut le cloner, pas besoin d'y être invitée. En revanche, pour pouvoir **pousser** tes propres branches et ouvrir des Pull Requests, il faut être ajoutée comme **collaboratrice** sur le dépôt (Settings → Collaborators, côté propriétaire du dépôt). Sans ça, le clone fonctionnera, mais un `git push` échouera avec une erreur de permission.
-
-Récupère le code sur ta machine :
-
-```bash
-git clone git@github.com:elodie-sevestre/ada-projet-lovelace-family.git
-cd ada-projet-lovelace-family
-```
-
-Tu te retrouves avec trois dossiers principaux : `back` (le serveur Node.js/Express), `front` (l'interface React), et `db` (tout ce qui concerne PostgreSQL).
-
-`git clone` configure automatiquement le remote `origin` vers ce dépôt — tu n'as rien d'autre à paramétrer une fois que tu as les droits d'écriture.
-
-Le clone t'installe par défaut sur la branche `main` — la branche stable, mise à jour seulement en fin de version. Le travail au quotidien se fait sur `develop`, la branche d'intégration continue. Bascule dessus :
-
-```bash
-git checkout develop
-```
-
-## Étape 2 — Préparer le fichier de configuration
-
-Le backend a besoin de connaître certaines informations pour démarrer (comment se connecter à la base de données, quelle clé utiliser pour sécuriser les connexions, etc.). Ces informations vivent dans un fichier `.env`, qui n'est **jamais** versionné dans Git — c'est pour ça qu'un fichier `.env.example` sert de modèle.
-
-Copie ce modèle :
-
-```bash
-cp back/.env.example back/.env
-```
-
-Ouvre le fichier `back/.env` que tu viens de créer. Tu devrais voir quelque chose comme ceci :
-
-```bash
-# Base de données PostgreSQL — obligatoire
-POSTGRES_USER=            # à remplir (au choix, en local)
-POSTGRES_PASSWORD=        # à remplir (au choix, en local)
-POSTGRES_DB=lovelace_db
 POSTGRES_HOST=postgres    # nom du service docker-compose
 POSTGRES_PORT=5432
 
