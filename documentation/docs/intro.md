@@ -26,6 +26,9 @@ description: Présentation du projet et de la documentation ».
 - **Base de données** : PostgreSQL, sans ORM
 - **Orchestration** : Docker Compose
 
+## Gestion du projet
+Retrouve le suivi de l'avancée du projet sur Jira : [Clique ici](https://lovelacefamily.atlassian.net/jira/software/projects/OLC/boards/1?filter=&groupBy=none&atlOrigin=eyJpIjoiOWVmM2RiZTIzM2U5NGZlZTg4MDMwM2Y4MTUwMGQ1ZjAiLCJwIjoiaiJ9)
+
 ## Par où commencer
 
 Cette documentation suit le cadre [Diátaxis](https://diataxis.fr/) : quatre entrées, selon ton besoin du moment.
