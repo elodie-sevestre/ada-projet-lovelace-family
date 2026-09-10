@@ -1,7 +1,7 @@
 import TaskItem from "./TaskItem.jsx";
 import "../../css/TasksList.css";
 
-function TasksList({ tasks, currentUser, refreshTasks, onCelebrate }) {
+function TasksList({ tasks, currentUser, refreshTasks, onCelebrate, members }) {
   const isAdmin = currentUser.role === "ADMIN";
 
   return (
@@ -28,6 +28,7 @@ function TasksList({ tasks, currentUser, refreshTasks, onCelebrate }) {
             currentUser={currentUser}
             refreshTasks={refreshTasks}
             onCelebrate={onCelebrate}
+            members={members}
           />
         ))}
       </div>

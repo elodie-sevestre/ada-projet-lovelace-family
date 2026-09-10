@@ -77,6 +77,7 @@ function TasksConsultation({ onLogout }) {
             currentUser={currentUser}
             refreshTasks={fetchTasks}
             onCelebrate={handleCelebrate}
+            members={members}
           />
         </section>
         <section className="task-list-contener completed">
@@ -89,6 +90,7 @@ function TasksConsultation({ onLogout }) {
             currentUser={currentUser}
             refreshTasks={fetchTasks}
             onCelebrate={handleCelebrate}
+            members={members}
           />
         </section>
         <TaskCelebration

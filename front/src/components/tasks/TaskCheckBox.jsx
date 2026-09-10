@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { editTask } from "../../api/tasks";
+import { TASK_STATUS } from "../../constants.js";
 import "../../css/TaskCheckBox.css";
 
 function TaskCheckBox({ task, refreshTasks, onCelebrate }) {
   const [isCheckboxAnimating, setCheckboxAnimating] = useState(false);
-  const newStatus = task.status === "TERMINE" ? "A_FAIRE" : "TERMINE";
+  const newStatus =
+    task.status === TASK_STATUS.DONE ? TASK_STATUS.TODO : TASK_STATUS.DONE;
 
   let classAnimation = "";
   if (isCheckboxAnimating) {
-    if (newStatus === "TERMINE") {
+    if (newStatus === TASK_STATUS.DONE) {
       classAnimation = "animation-check-checkbox";
     } else {
       classAnimation = "animation-uncheck-checkbox";
@@ -16,7 +18,7 @@ function TaskCheckBox({ task, refreshTasks, onCelebrate }) {
   }
 
   let classStatut;
-  if (task.status === "TERMINE") {
+  if (task.status === TASK_STATUS.DONE) {
     classStatut = "checkbox-validee";
   } else {
     classStatut = "checkbox-non-validee";
@@ -29,7 +31,7 @@ function TaskCheckBox({ task, refreshTasks, onCelebrate }) {
     setTimeout(() => setCheckboxAnimating(false), 400);
 
     // Déclenche la célébration uniquement quand on valide la tâche
-    if (newStatus === "TERMINE") {
+    if (newStatus === TASK_STATUS.DONE) {
       onCelebrate?.();
     }
 

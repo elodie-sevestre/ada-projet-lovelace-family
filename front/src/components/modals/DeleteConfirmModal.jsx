@@ -13,7 +13,6 @@ const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
         onClose();
       })
       .catch((err) => {
-        console.log("catch atteint", err);
         setError(err.message);
       });
   };

@@ -7,7 +7,6 @@ import "./App.css";
 function App() {
   // on récupère le token du localStorage
   const [token, setToken] = useState(() => {
-    // console.log("Mon token : ", localStorage.getItem("token"));
     return localStorage.getItem("token");
   });
 

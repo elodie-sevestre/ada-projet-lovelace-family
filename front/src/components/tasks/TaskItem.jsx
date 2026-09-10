@@ -5,16 +5,17 @@ import DeleteConfirmModal from "../modals/DeleteConfirmModal.jsx";
 import EditTaskButton from "../buttons/EditTaskButton.jsx";
 import DeleteTaskButton from "../buttons/DeleteTaskButton.jsx";
 import TaskCheckbox from "./TaskCheckBox.jsx";
+import { TASK_STATUS } from "../../constants.js";
 import "../../css/TaskItem.css";
 import "../../css/TaskCheckBox.css";
 
-function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
+function TaskItem({ task, currentUser, refreshTasks, onCelebrate, members }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const isCompleted = task.status === "TERMINE";
+  const isCompleted = task.status === TASK_STATUS.DONE;
   const cardClassName = `task-item-card${isCompleted ? " completed" : ""}`;
 
   // Les libellés de colonnes ("Titre", "Assignée à", "Points"...) ne sont
@@ -84,6 +85,7 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate }) {
           task={task}
           refreshTasks={refreshTasks}
           onClose={() => setIsEditModalOpen(false)}
+          members={members}
         />
       )}
     </>

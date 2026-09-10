@@ -5,8 +5,8 @@ import {
   getTasksByUserService,
   deleteTaskService,
 } from '../services/tasksServices.js';
-
 import AppError from '../utils/AppError.js';
+import { TASK_STATUS } from '../constants.js';
 
 //Attention ici à mieux sécuriser la donnée entrante en échappant certains caractères et en validant la forme de la donnée pour éviter les injections de code. Ex: utiliser une librairie comme zod. Ici pour le moment ça fonctionne car React protège.
 
@@ -87,7 +87,7 @@ async function updateTaskController(req, res) {
   }
 
   // Vérifier que la valeur du statut est autorisée
-  if (!['A_FAIRE', 'TERMINE'].includes(status)) {
+  if (!Object.values(TASK_STATUS).includes(status)) {
     throw new AppError("La valeur du statut n'est pas autorisée !", 400);
   }
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TASK_STATUS } from "../../constants.js";
 import "../../css/TaskForm.css";
 
 // members : liste des membres reçue du parent
@@ -64,7 +65,7 @@ function TaskForm({ members, onCreate, onClose }) {
       description: description.trim() || null,
       assignment,
       points: Number(points),
-      status: "A_FAIRE",
+      status: TASK_STATUS.TODO,
     };
 
     try {

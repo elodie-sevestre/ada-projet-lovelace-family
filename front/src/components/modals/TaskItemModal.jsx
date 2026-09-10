@@ -1,9 +1,10 @@
+import { TASK_STATUS } from "../../constants.js";
 import "../../css/TaskItemModal.css";
 
 //mapping des statuts, en dehors du composant pour formater les données de statut:
 const STATUT_LABELS = {
-  A_FAIRE: "À faire",
-  TERMINE: "Terminée",
+  [TASK_STATUS.TODO]: "À faire",
+  [TASK_STATUS.DONE]: "Terminée",
 };
 
 function TaskItemModal({ task, onClose }) {
