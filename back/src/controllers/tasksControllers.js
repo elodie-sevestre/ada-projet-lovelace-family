@@ -8,8 +8,6 @@ import {
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
 
-//Attention ici à mieux sécuriser la donnée entrante en échappant certains caractères et en validant la forme de la donnée pour éviter les injections de code. Ex: utiliser une librairie comme zod. Ici pour le moment ça fonctionne car React protège.
-
 async function createTaskController(req, res) {
   const { name, description, assignment, points } = req.body;
 
