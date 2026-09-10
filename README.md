@@ -52,25 +52,6 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 
 ---
 
-## 📚 Documentation technique
-
-La documentation détaillée (architecture, API, flux, décisions techniques) est un
-site [Docusaurus](https://docusaurus.io/) dans le dossier [`documentation/`](./documentation/),
-organisé selon le cadre [Diátaxis](https://diataxis.fr/) :
-
-- **Tutoriels** — prise en main guidée
-- **Guides pratiques** — lancer le projet, initialiser la base, contribuer, runbook
-- **Référence** — API HTTP, structure back / front, schéma BDD, conventions
-- **Explications** — architecture, flux applicatifs, ADR, limites connues
-
-```bash
-cd documentation
-npm install
-npm run start
-```
-
----
-
 ## ✅ Prérequis
 
 Avant de cloner le projet, assurez-vous d'avoir installé sur votre machine :
@@ -134,6 +115,8 @@ Le fichier `.env.example` liste les variables nécessaires, mais certaines valeu
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 ```
 
+  Copiez la chaîne affichée dans le terminal et collez-la **telle quelle** comme valeur de `JWT_SECRET` dans votre `back/.env`.
+
 - Les identifiants de base de données (`POSTGRES_USER`, `POSTGRES_PASSWORD`) peuvent être choisis librement par la personne qui installe le projet en local — il n'y a pas d'enjeu de sécurité à ce niveau tant que ce n'est pas un environnement de staging/production.
 
 #### Contenu du `.env.example`
@@ -166,6 +149,25 @@ docker compose up --build
 
 ---
 
+## 📚 Documentation technique
+
+La documentation détaillée (architecture, API, flux, décisions techniques) est un
+site [Docusaurus](https://docusaurus.io/) dans le dossier [`documentation/`](./documentation/),
+organisé selon le cadre [Diátaxis](https://diataxis.fr/) :
+
+- **Tutoriels** — prise en main guidée
+- **Guides pratiques** — lancer le projet, initialiser la base, contribuer, runbook
+- **Référence** — API HTTP, structure back / front, schéma BDD, conventions
+- **Explications** — architecture, flux applicatifs, ADR, limites connues
+
+```bash
+cd documentation
+npm install
+npm run start
+```
+
+---
+
 ## 🌐 Ports des services
 
 | Service    | Port (local) |
@@ -180,13 +182,28 @@ docker compose up --build
 
 ## 🐘 Configuration PostgreSQL
 
-**1. Installer une extension PostgreSQL sur VSCode (optionnel mais recommandé)**
+### Peupler la base de données
 
-Dans VS Code, installez une extension type _PostgreSQL_ (ex. par Chris Kolkman ou Weijan Chen) pour explorer visuellement les tables et exécuter des fichiers `.sql` directement depuis l'éditeur.
+Une fois le conteneur `postgres` démarré (`docker compose up`), la base est vide. Le plus simple pour la peupler est d'exécuter les fichiers SQL directement depuis votre terminal :
 
-**2. Se connecter manuellement à la base via `psql` grâce à l'onglet Exec sur Docker Desktop (pas à pas)**
+```bash
+docker compose exec -T postgres psql -U test -d lovelace_db < db/migration_up.sql
+docker compose exec -T postgres psql -U test -d lovelace_db < db/seed.sql
+```
 
-Si vous n'utilisez pas VS Code (ou son extension PostgreSQL), vous pouvez remplir la base directement via Docker, en exécutant vos fichiers `.sql` (structure + seed) à la main.
+Cette commande se connecte à PostgreSQL avec vos identifiants (`psql -U <utilisateur> -d <base>`), puis exécute le contenu du fichier `.sql` indiqué.
+
+> ⚠️ Remplacez `test` (après `-U`) et `lovelace_db` (après `-d`) par les valeurs réelles de `POSTGRES_USER` et `POSTGRES_DB` de votre `.env`.
+
+`migration_up.sql` crée la structure des tables, `seed.sql` insère les données de test (comptes Bernard et Léa) — exécutez les deux commandes dans cet ordre.
+
+### Alternatives
+
+**Extension PostgreSQL sur VS Code**
+
+Dans VS Code, installez l'extension _PostgreSQL_ (Microsoft) pour explorer visuellement les tables et exécuter les fichiers `.sql` directement depuis l'éditeur, via le bouton ▶️ qui apparaît en haut du fichier une fois connecté à la base.
+
+**Via l'onglet Exec de Docker Desktop**
 
 1. Ouvrez **Docker Desktop**.
 2. Repérez le conteneur **postgres** en cours d'exécution.
