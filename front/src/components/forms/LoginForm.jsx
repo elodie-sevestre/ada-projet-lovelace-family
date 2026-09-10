@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { post } from "../../api/client.js";
+import { saveToken } from "../../lib/session.js";
 import logoSproutQuest from "../../assets/logo-sprout-quest.png";
 import "../../css/LoginForm.css";
 
@@ -47,7 +48,7 @@ function LoginForm({ setToken }) {
         mail: email,
         password: password,
       });
-      localStorage.setItem("token", response.token);
+      saveToken(response.token);
       setToken(response.token);
     } catch (error) {
       if (error.status === 401) {

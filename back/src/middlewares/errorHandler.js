@@ -7,6 +7,8 @@
 // next : fct pour passer la main au maillon suivant
 // next obligatoire même s'il n'est pas utilisé
 
+import { logger } from '../utils/logger.js';
+
 // eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
   const statusCode = err.statusCode || 500;
@@ -14,7 +16,7 @@ function errorHandler(err, req, res, next) {
   const isServerError = statusCode >= 500;
   const message = isServerError ? 'Erreur serveur' : err.message;
   if (isServerError) {
-    console.error(err);
+    logger.error(err.message, { statusCode, stack: err.stack });
   }
   res.status(statusCode).json({ error: message });
 }

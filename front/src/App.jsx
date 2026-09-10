@@ -1,17 +1,13 @@
 import { useState } from "react";
 import LoginForm from "./components/forms/LoginForm.jsx";
 import TasksConsultation from "./components/tasks/TasksConsultation.jsx";
-
+import { getToken, clearToken } from "./lib/session.js";
 import "./App.css";
 
 function App() {
-  // on récupère le token du localStorage
-  const [token, setToken] = useState(() => {
-    return localStorage.getItem("token");
-  });
-
+  const [token, setToken] = useState(getToken());
   function handleLogout() {
-    localStorage.removeItem("token");
+    clearToken();
     setToken(null);
   }
 

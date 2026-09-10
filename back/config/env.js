@@ -16,6 +16,8 @@ const required = [
 //Méthode filter qui parcours, le tableau des variables obligatoires (required ci-dessus) et garde seulement celles qui sont absentes ou vides (process.env)
 const missing = required.filter((key) => !process.env[key]);
 
+/* eslint-disable no-console -- diagnostic de démarrage avant chargement du logger (console.error n'apparait plus en warning dans la CI)*/
+
 //Condition de validation :
 if (missing.length > 0) {
   console.error('');

@@ -22,7 +22,7 @@ cp back/.env.example back/.env
 
 ## Configurer le `.env`
 
-Le backend a besoin de `back/.env` (non versionné) pour se connecter à la base et signer les tokens. La liste complète des variables est dans [Référence — Variables d'environnement](../reference/backend.md#variables-denvironnement).
+Le backend a besoin de `back/.env` (non versionné) pour se connecter à la base et signer les tokens. La liste complète des variables est dans la Référence — Variables d'environnement.
 
 Règle : dans un `.env`, on remplit ce qui est imposé mais public (noms de service, ports) et on renseigne les secrets à part.
 
@@ -41,11 +41,11 @@ docker compose up --build
 
 `--build` force la reconstruction des images (première fois, ou après modification des `Dockerfile` / dépendances). Ensuite, `docker compose up` suffit.
 
-| Service    | Rôle                        | Port exposé |
-| ---------- | --------------------------- | ----------- |
-| `frontend` | Application React (Vite)    | `5173`      |
-| `backend`  | API Express (Node.js)       | `5000`      |
-| `postgres` | Base de données PostgreSQL  | `5432`      |
+| Service    | Rôle                       | Port exposé |
+| ---------- | -------------------------- | ----------- |
+| `frontend` | Application React (Vite)   | `5173`      |
+| `backend`  | API Express (Node.js)      | `5000`      |
+| `postgres` | Base de données PostgreSQL | `5432`      |
 
 Le service `backend` attend que `postgres` soit prêt (`healthcheck`) avant de démarrer.
 
