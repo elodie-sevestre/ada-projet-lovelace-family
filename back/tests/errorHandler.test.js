@@ -8,6 +8,7 @@ import {
 } from '@jest/globals';
 import errorHandler from '../src/middlewares/errorHandler.js';
 import AppError from '../src/utils/AppError.js';
+import { logger } from '../src/utils/logger.js';
 
 // Faux res : status() et json() chaînables et espionnés
 function mockRes() {
@@ -17,10 +18,9 @@ function mockRes() {
   return res;
 }
 
-// errorHandler fait console.error sur les 5xx : on le neutralise pour ne pas
-// polluer la sortie des tests, et pour pouvoir vérifier s'il a été appelé
+// errorHandler loggue via logger.error sur les 5xx
 beforeEach(() => {
-  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(logger, 'error').mockImplementation(() => {});
 });
 afterEach(() => {
   jest.restoreAllMocks();
@@ -36,7 +36,7 @@ describe('errorHandler', () => {
     // THEN
     expect(res.status).toHaveBeenCalledWith(400);
     expect(res.json).toHaveBeenCalledWith({ error: 'Champs requis manquants' });
-    expect(console.error).not.toHaveBeenCalled();
+    expect(logger.error).not.toHaveBeenCalled();
   });
   it('Erreur sans statusCode', () => {
     // GIVEN
@@ -47,7 +47,7 @@ describe('errorHandler', () => {
     // THEN
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.json).toHaveBeenCalledWith({ error: 'Erreur serveur' });
-    expect(console.error).toHaveBeenCalledWith(err);
+    expect(logger.error).toHaveBeenCalled();
   });
   it('Erreur >= 500', () => {
     // GIVEN
@@ -58,6 +58,6 @@ describe('errorHandler', () => {
     // THEN
     expect(res.status).toHaveBeenCalledWith(503);
     expect(res.json).toHaveBeenCalledWith({ error: 'Erreur serveur' });
-    expect(console.error).toHaveBeenCalledWith(err);
+    expect(logger.error).toHaveBeenCalled();
   });
 });
