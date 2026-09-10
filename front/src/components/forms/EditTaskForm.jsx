@@ -4,7 +4,9 @@ import "../../css/EditTaskForm.css";
 
 const EditTaskForm = ({ task, onClose, refreshTasks }) => {
   const [editName, setEditName] = useState(task.task_name);
-  const [editDescription, setEditDescription] = useState(task.description);
+  const [editDescription, setEditDescription] = useState(
+    task.description ?? "",
+  );
   const [editPoints, setEditPoints] = useState(task.points);
   const [editStatus, setEditStatus] = useState(task.status);
   const [editUserId, setEditUserId] = useState(task.assigned_user_ids[0]);
