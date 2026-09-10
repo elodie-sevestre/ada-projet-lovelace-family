@@ -5,11 +5,11 @@ import {
   getTasksByUserModel,
   deleteTaskModel,
 } from '../models/tasksModels.js';
-
 import {
   updateTaskAssignedUserModel,
   createTaskAssignedUserModel,
 } from '../models/usersTasksModel.js';
+import AppError from '../utils/AppError.js';
 
 async function createTaskServices(name, description, points, assignedMember) {
   // 1. Créer la tâche elle-même
@@ -28,9 +28,7 @@ const updateTaskService = async (task_id, task_details) => {
   const resultTaskDetails = await updateTaskDetailsModel(task_id, task_details);
   // Bloquer la suite si la tâche n'existe pas, pour ne pas assigner un utilisateur à une tâche inexistante
   if (!resultTaskDetails) {
-    const error = new Error(`La tâche ${task_id} n'existe pas`);
-    error.statusCode = 404;
-    throw error;
+    throw new AppError(`La tâche ${task_id} n'existe pas`, 404);
   }
   // Mettre à jour l'utilisateur assigné à la tâche
   if (task_details.user_id !== undefined) {
