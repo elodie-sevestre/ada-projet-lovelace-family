@@ -36,12 +36,6 @@ Elle s'adresse aux **parents** et à leurs **enfants**.
 
 ---
 
-## 🛠️ Outils de suivi
-
-- **Gestion de projet** : [Jira-Lovelace-Family](https://lovelacefamily.atlassian.net/jira/software/projects/OLC/list?jql=project+%3D+OLC+AND+labels+%3D+v1+ORDER+BY+priority+DESC%2C+created+DESC&atlOrigin=eyJpIjoiZjY5NGRiZGJjMWQzNDFhOWI2NzM1YzRhZWQwNzkwMzUiLCJwIjoiaiJ9)
-
----
-
 ## 📦 Stack technique
 
 - **JavaScript**
@@ -58,41 +52,6 @@ Avant de cloner le projet, assurez-vous d'avoir installé sur votre machine :
 
 - **[Git](https://git-scm.com/downloads)** — pour cloner le dépôt et gérer les branches
 - **[Docker](https://www.docker.com/products/docker-desktop/)** — pour lancer l'ensemble des services (frontend, backend, base de données) sans avoir à tout installer localement.
-
----
-
-## 🌿 Workflow Git & Règles de contribution
-
-### Les branches `develop` et `main`
-
-Le projet fonctionne avec deux branches de référence :
-
-- **`develop`** : branche d'intégration continue. C'est ici que l'on pousse (via Pull Request) tout au long du sprint, au fur et à mesure de l'avancement des fonctionnalités.
-- **`main`** : branche stable de production. Elle n'est mise à jour qu'en fin de version (par exemple à la fin de la V1), une fois que `develop` a été validée et testée.
-  En résumé : on développe et on merge sur `develop` pendant le sprint, et on merge `develop` vers `main` uniquement lors de la livraison d'une version.
-
-### Conventions de nommage des branches
-
-Création d'une **nouvelle branche par fonctionnalité, bug ou fix**, à partir de `develop`, selon le format suivant :
-
-```
-préfixe/description_breve
-```
-
-**Préfixes retenus :**
-
-| Préfixe    | Usage                         |
-| ---------- | ----------------------------- |
-| `feature`  | Nouvelle fonctionnalité       |
-| `fix`      | Correction de bug             |
-| `docs`     | Documentation                 |
-| `chore`    | Tâche technique / maintenance |
-| `refactor` | Refactorisation de code       |
-
-### Protection de la branche `main`
-
-> ⚠️ Une **Pull Request** est obligatoire avant tout merge sur `main`,
-> après **approbation de deux contributrices**.
 
 ---
 
@@ -149,24 +108,6 @@ docker compose up --build
 
 ---
 
-## 📚 Documentation technique
-
-La documentation détaillée (architecture, API, flux, décisions techniques) est un
-site [Docusaurus](https://docusaurus.io/) dans le dossier [`documentation/`](./documentation/),
-organisé selon le cadre [Diátaxis](https://diataxis.fr/) :
-
-- **Tutoriels** — prise en main guidée
-- **Guides pratiques** — lancer le projet, initialiser la base, contribuer, runbook
-- **Référence** — API HTTP, structure back / front, schéma BDD, conventions
-- **Explications** — architecture, flux applicatifs, ADR, limites connues
-
-```bash
-cd documentation
-npm install
-npm run start
-```
-
----
 
 ## 🌐 Ports des services
 
@@ -232,10 +173,62 @@ Pour tester l'application sans passer par la création de compte, deux comptes d
 > 📌 À compléter avec les valeurs réelles du fichier de seed dès qu'il sera finalisé.
 
 ---
+## 📚 Documentation technique
 
-## 📈 État d'avancement
+La documentation détaillée (architecture, API, flux, décisions techniques) est un
+site [Docusaurus](https://docusaurus.io/) dans le dossier [`documentation/`](./documentation/),
+organisé selon le cadre [Diátaxis](https://diataxis.fr/) :
 
-- ✅ **Fait** : modélisation de la base de données, seed BDD, consultation des tâches (vue Bernard), création et assignation de tâches, suppression d'une tâche
-- 🔎 **En review** : modification des tâches
-- 🚧 **En cours** : connexion / authentification, consultation des tâches (vue Léa / membre), validation fonctionnelle d'une tâche
-- 📋 **À venir** : retour positif à la validation / système de gratification
+- **Tutoriels** — prise en main guidée
+- **Guides pratiques** — lancer le projet, initialiser la base, contribuer, runbook
+- **Référence** — API HTTP, structure back / front, schéma BDD, conventions
+- **Explications** — architecture, flux applicatifs, ADR, limites connues
+
+```bash
+cd documentation
+npm install
+npm run start
+```
+
+---
+
+## 🛠️ Outils de suivi
+
+- **Gestion de projet** : [Jira-Lovelace-Family](https://lovelacefamily.atlassian.net/jira/software/projects/OLC/list?jql=project+%3D+OLC+AND+labels+%3D+v1+ORDER+BY+priority+DESC%2C+created+DESC&atlOrigin=eyJpIjoiZjY5NGRiZGJjMWQzNDFhOWI2NzM1YzRhZWQwNzkwMzUiLCJwIjoiaiJ9)
+
+---
+
+## 🌿 Workflow Git & Règles de contribution
+
+### Les branches `develop` et `main`
+
+Le projet fonctionne avec deux branches de référence :
+
+- **`develop`** : branche d'intégration continue. C'est ici que l'on pousse (via Pull Request) tout au long du sprint, au fur et à mesure de l'avancement des fonctionnalités.
+- **`main`** : branche stable de production. Elle n'est mise à jour qu'en fin de version (par exemple à la fin de la V1), une fois que `develop` a été validée et testée.
+  En résumé : on développe et on merge sur `develop` pendant le sprint, et on merge `develop` vers `main` uniquement lors de la livraison d'une version.
+
+### Conventions de nommage des branches
+
+Création d'une **nouvelle branche par fonctionnalité, bug ou fix**, à partir de `develop`, selon le format suivant :
+
+```
+préfixe/description_breve
+```
+
+**Préfixes retenus :**
+
+| Préfixe    | Usage                         |
+| ---------- | ----------------------------- |
+| `feature`  | Nouvelle fonctionnalité       |
+| `fix`      | Correction de bug             |
+| `docs`     | Documentation                 |
+| `chore`    | Tâche technique / maintenance |
+| `refactor` | Refactorisation de code       |
+
+### Protection de la branche `main`
+
+> ⚠️ Une **Pull Request** est obligatoire avant tout merge sur `main`,
+> après **approbation de deux contributrices**.
+
+---
