@@ -1,0 +1,42 @@
+.task-checkbox {
+  width: 32px;
+  height: 32px;
+  background-image: url("/src/assets/check-box-animation.png");
+  background-repeat: no-repeat;
+  background-size: 1200% 100%;
+  cursor: pointer;
+}
+
+@keyframes animCheckCheckbox {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes animUncheckCheckbox {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
+  }
+}
+
+.animation-check-checkbox {
+  animation: animCheckCheckbox 0.4s steps(11) forwards;
+}
+
+.animation-uncheck-checkbox {
+  animation: animUncheckCheckbox 0.4s steps(1) forwards;
+}
+
+.checkbox-validee {
+  background-position: 100% 0;
+}
+
+.checkbox-non-validee {
+  background-position: 0% 0;
+}

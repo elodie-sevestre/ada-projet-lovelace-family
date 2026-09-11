@@ -1,13 +1,17 @@
-import { Router } from "express";
-// import getAllUsersController from "./usersControllers.js";
+import { Router } from 'express';
+import requireAuth from '../middlewares/requireAuthentication.js';
+import getAllUsersController from '../controllers/usersControllers.js';
 
 const usersRoutes = Router();
 
 // Route de test pour vérifier que le serveur répond
-usersRoutes.get("/", function (req, res) {
-  res.send("Hello Ada!\n");
-});
+// usersRoutes.get("/", function (req, res) {
+//   res.send("Hello Ada!\n");
+// });
 
-// usersRouter.get("/", getAllUsersController);
+// protection des routes usersRoutes
+usersRoutes.use(requireAuth);
+
+usersRoutes.get('/', getAllUsersController);
 
 export default usersRoutes;

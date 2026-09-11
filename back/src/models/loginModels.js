@@ -1,0 +1,24 @@
+import pool from './configDb.js';
+
+const createLoginModel = async (
+  role,
+  name,
+  mail,
+  tribe_name,
+  password_hash
+) => {
+  const { rows } = await pool.query(
+    'INSERT INTO users (role, name, mail, tribe_name, password_hash) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+    [role, name, mail, tribe_name, password_hash]
+  );
+  return rows[0];
+};
+
+const findUserByEmail = async (mail) => {
+  const { rows } = await pool.query('SELECT * FROM users WHERE mail = $1', [
+    mail,
+  ]);
+  return rows[0]; // undefined si aucun utilisateur trouvé
+};
+
+export { createLoginModel, findUserByEmail };

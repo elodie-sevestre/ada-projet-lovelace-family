@@ -1,28 +1,24 @@
-import TaskItem from "./components/TaskItem.jsx";
-
-import TasksConsultation from "./components/TasksConsultation.jsx";
-
+import { useState } from "react";
+import LoginForm from "./components/forms/LoginForm.jsx";
+import TasksConsultation from "./components/tasks/TasksConsultation.jsx";
+import { getToken, clearToken } from "./lib/session.js";
 import "./App.css";
 
 function App() {
+  const [token, setToken] = useState(getToken());
+  function handleLogout() {
+    clearToken();
+    setToken(null);
+  }
+
   return (
     <>
       <section id="center">
-        {/* <TaskItem
-          task={{
-            id: 3,
-            task_name: "Faire la vaisselle",
-            assigned_to: "Léa",
-            points: 10,
-            description:
-              "Mettre une pastille dans le réservoir du lave vaisselle et lancer un cycle en mode eco",
-            status: "A_FAIRE",
-            // valeur 2 correspond à l'id 2 du seed de la table users
-            assigned_user_ids: [2],
-          }}
-          currentUser={{ role: "ADMIN" }} */}
-        {/* /> */}
-        <TasksConsultation />
+        {token ? (
+          <TasksConsultation token={token} onLogout={handleLogout} />
+        ) : (
+          <LoginForm setToken={setToken} />
+        )}
       </section>
     </>
   );

@@ -1,21 +1,63 @@
-import { Router } from "express";
+import { Router } from 'express';
+import requireAuth from '../middlewares/requireAuthentication.js';
+import { ROLE } from '../constants.js';
 import {
   createTaskController,
   updateTaskController,
   getAllTasksController,
+  getTasksByUserIdController,
   getTasksByUserController,
-} from "../controllers/tasksControllers.js";
+  deleteTaskController,
+} from '../controllers/tasksControllers.js';
+import createCheckRoleMiddleware from '../middlewares/checkRole.js';
 
-const tasksRoutes = Router();
 //Aiguilleur, le router ici aiguille vers les bonnes routes: "Ecoute ce type de requêtes"
+const tasksRoutes = Router();
 
-tasksRoutes.post("/", createTaskController);
-tasksRoutes.get("/", getAllTasksController); // Ici la route pour aller consulter toutes les tâches (Vue Bernard)
-tasksRoutes.get("/users/:id", getTasksByUserController); // Ici la route pour aller consulter les tâches pour un utilisateur (Vue Léa)
+// protège les routes tasksRoutes
+tasksRoutes.use(requireAuth);
 
-// Modification tâche :
-// Methode HTTP : utilisation de PUT
+//* Ici la route pour consulter les tâches d'un utilisateur
+tasksRoutes.get(
+  '/users/:id',
+  createCheckRoleMiddleware(ROLE.Admin),
+  getTasksByUserIdController
+);
 
-tasksRoutes.put("/:id", updateTaskController);
+//* Ici la route pour aller consulter les tâches de l'utilisateur connecté
+tasksRoutes.get(
+  '/users',
+  // createCheckRoleMiddleware(ROLE.Member),
+  getTasksByUserController
+);
+
+// Modification tâche
+
+tasksRoutes.put(
+  '/:id',
+  createCheckRoleMiddleware(ROLE.Admin),
+  updateTaskController
+);
+
+// Suppression tâche
+
+tasksRoutes.delete(
+  '/:id',
+  createCheckRoleMiddleware(ROLE.Admin),
+  deleteTaskController
+);
+
+tasksRoutes.post(
+  '/',
+  createCheckRoleMiddleware(ROLE.Admin),
+  createTaskController
+);
+
+// Ici la route pour aller consulter toutes les tâches
+tasksRoutes.get(
+  '/',
+  createCheckRoleMiddleware(ROLE.Admin),
+  getAllTasksController
+);
 
 export default tasksRoutes;

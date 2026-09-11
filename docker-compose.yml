@@ -41,14 +41,12 @@ services:
     container_name: lovelace-postgres
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=lovelace_user
-      - POSTGRES_PASSWORD=lovelace_password
-      - POSTGRES_DB=lovelace_db
+    env_file:
+      - ./back/.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U lovelace_user -d lovelace_db"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 10

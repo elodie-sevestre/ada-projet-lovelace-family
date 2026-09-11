@@ -3,113 +3,155 @@ import {
   updateTaskService,
   getAllTasksService,
   getTasksByUserService,
-} from "../services/tasksServices.js";
+  deleteTaskService,
+} from '../services/tasksServices.js';
+import AppError from '../utils/AppError.js';
+import { TASK_STATUS } from '../constants.js';
 
 async function createTaskController(req, res) {
-  try {
-    const { name, description, points } = req.body;
-    //req contenu de l'utilisateur recupére et verifie les données entrées
-    //trim permet de gérer le cas de si il y a que des espaces
+  const { name, description, assignment, points } = req.body;
 
-    if (typeof name !== "string" || name.trim() === "") {
-      throw new Error("Le nom de la tâche doit être un champ de caractère");
-    }
-    if (typeof points !== "number" || points < 1) {
-      throw new Error(
-        "La variable point est de type number et être strictement supérieur à zéro",
-      );
-    }
-    const createTask = await createTaskServices(name, description, points);
-    res.status(201).json(createTask);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  if (typeof name !== 'string' || name.trim() === '') {
+    throw new AppError(
+      'Le nom de la tâche doit être un champ de caractère',
+      400
+    );
   }
+
+  const trimmedName = name.trim();
+
+  if (
+    description !== undefined &&
+    description !== null &&
+    typeof description !== 'string'
+  ) {
+    throw new AppError('La description doit être du texte !', 400);
+  }
+
+  if (assignment === undefined || assignment === null || assignment === '') {
+    throw new AppError('Un membre doit être assigné à la tâche', 400);
+  }
+
+  const assignedMember = Number(assignment);
+  if (!Number.isInteger(assignedMember)) {
+    throw new AppError(
+      "L'identifiant du membre assigné doit être un nombre entier",
+      400
+    );
+  }
+  if (!Number.isInteger(points) || points < 1) {
+    throw new AppError(
+      'Les points doivent être un nombre entier supérieur ou égal à 1',
+      400
+    );
+  }
+  const createTask = await createTaskServices(
+    trimmedName,
+    description,
+    points,
+    assignedMember
+  );
+  res.status(201).json(createTask);
 }
 
-const updateTaskController = async (req, res) => {
-  try {
-    const { id } = req.params;
-    // Vérifier que l'identifiant de la tâche est bien un nombre entier valide
-    if (!id || !Number.isInteger(Number(id))) {
-      return res
-        .status(400)
-        .json({ error: "L'identifiant de la tâche n'est pas valide !" });
-    }
-    const { name, description, status, points, user_id } = req.body;
-    // Vérifier que le nom est bien renseigné et non vide
-    if (!name || name.trim() === "") {
-      return res.status(400).json({ error: "Le nom de la tâche est requis !" });
-    }
-    // Vérifier que la description, si elle est fournie, est bien du texte
-    if (description !== undefined && typeof description !== "string") {
-      return res
-        .status(400)
-        .json({ error: "La description doit être du texte !" });
-    }
-    // Vérifier que le statut est bien renseigné
-    if (!status) {
-      return res.status(400).json({ error: "Le statut est requis !" });
-    }
-    // Vérifier que le statut fait partie des valeurs autorisées
-    const validStatuses = ["A_FAIRE", "TERMINE"];
-    if (!validStatuses.includes(status)) {
-      return res
-        .status(400)
-        .json({ error: "La valeur du statut n'est pas valide !" });
-    }
-    // Vérifier que les points, si fournis, sont un nombre entier
-    if (points !== undefined && !Number.isInteger(points)) {
-      return res
-        .status(400)
-        .json({ error: "Les points doivent être un nombre entier !" });
-    }
-    // Vérifier que l'identifiant de l'utilisateur, si fourni, est un nombre entier
-    if (user_id !== undefined && !Number.isInteger(user_id)) {
-      return res
-        .status(400)
-        .json({ error: "L'identifiant de l'utilisateur n'est pas valide !" });
-    }
-    // Appeler le service pour mettre à jour la tâche
-    const rows = await updateTaskService(id, {
-      name,
-      description,
-      status,
-      points,
-      user_id,
-    });
-    // Renvoyer la tâche mise à jour.
-    res.status(200).json(rows);
-  } catch (error) {
-    // Attraper toute erreur venant du service ou de la base de données
-    const statusCode = error.statusCode || 500;
-    res.status(statusCode).json({ error: error.message });
+async function updateTaskController(req, res) {
+  const { id } = req.params;
+  const { name, description, status, points, user_id } = req.body;
+
+  // Vérifier que l'identifiant de la tâche est bien un nombre entier valide
+  if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
+    throw new AppError("L'identifiant de la tâche n'est pas valide !", 400);
   }
-};
+
+  // Vérifier que le champ NAME est bien renseignée avec une string et qu'il n'est pas vide
+  if (typeof name !== 'string' || name.trim() === '') {
+    throw new AppError('Le nom de la tâche est requis ou mal renseigné!', 400);
+  }
+
+  const trimmedName = name.trim();
+
+  // Vérifier que la description, si elle est fournie, est bien du texte
+  if (
+    description !== undefined &&
+    description !== null &&
+    typeof description !== 'string'
+  ) {
+    throw new AppError('La description doit être du texte !', 400);
+  }
+
+  // Vérifier que le statut est bien renseigné
+  if (!status) {
+    throw new AppError('Le statut est requis !', 400);
+  }
+
+  // Vérifier que la valeur du statut est autorisée
+  if (!Object.values(TASK_STATUS).includes(status)) {
+    throw new AppError("La valeur du statut n'est pas autorisée !", 400);
+  }
+
+  // Vérifier que les points, si fournis, sont un nombre entier
+  if (points !== undefined && (!Number.isInteger(points) || points < 1)) {
+    throw new AppError(
+      'Les points doivent être un nombre entier supérieur ou égal à 1',
+      400
+    );
+  }
+
+  // Vérifier que l'identifiant de l'utilisateur, si fourni, est un nombre entier
+  if (user_id !== undefined && !Number.isInteger(user_id)) {
+    throw new AppError(
+      "L'identifiant de l'utilisateur n'est pas valide !",
+      400
+    );
+  }
+
+  // Appeler le service pour mettre à jour la tâche
+  const rows = await updateTaskService(Number(id), {
+    name: trimmedName,
+    description,
+    status,
+    points,
+    user_id,
+  });
+
+  // Renvoyer la tâche mise à jour.
+  res.status(200).json(rows);
+}
 
 //Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
 async function getAllTasksController(req, res) {
-  try {
-    const tasks = await getAllTasksService();
-    res.status(200).json(tasks);
-  } catch (err) {
-    res
-      .status(500)
-      .json({ error: "Erreur lors de la récupération des tâches" });
-  }
+  const tasks = await getAllTasksService();
+  res.status(200).json(tasks);
 }
 
 async function getTasksByUserController(req, res) {
-  const { id } = req.params;
-  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité ?
-  // if(id is not a number) {return error 400 blabliblou}
-  try {
-    const tasksByUser = await getTasksByUserService(id); //Ne pas oublier de passer l'id en paramètre
-    res.status(200).json(tasksByUser);
-  } catch (err) {
-    res.status(500).json({
-      error: "Erreur lors de la récupération des tâches de l'utilisateur",
-    });
+  const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
+  res.status(200).json(tasksByUser);
+}
+
+async function getTasksByUserIdController(req, res) {
+  const { id: userId } = req.params;
+  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
+  if (!userId || !Number.isInteger(Number(userId)) || Number(userId) <= 0) {
+    throw new AppError(
+      "L'id de l'utilisateur doit être un nombre valide.",
+      400
+    );
   }
+  const tasksByUserId = await getTasksByUserService(Number(userId));
+  res.status(200).json(tasksByUserId);
+}
+
+async function deleteTaskController(req, res) {
+  const { id } = req.params;
+  if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
+    throw new AppError("L'identifiant non valide !", 400);
+  }
+  const rows = await deleteTaskService(Number(id));
+  if (rows === false) {
+    throw new AppError('Ressource introuvable...', 404);
+  }
+  return res.status(204).send();
 }
 
 export {
@@ -117,4 +159,6 @@ export {
   updateTaskController,
   getAllTasksController,
   getTasksByUserController,
+  getTasksByUserIdController,
+  deleteTaskController,
 };
