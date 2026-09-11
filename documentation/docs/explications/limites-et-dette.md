@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 description: Pour qui reprend le projet. Répond à « qu'est-ce qui est incomplet ou fragile, et est-ce assumé ? ».
 ---
 

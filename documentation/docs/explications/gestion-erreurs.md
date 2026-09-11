@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 3
 description: Pour qui veut comprendre comment les erreurs sont traitées côté backend. Répond à « où part une erreur levée dans un controller, et pourquoi ce découpage ? ».
 ---
 

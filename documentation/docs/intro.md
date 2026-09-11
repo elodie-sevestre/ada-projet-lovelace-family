@@ -26,6 +26,9 @@ description: Présentation du projet et de la documentation ».
 - **Base de données** : PostgreSQL, sans ORM
 - **Orchestration** : Docker Compose
 
+## Gestion du projet
+Retrouve le suivi de l'avancée du projet sur Jira : [Clique ici](https://lovelacefamily.atlassian.net/jira/software/projects/OLC/boards/1?filter=&groupBy=none&atlOrigin=eyJpIjoiOWVmM2RiZTIzM2U5NGZlZTg4MDMwM2Y4MTUwMGQ1ZjAiLCJwIjoiaiJ9)
+
 ## Par où commencer
 
 Cette documentation suit le cadre [Diátaxis](https://diataxis.fr/) : quatre entrées, selon ton besoin du moment.
@@ -33,4 +36,4 @@ Cette documentation suit le cadre [Diátaxis](https://diataxis.fr/) : quatre ent
 - 🚀 **[Tutoriels](./tutoriels/pour-bien-demarrer.md)** — tu découvres le projet, tu veux le prendre en main pas à pas.
 - 🔧 **[Guides pratiques](./guides/lancer-le-projet-en-local.md)** — tu sais ce que tu cherches à faire : lancer le projet, initialiser la base, contribuer, gérer un incident.
 - 📚 **[Référence](./reference/api.md)** — tu cherches une information précise : un endpoint, une variable, le schéma des tables.
-- 💡 **[Explications](./explications/architecture.md)** — tu veux comprendre _pourquoi_ c'est construit comme ça : architecture, flux, décisions techniques ([ADR](./explications/adr/index.md)).
+- 💡 **[Explications](./explications/architecture.md)** — tu veux comprendre *pourquoi* c'est construit comme ça : architecture, flux, décisions techniques ([ADR](./explications/adr/index.md)).

@@ -38,4 +38,3 @@ Même principe pour les trois : un composant parent détient un booléen d'état
 
 Tous les appels HTTP passent par `api/client.js`, qui centralise les headers JSON, le token (`getToken()`) et la gestion des erreurs (`response.ok`, `401`). Les modules comme `api/tasks.js` appellent `get` / `post` / `put` / `del` avec la route voulue.
 
-Le raisonnement sur la gestion d'état (props, callbacks, prop drilling) est dans [Gestion d'état côté front](../explications/gestion-etat-front.md).
