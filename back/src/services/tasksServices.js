@@ -5,11 +5,12 @@ import {
   getTasksByUserModel,
   deleteTaskModel,
 } from '../models/tasksModels.js';
-
 import {
   updateTaskAssignedUserModel,
   createTaskAssignedUserModel,
 } from '../models/usersTasksModel.js';
+import AppError from '../utils/AppError.js';
+import { TASK_STATUS } from '../constants.js';
 
 async function createTaskServices(name, description, points, assignedMember) {
   // 1. Créer la tâche elle-même
@@ -28,9 +29,7 @@ const updateTaskService = async (task_id, task_details) => {
   const resultTaskDetails = await updateTaskDetailsModel(task_id, task_details);
   // Bloquer la suite si la tâche n'existe pas, pour ne pas assigner un utilisateur à une tâche inexistante
   if (!resultTaskDetails) {
-    const error = new Error(`La tâche ${task_id} n'existe pas`);
-    error.statusCode = 404;
-    throw error;
+    throw new AppError(`La tâche ${task_id} n'existe pas`, 404);
   }
   // Mettre à jour l'utilisateur assigné à la tâche
   if (task_details.user_id !== undefined) {
@@ -44,9 +43,11 @@ const updateTaskService = async (task_id, task_details) => {
 async function getAllTasksService() {
   const tasks = await getAllTasksModel();
   // Je veux stocker les tâches à faire dans un nouveau tableau
-  const toDoTasks = tasks.filter((task) => task.status === 'A_FAIRE'); // J'applique une méthode filter() qui va vérifier le statut de chaque tâches
+  const toDoTasks = tasks.filter((task) => task.status === TASK_STATUS.TODO); // J'applique une méthode filter() qui va vérifier le statut de chaque tâches
   // Je veux stocker les tâches terminées dans un nouveau tableau
-  const finishedTasks = tasks.filter((task) => task.status === 'TERMINE');
+  const finishedTasks = tasks.filter(
+    (task) => task.status === TASK_STATUS.DONE
+  );
   return { toDoTasks, finishedTasks };
 }
 //Service pour scinder les toutes les tâches récupérées pour un user,  en deux tableaux distincts"à faire" et "Terminées"
@@ -54,10 +55,10 @@ async function getTasksByUserService(userId) {
   //Ne pas oublier de répercuter userId en paramètre
   const tasksByUser = await getTasksByUserModel(userId); //Ne pas oublier de répercuter userId en paramètre
   const toDoTasks = tasksByUser.filter(
-    (taskByUser) => taskByUser.status === 'A_FAIRE'
+    (taskByUser) => taskByUser.status === TASK_STATUS.TODO
   );
   const finishedTasks = tasksByUser.filter(
-    (taskByUser) => taskByUser.status === 'TERMINE'
+    (taskByUser) => taskByUser.status === TASK_STATUS.DONE
   );
   return { toDoTasks, finishedTasks }; // Je retourne mes tableaux
 }

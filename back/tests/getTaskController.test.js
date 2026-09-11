@@ -17,7 +17,8 @@ let receivedUserId = null;
 // 1 - MOCK DU SERVICE: Qaund on appelle le service, plutôt que d'utiliser le service, on utilise cette fonction de simulation
 jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   getAllTasksService: async () => {
-    if (mockErrorGetAllTasks) {// si l'erreur est attendue dans le test
+    if (mockErrorGetAllTasks) {
+      // si l'erreur est attendue dans le test
       mockErrorGetAllTasks = false; // on réinitialise pour ne pas affecter les tests suivants
       throw new Error('Erreur DB simulée'); //on renvoie une erreur
     }
@@ -25,13 +26,13 @@ jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   },
   //Service mocké capture l'id et simule une erreur si besoin
   getTasksByUserService: async (userId) => {
-  receivedUserId = userId; // on note ce qu'on a vraiment reçu
-  if (mockErrorGetTasksByUser) {
-    mockErrorGetTasksByUser = false;
-    throw new Error('Erreur DB simulée');
-  }
-  return DEFAULT_TASKS;
-},
+    receivedUserId = userId; // on note ce qu'on a vraiment reçu
+    if (mockErrorGetTasksByUser) {
+      mockErrorGetTasksByUser = false;
+      throw new Error('Erreur DB simulée');
+    }
+    return DEFAULT_TASKS;
+  },
   createTaskServices: async () => undefined,
   updateTaskService: async () => undefined,
   deleteTaskService: async () => undefined,
@@ -44,7 +45,7 @@ const {
   getTasksByUserIdController,
 } = await import('../src/controllers/tasksControllers.js');
 
-// 3 - FONCTION POUR CREER UNE FAUSSE RESPONSE: 
+// 3 - FONCTION POUR CREER UNE FAUSSE RESPONSE:
 
 function createMockRes() {
   const res = { statusCode: null, body: null };
@@ -124,9 +125,7 @@ describe("getTasksByUserIdController : Vérification que l'admin peut récupére
     const res = createMockRes();
 
     // WHEN / THEN
-    await expect(
-      getTasksByUserIdController(req, res)
-    ).rejects.toMatchObject({
+    await expect(getTasksByUserIdController(req, res)).rejects.toMatchObject({
       statusCode: 400,
       message: "L'id de l'utilisateur doit être un nombre valide.",
     });
@@ -138,9 +137,7 @@ describe("getTasksByUserIdController : Vérification que l'admin peut récupére
     const res = createMockRes();
 
     // WHEN / THEN
-    await expect(
-      getTasksByUserIdController(req, res)
-    ).rejects.toMatchObject({
+    await expect(getTasksByUserIdController(req, res)).rejects.toMatchObject({
       statusCode: 400,
       message: "L'id de l'utilisateur doit être un nombre valide.",
     });
@@ -148,7 +145,8 @@ describe("getTasksByUserIdController : Vérification que l'admin peut récupére
 
   it("Vérifier que si l'id est valide, ça retourne bien 200", async () => {
     // GIVEN
-    const req = { params: { id: '3' } }; //Ici l'id est passé en string car dans l'URL il est en format string
+    const req = { params: { id: '3' } };
+    // gaedic : Ici l'id est passé en string car dans l'URL il est en format string
     const res = createMockRes();
 
     // WHEN
@@ -156,7 +154,8 @@ describe("getTasksByUserIdController : Vérification que l'admin peut récupére
 
     // THEN
     expect(res.statusCode).toBe(200);
-    expect(receivedUserId).toBe('3');
+    expect(receivedUserId).toBe(3);
+    //! elo : j'ai remis un number comme id dans ton test car j'ai modifié le controller pour garantir que lorsque l'id est récupéré il est convertit sous format de nombre
   });
 
   it("Vérifier que si le service échoue, l'erreur remonte", async () => {
@@ -166,8 +165,8 @@ describe("getTasksByUserIdController : Vérification que l'admin peut récupére
     mockErrorGetTasksByUser = true;
 
     // WHEN / THEN
-    await expect(
-      getTasksByUserIdController(req, res)
-    ).rejects.toThrow('Erreur DB simulée');
+    await expect(getTasksByUserIdController(req, res)).rejects.toThrow(
+      'Erreur DB simulée'
+    );
   });
 });

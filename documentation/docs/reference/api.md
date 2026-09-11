@@ -249,6 +249,7 @@ Crée une tâche. Réservé aux Admin.
 
 - **Validation** :
   - `name` : chaîne non vide, sinon `400 "Le nom de la tâche doit être un champ de caractère"`
+  - `description` : si fournie, doit être une chaîne, sinon `400 "La description doit être du texte !"`
   - `assignment` : requis, converti en entier, sinon `400 "Un membre doit être assigné à la tâche"` (absent) ou `400 "L'identifiant du membre assigné doit être un nombre entier"` (non convertible)
   - `points` : nombre strictement supérieur à 0, sinon `400 "La variable point est de type number et être strictement supérieur à zéro"`
 
@@ -289,8 +290,8 @@ Modifie une tâche. Réservé aux Admin.
 - **Validation** :
   - `name` : chaîne non vide, sinon `400`
   - `description` : si fournie, doit être une chaîne, sinon `400`
-  - `status` : requis, doit valoir `"A_FAIRE"` ou `"TERMINE"`, sinon `400`
-  - `points` : si fourni, doit être un entier, sinon `400`
+  - `status` : requis, doit valoir `"A_FAIRE"` ou `"TERMINE"` (constante `TASK_STATUS`, `back/src/constants.js`), sinon `400`
+  - `points` : si fourni, entier ≥ 1, sinon `400`
   - `user_id` : si fourni, doit être un entier, sinon `400`
 
 **Réponse succès — `200`**

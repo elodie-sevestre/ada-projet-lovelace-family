@@ -1,3 +1,5 @@
+/* eslint-disable no-console -- ce module est la seule frontière autorisée vers la console */
+
 export const logger = {
   error: (msg, ctx) =>
     console.error(

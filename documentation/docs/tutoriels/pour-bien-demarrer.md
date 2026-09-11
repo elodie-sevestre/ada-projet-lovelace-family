@@ -2,6 +2,7 @@
 sidebar_position: 1
 description: Pour la dev qui rejoint l'équipe. Répond à « comment j'installe et je lance le projet pour la première fois ? ».
 ---
+
 # Bien démarrer sur Lovelace Family
 
 Ce tutoriel t'accompagne pas à pas pour faire tourner **Lovelace Family** sur ta machine, jusqu'à te connecter dans l'application avec un compte de test. À la fin, tu auras un environnement complet qui fonctionne (frontend, backend, base de données) et tu comprendras ce que fait chaque étape.
@@ -134,7 +135,7 @@ sudo systemctl stop postgresql
 net stop postgresql-x64-16   # adapte le numéro de version si besoin
 ```
 
-Si c'est plutôt un conteneur Docker d'un autre projet qui occupe le port (par exemple un autre PostgreSQL lancé via Docker), pas besoin de ligne de commande : ouvre **Docker Desktop**, repère le conteneur concerné dans la liste, et arrête-le d'un clic (bouton *Stop*).
+Si c'est plutôt un conteneur Docker d'un autre projet qui occupe le port (par exemple un autre PostgreSQL lancé via Docker), pas besoin de ligne de commande : ouvre **Docker Desktop**, repère le conteneur concerné dans la liste, et arrête-le d'un clic (bouton _Stop_).
 
 Tu peux ensuite relancer `docker compose up --build` normalement.
 
@@ -173,183 +174,9 @@ Ouvre ton navigateur à l'adresse [http://localhost:5173](http://localhost:5173)
 Le projet est livré avec deux comptes de démonstration, insérés par les fichiers `.sql` que tu viens d'exécuter, pour que tu puisses tester sans créer de compte :
 
 | Persona     | Rôle   | Identifiant / Email | Mot de passe |
-| ----------- | ------ | -------------------- | ------------- |
-| **Bernard** | ADMIN  | bernard@aol.com       | lemotdepasse  |
-| **Léa**     | MEMBER | lillychat@gmail.com   | kawai3000     |
-
-Connecte-toi avec le compte **Bernard** : tu arrives sur la vue "parent", avec la liste des tâches déjà créées par le seed. Si tu vois cette liste, c'est que le frontend, le backend et la base de données communiquent correctement entre eux — bravo, ton environnement est opérationnel !
-
-## Alternative — lancer front et back sans Docker
-
-Docker reste la voie recommandée pour ce tutoriel, mais tu peux aussi lancer le frontend et le backend directement en ligne de commande, en gardant uniquement PostgreSQL dans Docker. C'est utile par exemple pour profiter pleinement du serveur de développement Vite pendant que tu travailles sur le front.
-
-**1. Ne démarrer que la base de données via Docker**
-
-```bash
-docker compose up postgres
-```
-
-Laisse cette commande tourner dans un terminal — seul le conteneur PostgreSQL démarre, pas le frontend ni le backend.
-
-> **⚠️ Une valeur à changer dans ton `.env`**
->
-> Dans le tutoriel avec Docker complet, `POSTGRES_HOST=postgres` fonctionne parce que le backend tourne lui aussi dans un conteneur, sur le même réseau Docker. Ici, le backend va tourner directement sur ta machine et devra atteindre PostgreSQL via le port exposé sur ton système : remplace cette valeur par `POSTGRES_HOST=localhost` dans `back/.env`.
-
-**2. Installer les dépendances de chaque service**
-
-```bash
-cd back && npm install
-cd ../front && npm install
-```
-
-**3. Initialiser la base de données**
-
-Comme dans le tutoriel avec Docker, utilise l'**extension PostgreSQL de VS Code** pour te connecter à `localhost:5432` avec les identifiants de ton `back/.env`, puis exécute `migration_up.sql` puis `seed.sql` depuis le dossier `db/` — voir l'[Étape 4](#étape-4--initialiser-la-base-de-données) ci-dessus pour le détail.
-
-**4. Lancer le backend**
-
-Toujours depuis `back`, dans un second terminal :
-
-```bash
-npm run dev
-```
-
-**5. Lancer le frontend**
-
-Depuis `front`, dans un troisième terminal :
-
-```bash
-npm run dev
-```
-
-Vite démarre le frontend sur [http://localhost:5173](http://localhost:5173) avec le rechargement à chaud — retrouve-toi à l'[étape de vérification](#étape-5--vérifier-que-ça-fonctionne) ci-dessus pour te connecter avec un compte de test.
-
-## Ce que tu viens de faire
-
-Récapitulons ce qui s'est passé pendant ce tutoriel :
-
-1. Tu as récupéré le code source du projet et basculé sur la branche `develop`.
-2. Tu as configuré les variables d'environnement dont le backend a besoin pour se connecter à la base et sécuriser les jetons de connexion.
-3. Docker Compose a construit et démarré trois conteneurs (frontend, backend, PostgreSQL) qui communiquent entre eux par leurs noms de service.
-4. Tu as initialisé la base de données en exécutant les fichiers SQL du projet via l'extension PostgreSQL de VS Code.
-5. Tu as vérifié que tout fonctionnait en te connectant avec un compte de test.
-
-
-POSTGRES_HOST=postgres    # nom du service docker-compose
-POSTGRES_PORT=5432
-
-# Secret JWT — obligatoire — minimum 32 caractères en production
-JWT_SECRET=               # à demander au/à la responsable sécurité, ou à générer en local (voir commande ci-dessous)
-
-# Port d'écoute du serveur — optionnel, défaut 3000
-PORT=5000
-
-# Environnement d'exécution — development | production | test
-NODE_ENV=development
-```
-
-Trois choses à faire ici :
-
-**1. `POSTGRES_USER` et `POSTGRES_PASSWORD`** — Choisis librement n'importe quelles valeurs. En local, il n'y a aucun enjeu de sécurité : c'est simplement l'identifiant/mot de passe que ta base de données Docker utilisera sur ta machine. Par exemple :
-
-```bash
-POSTGRES_USER=lovelace
-POSTGRES_PASSWORD=devlocal
-```
-
-**2. `JWT_SECRET`** — Cette clé sert à signer les jetons de connexion (JWT) des utilisateurs. Pour un usage local, génère la tienne avec cette commande :
-
-```bash
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-```
-
-Colle la chaîne obtenue comme valeur de `JWT_SECRET`.
-
-> **📌 Pourquoi je ne dois pas inventer n'importe quelle valeur ?**
->
-> `POSTGRES_HOST=postgres` n'est **pas** à modifier : ce n'est pas une adresse réseau classique, c'est le nom du service tel qu'il est déclaré dans `docker-compose.yml`. Les conteneurs Docker se parlent entre eux par leur nom de service, pas par `localhost`.
-
-**3. `PORT` et `NODE_ENV`** — Laisse-les tels quels pour l'instant, les valeurs par défaut conviennent parfaitement à un premier lancement en local.
-
-## Étape 3 — Lancer le projet
-
-Une seule commande suffit pour démarrer les trois services (frontend, backend, base de données) :
-
-```bash
-docker compose up --build
-```
-
-L'option `--build` reconstruit les images Docker — utile la première fois, ou après une modification des dépendances. Laisse tourner cette commande dans ton terminal ; les logs des trois services vont s'afficher au fur et à mesure qu'ils démarrent.
-
-Une fois que les logs se stabilisent (plus de messages d'erreur qui défilent), les trois services sont prêts :
-
-| Service    | Port (local) |
-| ---------- | ------------ |
-| Frontend   | `5173`       |
-| Backend    | `5000`       |
-| PostgreSQL | `5432`       |
-
-> **⚠️ Un port est déjà utilisé chez toi ?**
->
-> Ne modifie **pas** `docker-compose.yml` pour ça : ce fichier est versionné et partagé par toute l'équipe — le changer changerait la config pour tout le monde dès que tu pousserais ta branche.
->
-> La bonne pratique est plutôt de libérer le port en local : identifie quel service tourne déjà sur ce port sur ta machine (par exemple un PostgreSQL déjà installé en local qui occupe le `5432`) et arrête-le, avant de relancer `docker compose up --build`.
-
-Par exemple, si c'est un PostgreSQL installé nativement qui occupe le port `5432` :
-
-```bash
-# macOS (installé via Homebrew)
-brew services stop postgresql
-
-# Linux (service systemd)
-sudo systemctl stop postgresql
-
-# Windows (depuis un terminal en administrateur)
-net stop postgresql-x64-16   # adapte le numéro de version si besoin
-```
-
-Si c'est plutôt un conteneur Docker d'un autre projet qui occupe le port (par exemple un autre PostgreSQL lancé via Docker), pas besoin de ligne de commande : ouvre **Docker Desktop**, repère le conteneur concerné dans la liste, et arrête-le d'un clic (bouton *Stop*).
-
-Tu peux ensuite relancer `docker compose up --build` normalement.
-
-## Étape 4 — Initialiser la base de données
-
-Le conteneur PostgreSQL démarre avec une base vide — il faut y injecter la structure des tables et les données de test. Ça se fait avec l'**extension PostgreSQL de Microsoft** pour VS Code, en exécutant les fichiers `.sql` du dossier `db/`.
-
-**1. Installer l'extension**
-
-Depuis VS Code, va dans l'onglet Extensions et installe **PostgreSQL** (éditeur : Microsoft).
-
-**2. Se connecter à la base**
-
-Crée une nouvelle connexion dans l'extension avec les informations de ton `back/.env` :
-
-- **Hôte** : `localhost`
-- **Port** : `5432`
-- **Utilisateur / mot de passe** : les valeurs de `POSTGRES_USER` / `POSTGRES_PASSWORD` que tu as choisies
-- **Base de données** : la valeur de `POSTGRES_DB`
-
-**3. Exécuter les fichiers SQL**
-
-Le dossier `db/` contient quatre fichiers :
-
-- `migration_up.sql` — crée la structure des tables
-- `seed.sql` — insère les données de test (dont les comptes Bernard et Léa)
-- `queries.sql` — des requêtes de référence, à consulter au besoin, pas à exécuter pour l'installation
-- `migration_down.sql` — annule la migration (supprime les tables), utile si tu dois repartir de zéro
-
-Ouvre `migration_up.sql` dans VS Code : un bouton **▶️ (play)** apparaît en haut du fichier une fois l'extension connectée à la base — clique dessus pour l'exécuter. Fais ensuite la même chose avec `seed.sql`.
-
-## Étape 5 — Vérifier que ça fonctionne
-
-Ouvre ton navigateur à l'adresse [http://localhost:5173](http://localhost:5173). Tu devrais voir l'écran de connexion de Lovelace Family.
-
-Le projet est livré avec deux comptes de démonstration, insérés par les fichiers `.sql` que tu viens d'exécuter, pour que tu puisses tester sans créer de compte :
-
-| Persona     | Rôle   | Identifiant / Email | Mot de passe |
-| ----------- | ------ | -------------------- | ------------- |
-| **Bernard** | ADMIN  | bernard@aol.com       | lemotdepasse  |
-| **Léa**     | MEMBER | lillychat@gmail.com   | kawai3000     |
+| ----------- | ------ | ------------------- | ------------ |
+| **Bernard** | ADMIN  | bernard@aol.com     | lemotdepasse |
+| **Léa**     | MEMBER | lillychat@gmail.com | kawai3000    |
 
 Connecte-toi avec le compte **Bernard** : tu arrives sur la vue "parent", avec la liste des tâches déjà créées par le seed. Si tu vois cette liste, c'est que le frontend, le backend et la base de données communiquent correctement entre eux — bravo, ton environnement est opérationnel !
 
@@ -412,6 +239,6 @@ Récapitulons ce qui s'est passé pendant ce tutoriel :
 
 Ce tutoriel t'a fait démarrer une fois, en t'expliquant le pourquoi de chaque étape. Pour la suite, tu n'auras plus besoin de ce niveau de détail — trois autres sections de la doc prennent le relais, chacune pour un besoin différent :
 
-- **Guides** — pour refaire une action du quotidien sans réexplication : **[Relancer le projet en local](../guides/lancer-le-projet-en-local.md)**, **[Initialiser ou réinitialiser la base de données](../guides/initialiser-la-bdd.md)**, **[Contribuer au projet](../guides/contribuer.md)** (branches, workflow `develop`/`main`, Pull Requests).
+- **Guides** — pour refaire une action du quotidien sans réexplication : **[Relancer le projet en local](../guides/lancer-le-projet-en-local.md)**, **[Initialiser ou réinitialiser la base de données](../guides/initialiser-la-bdd.md)**, **Contribuer au projet** (branches, workflow `develop`/`main`, Pull Requests).
 - **Référence** — pour retrouver une info précise en quelques secondes, sans avoir à fouiller le code : endpoints, variables d'environnement, schéma de la base, conventions de nommage.
-- **Explications** — pour comprendre le *pourquoi* des choix techniques (pourquoi PostgreSQL, pourquoi cette architecture) : ADR et limites connues du projet.
+- **Explications** — pour comprendre le _pourquoi_ des choix techniques (pourquoi PostgreSQL, pourquoi cette architecture) : ADR et limites connues du projet.
