@@ -144,8 +144,8 @@ p {
 
 .btn-secondary {
   background: transparent;
-  border: 2px solid var(--palette-brown, #644122);
-  color: var(--palette-mint, #5fd38d);
+  border: 2px solid var(--palette-brown);
+  color: var(--palette-green);
 }
 
 .btn-secondary:hover {
@@ -153,7 +153,7 @@ p {
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: #9d4a8c;
   border: 2px solid var(--accent);
   color: white;
 }
