@@ -168,7 +168,7 @@ Pour tester l'application sans passer par la création de compte, deux comptes d
 | Persona     | Rôle   | Identifiant / Email | Mot de passe |
 | ----------- | ------ | ------------------- | ------------ |
 | **Bernard** | ADMIN  | bernard@aol.com     | lemotdepasse |
-| **Léa**     | MEMBER | lillychat@gmail.com | kawai3000    |
+| **Léa**     | MEMBER | lillychat@gmail.fr  | kawai3000    |
 
 > 📌 À compléter avec les valeurs réelles du fichier de seed dès qu'il sera finalisé.
 
