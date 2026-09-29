@@ -11,7 +11,7 @@ import leafIcon from "../../assets/leaf_icon.png";
 import flowerIcon from "../../assets/flower_icon.png";
 import "../../css/TasksConsultation.css";
 
-function TasksConsultation({ onLogout }) {
+function TasksConsultation({ onLogout, userInfo }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
   const currentUser = { role: "ADMIN" };
   const [members, setMembers] = useState([]);
@@ -31,8 +31,7 @@ function TasksConsultation({ onLogout }) {
 
   // TODO: remplacer par le vrai membre connecté une fois l'authentification
   // en place. En attendant, on affiche le premier membre de la liste.
-  const currentMember = members[0];
-  const memberName = currentMember?.name ?? "";
+  const memberName = userInfo?.userName ?? "";
   const memberInitial = memberName ? memberName.charAt(0).toUpperCase() : "";
   const [showCelebration, setShowCelebration] = useState(false);
   const handleCelebrate = () => setShowCelebration(true);
@@ -51,7 +50,7 @@ function TasksConsultation({ onLogout }) {
         <MemberSidebar
           memberInitial={memberInitial}
           memberName={memberName}
-          totalPoints={currentMember?.total_points ?? 0}
+          totalPoints={userInfo?.totalPoint ?? 0}
           progressPercent={35}
         />
       </aside>
