@@ -8,33 +8,6 @@ import {
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
 
-
-//Récupérer toutes les tâches
-async function getAllTasksController(req, res) {
-  const tasks = await getAllTasksService();
-  res.status(200).json(tasks);
-}
-
-//Récupérer toutes les tâches de l'utilsateur connecté
-async function getTasksByUserController(req, res) {
-  const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
-  res.status(200).json(tasksByUser);
-}
-
-//Récupérer toutes les tâches d'un utilisateur (permet de filtrer)
-async function getTasksByUserIdController(req, res) {
-  const { id: userId } = req.params;
-  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
-  if (!userId || !Number.isInteger(Number(userId)) || Number(userId) <= 0) {
-    throw new AppError(
-      "L'id de l'utilisateur doit être un nombre valide.",
-      400
-    );
-  }
-  const tasksByUserId = await getTasksByUserService(Number(userId));
-  res.status(200).json(tasksByUserId);
-}
-
 //Créer une tâche: (réservé à l'admin)
 async function createTaskController(req, res) {
   const { name, description, assignment, points } = req.body;
@@ -145,6 +118,32 @@ async function updateTaskController(req, res) {
 
   // Renvoyer la tâche mise à jour.
   res.status(200).json(rows);
+}
+
+//Récupérer toutes les tâches
+async function getAllTasksController(req, res) {
+  const tasks = await getAllTasksService();
+  res.status(200).json(tasks);
+}
+
+//Récupérer toutes les tâches de l'utilsateur connecté
+async function getTasksByUserController(req, res) {
+  const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
+  res.status(200).json(tasksByUser);
+}
+
+//Récupérer toutes les tâches d'un utilisateur (permet de filtrer)
+async function getTasksByUserIdController(req, res) {
+  const { id: userId } = req.params;
+  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
+  if (!userId || !Number.isInteger(Number(userId)) || Number(userId) <= 0) {
+    throw new AppError(
+      "L'id de l'utilisateur doit être un nombre valide.",
+      400
+    );
+  }
+  const tasksByUserId = await getTasksByUserService(Number(userId));
+  res.status(200).json(tasksByUserId);
 }
 
 //Supprimer une tâche
