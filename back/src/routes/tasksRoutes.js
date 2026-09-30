@@ -17,7 +17,7 @@ const tasksRoutes = Router();
 // protège les routes tasksRoutes
 tasksRoutes.use(requireAuth);
 
-//* Ici la route pour consulter les tâches d'un utilisateur
+//* Ici la route pour consulter les tâches d'un utilisateur en particulier (permet de filtrer)
 tasksRoutes.get(
   '/users/:id',
   createCheckRoleMiddleware(ROLE.Admin),
@@ -27,7 +27,7 @@ tasksRoutes.get(
 //* Ici la route pour aller consulter les tâches de l'utilisateur connecté
 tasksRoutes.get(
   '/users',
-  // createCheckRoleMiddleware(ROLE.Member),
+  createCheckRoleMiddleware(ROLE.Member),
   getTasksByUserController
 );
 

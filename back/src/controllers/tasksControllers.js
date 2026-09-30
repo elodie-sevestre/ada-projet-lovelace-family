@@ -8,6 +8,34 @@ import {
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
 
+
+//Récupérer toutes les tâches
+async function getAllTasksController(req, res) {
+  const tasks = await getAllTasksService();
+  res.status(200).json(tasks);
+}
+
+//Récupérer toutes les tâches de l'utilsateur connecté
+async function getTasksByUserController(req, res) {
+  const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
+  res.status(200).json(tasksByUser);
+}
+
+//Récupérer toutes les tâches d'un utilisateur (permet de filtrer)
+async function getTasksByUserIdController(req, res) {
+  const { id: userId } = req.params;
+  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
+  if (!userId || !Number.isInteger(Number(userId)) || Number(userId) <= 0) {
+    throw new AppError(
+      "L'id de l'utilisateur doit être un nombre valide.",
+      400
+    );
+  }
+  const tasksByUserId = await getTasksByUserService(Number(userId));
+  res.status(200).json(tasksByUserId);
+}
+
+//Créer une tâche: (réservé à l'admin)
 async function createTaskController(req, res) {
   const { name, description, assignment, points } = req.body;
 
@@ -54,6 +82,7 @@ async function createTaskController(req, res) {
   res.status(201).json(createTask);
 }
 
+//Mettre à jour une tâche (réservé à l'admin)
 async function updateTaskController(req, res) {
   const { id } = req.params;
   const { name, description, status, points, user_id } = req.body;
@@ -118,30 +147,7 @@ async function updateTaskController(req, res) {
   res.status(200).json(rows);
 }
 
-//Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
-async function getAllTasksController(req, res) {
-  const tasks = await getAllTasksService();
-  res.status(200).json(tasks);
-}
-
-async function getTasksByUserController(req, res) {
-  const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
-  res.status(200).json(tasksByUser);
-}
-
-async function getTasksByUserIdController(req, res) {
-  const { id: userId } = req.params;
-  //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
-  if (!userId || !Number.isInteger(Number(userId)) || Number(userId) <= 0) {
-    throw new AppError(
-      "L'id de l'utilisateur doit être un nombre valide.",
-      400
-    );
-  }
-  const tasksByUserId = await getTasksByUserService(Number(userId));
-  res.status(200).json(tasksByUserId);
-}
-
+//Supprimer une tâche
 async function deleteTaskController(req, res) {
   const { id } = req.params;
   if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
