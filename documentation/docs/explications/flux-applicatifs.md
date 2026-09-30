@@ -32,7 +32,7 @@ Ce qui est propre à ce parcours : le service fait **deux écritures** — il cr
 
 ## Consultation des tâches
 
-`GET /api/tasks` (toutes) ou `GET /api/tasks/users/:id` (celles d'un utilisateur).
+`GET /api/tasks` (toutes) ou `GET /api/tasks/users/:id` (celles d'un utilisateur en particulier si on filtre, pas encore utilisée par le front).
 
 Le service renvoie un objet `{ toDoTasks, finishedTasks }` : **le tri par statut est fait côté backend**, pas côté frontend. Le front affiche deux colonnes sans avoir à filtrer — la logique de regroupement est au même endroit pour tous les clients.
 
