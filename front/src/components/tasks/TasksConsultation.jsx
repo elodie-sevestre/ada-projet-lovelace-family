@@ -37,6 +37,10 @@ function TasksConsultation({ onLogout }) {
   const [showCelebration, setShowCelebration] = useState(false);
   const handleCelebrate = () => setShowCelebration(true);
 
+  const finishedCount = tasks.finishedTasks.length;
+  const totalCount = tasks.toDoTasks.length + finishedCount;
+  //Calcul de la barre de progression avec condition ternaire : si totalCount est égal à zéo, on retourne 0, sinon on fait le calcul de la progression
+  const progressPercent= totalCount === 0 ? 0 : Math.round((finishedCount / totalCount)*100);
   return (
     <div className="tasks-consultation-contener">
       <AppHeader
@@ -45,14 +49,13 @@ function TasksConsultation({ onLogout }) {
         memberName={memberName}
         onLogout={onLogout}
       />
-      {/* Sidebar avatar : nom et points réels via l'API,
-          progression toujours en dur (pas de source de données pour ça) */}
+      {/* Sidebar avatar : nom et points réels via l'API (points à venir)*/}
       <aside className="member-side-bar">
         <MemberSidebar
           memberInitial={memberInitial}
           memberName={memberName}
           totalPoints={currentMember?.total_points ?? 0}
-          progressPercent={35}
+          progressPercent={progressPercent}
         />
       </aside>
       <main className="task-content">
