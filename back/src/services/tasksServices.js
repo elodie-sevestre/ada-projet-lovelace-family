@@ -11,6 +11,7 @@ import {
 } from '../models/usersTasksModel.js';
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
+import { ROLE } from '../constants.js';
 
 async function createTaskServices(name, description, points, assignedMember) {
   // 1. Créer la tâche elle-même
@@ -38,22 +39,28 @@ const updateTaskService = async (task_id, task_details) => {
   // Renvoyer les détails de la tâche mise à jour
   return resultTaskDetails;
 };
+//déjà fait en bas
+// //Service pour scinder les toutes les tâches récupérées en deux tableaux distincts"à faire" et "Terminées"
+// async function getAllTasksService() {
+//   const tasks = await getAllTasksModel();
+//   // Je veux stocker les tâches à faire dans un nouveau tableau
+//   const toDoTasks = tasks.filter((task) => task.status === TASK_STATUS.TODO); // J'applique une méthode filter() qui va vérifier le statut de chaque tâches
+//   // Je veux stocker les tâches terminées dans un nouveau tableau
+//   const finishedTasks = tasks.filter(
+//     (task) => task.status === TASK_STATUS.DONE
+//   );
+//   return { toDoTasks, finishedTasks };
+// }
 
-//Service pour scinder les toutes les tâches récupérées en deux tableaux distincts"à faire" et "Terminées"
-async function getAllTasksService() {
-  const tasks = await getAllTasksModel();
-  // Je veux stocker les tâches à faire dans un nouveau tableau
-  const toDoTasks = tasks.filter((task) => task.status === TASK_STATUS.TODO); // J'applique une méthode filter() qui va vérifier le statut de chaque tâches
-  // Je veux stocker les tâches terminées dans un nouveau tableau
-  const finishedTasks = tasks.filter(
-    (task) => task.status === TASK_STATUS.DONE
-  );
-  return { toDoTasks, finishedTasks };
-}
 //Service pour scinder les toutes les tâches récupérées pour un user,  en deux tableaux distincts"à faire" et "Terminées"
-async function getTasksByUserService(userId) {
+async function getTasksByUserService(userId, userRole) {
   //Ne pas oublier de répercuter userId en paramètre
-  const tasksByUser = await getTasksByUserModel(userId); //Ne pas oublier de répercuter userId en paramètre
+  let tasksByUser;
+  if (userRole === ROLE.Admin) {
+    tasksByUser = await getAllTasksModel();
+  } else {
+    tasksByUser = await getTasksByUserModel(userId); //Ne pas oublier de répercuter userId en paramètre
+  }
   const toDoTasks = tasksByUser.filter(
     (taskByUser) => taskByUser.status === TASK_STATUS.TODO
   );
@@ -74,7 +81,7 @@ const deleteTaskService = async (task_id) => {
 export {
   createTaskServices,
   updateTaskService,
-  getAllTasksService,
+  // getAllTasksService,
   getTasksByUserService,
   deleteTaskService,
 };

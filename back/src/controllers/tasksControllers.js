@@ -1,7 +1,7 @@
 import {
   createTaskServices,
   updateTaskService,
-  getAllTasksService,
+  // getAllTasksService,
   getTasksByUserService,
   deleteTaskService,
 } from '../services/tasksServices.js';
@@ -117,15 +117,18 @@ async function updateTaskController(req, res) {
   // Renvoyer la tâche mise à jour.
   res.status(200).json(rows);
 }
-
-//Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
-async function getAllTasksController(req, res) {
-  const tasks = await getAllTasksService();
-  res.status(200).json(tasks);
-}
+//Routes plus utilisé car les tâches sont donnée selon le rôle
+// //Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
+// async function getAllTasksController(req, res) {
+//   const tasks = await getAllTasksService();
+//   res.status(200).json(tasks);
+// }
 
 async function getTasksByUserController(req, res) {
-  const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
+  const tasksByUser = await getTasksByUserService(
+    req.user.userId,
+    req.user.role
+  ); //Ne pas oublier de passer l'id en paramètre
   res.status(200).json(tasksByUser);
 }
 
@@ -157,7 +160,7 @@ async function deleteTaskController(req, res) {
 export {
   createTaskController,
   updateTaskController,
-  getAllTasksController,
+  // getAllTasksController,
   getTasksByUserController,
   getTasksByUserIdController,
   deleteTaskController,

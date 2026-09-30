@@ -16,7 +16,11 @@ function App() {
     <>
       <section id="center">
         {token ? (
-          <TasksConsultation userInfo={userInfo} onLogout={handleLogout} />
+          <TasksConsultation
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
+            onLogout={handleLogout}
+          />
         ) : (
           <LoginForm setToken={setToken} setUserInfo={setUserInfo} />
         )}

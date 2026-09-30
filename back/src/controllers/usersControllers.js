@@ -1,7 +1,17 @@
-import getAllUsersService from '../services/usersServices.js';
+import {
+  getAllUsersService,
+  getUserByTokenService,
+} from '../services/usersServices.js';
 
 async function getAllUsersController(req, res) {
   const users = await getAllUsersService();
   res.status(200).json(users);
 }
-export default getAllUsersController;
+
+// renvoyer les information de l'utilisateur connecté via son token
+async function getuserByToken(req, res) {
+  const user = await getUserByTokenService(req.user);
+  res.status(200).json(user);
+}
+
+export { getAllUsersController, getuserByToken };

@@ -1,9 +1,10 @@
 import { get, post, put, del } from "./client.js";
 const TASKS_ROUTE = "/api/tasks";
+const TASKS_ROUTE_USERS = "/api/tasks/users";
 // const ROUTE_TASKS_BY_ID = (id) => `/tasks/${id}`;
 
 export function getTasks() {
-  return get(TASKS_ROUTE);
+  return get(TASKS_ROUTE_USERS);
 }
 
 export function createTask(taskData) {

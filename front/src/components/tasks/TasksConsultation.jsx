@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createTask, getTasks } from "../../api/tasks.js";
-import { getUsers } from "../../api/users.js";
+import { getUsers, getCurrentUserInfo } from "../../api/users.js";
 import AppHeader from "../layout/AppHeader.jsx";
 import MemberSidebar from "../layout/MemberSideBar.jsx";
 import CreateTaskButton from "../buttons/CreateTaskButton.jsx";
@@ -11,7 +11,7 @@ import leafIcon from "../../assets/leaf_icon.png";
 import flowerIcon from "../../assets/flower_icon.png";
 import "../../css/TasksConsultation.css";
 
-function TasksConsultation({ onLogout, userInfo }) {
+function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
   const currentUser = { role: "ADMIN" };
   const [members, setMembers] = useState([]);
@@ -21,6 +21,9 @@ function TasksConsultation({ onLogout, userInfo }) {
   };
 
   useEffect(() => {
+    if (!userInfo) {
+      getCurrentUserInfo().then((result) => setUserInfo(result));
+    }
     getUsers().then((result) => setMembers(result));
     fetchTasks();
   }, []);

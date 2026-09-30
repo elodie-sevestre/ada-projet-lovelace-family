@@ -4,7 +4,7 @@ import { ROLE } from '../constants.js';
 import {
   createTaskController,
   updateTaskController,
-  getAllTasksController,
+  // getAllTasksController,
   getTasksByUserIdController,
   getTasksByUserController,
   deleteTaskController,
@@ -53,11 +53,12 @@ tasksRoutes.post(
   createTaskController
 );
 
-// Ici la route pour aller consulter toutes les tâches
-tasksRoutes.get(
-  '/',
-  createCheckRoleMiddleware(ROLE.Admin),
-  getAllTasksController
-);
+//Route plus utilisé consulter toutes les tâches et géré selon le rôle
+// // Ici la route pour aller consulter toutes les tâches
+// tasksRoutes.get(
+//   '/',
+//   createCheckRoleMiddleware(ROLE.Admin),
+//   getAllTasksController
+// );
 
 export default tasksRoutes;
