@@ -4,10 +4,12 @@ import {
   getAllTasksModel,
   getTasksByUserModel,
   deleteTaskModel,
+  updateTaskStatusModel, // NOUVEAU : modèle qui change le statut d'une tâche
 } from '../models/tasksModels.js';
 import {
   updateTaskAssignedUserModel,
   createTaskAssignedUserModel,
+  isTaskAssignedToUserModel, // NOUVEAU : modèle qui vérifie qu'une tâche est assignée à un user
 } from '../models/usersTasksModel.js';
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
@@ -39,6 +41,32 @@ const updateTaskService = async (task_id, task_details) => {
   // Renvoyer les détails de la tâche mise à jour
   return resultTaskDetails;
 };
+
+// NOUVEAU : service pour changer uniquement le statut d'une tâche.
+// Règle métier : l'ADMIN peut le faire sur n'importe quelle tâche,
+// un MEMBRE ne peut le faire que sur une tâche qui lui est assignée.
+// Le service décide (règle métier), le modèle exécute le SQL.
+
+async function updateTaskStatusService(taskId, status, user) {
+  // Si l'utilisateur n'est pas admin, on vérifie qu'il est bien assigné à cette tâche
+  if (user.role !== ROLE.Admin) {
+    const isAssigned = await isTaskAssignedToUserModel(taskId, user.userId);
+    // 404 plutôt que 403 : on ne révèle pas l'existence d'une tâche qui n'est pas la sienne
+    if (!isAssigned) {
+      throw new AppError('Tâche introuvable', 404);
+    }
+  }
+  // Mettre à jour le statut en base
+
+  const task = await updateTaskStatusModel(taskId, status);
+  // Le modèle renvoie undefined si aucune ligne n'a été modifiée : la tâche n'existe pas
+
+  if (!task) {
+    throw new AppError(`La tâche ${taskId} n'existe pas`, 404);
+  }
+  return task;
+}
+
 //déjà fait en bas
 // //Service pour scinder les toutes les tâches récupérées en deux tableaux distincts"à faire" et "Terminées"
 // async function getAllTasksService() {
@@ -81,6 +109,7 @@ const deleteTaskService = async (task_id) => {
 export {
   createTaskServices,
   updateTaskService,
+  updateTaskStatusService, // NOUVEAU
   // getAllTasksService,
   getTasksByUserService,
   deleteTaskService,

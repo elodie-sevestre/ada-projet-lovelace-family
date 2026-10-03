@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { editTask } from "../../api/tasks";
+import { updateTaskStatus } from "../../api/tasks"; // NOUVEAU : remplace editTask (PUT réservé à l'admin)
 import { TASK_STATUS } from "../../constants.js";
 import "../../css/TaskCheckBox.css";
 
@@ -30,17 +30,22 @@ function TaskCheckBox({ task, refreshTasks, onCelebrate }) {
     setCheckboxAnimating(true);
     setTimeout(() => setCheckboxAnimating(false), 400);
 
-    // Déclenche la célébration uniquement quand on valide la tâche
-    if (newStatus === TASK_STATUS.DONE) {
-      onCelebrate?.();
-    }
-
-    editTask(task.id, {
-      name: task.task_name,
-      description: task.description,
-      status: newStatus,
-      points: task.points,
-    }).then(() => setTimeout(() => refreshTasks(), 400));
+    // NOUVEAU : on n'envoie plus que l'id et le nouveau statut (PATCH /api/tasks/:id/status).
+    // Le membre assigné (ou l'admin) a le droit d'appeler cette route ; le back applique la règle.
+    updateTaskStatus(task.id, newStatus)
+      .then(() => {
+        // Déclenche la célébration uniquement quand on valide la tâche,
+        // et seulement APRÈS la réponse du serveur (pas si la requête a échoué)
+        if (newStatus === TASK_STATUS.DONE) {
+          onCelebrate?.();
+        }
+        setTimeout(() => refreshTasks(), 400);
+      })
+      .catch((err) => {
+        // NOUVEAU : l'échec n'est plus silencieux ; on resynchronise l'affichage avec le serveur
+        console.error(err);
+        refreshTasks();
+      });
   }
 
   return (

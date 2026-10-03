@@ -4,6 +4,7 @@ import { ROLE } from '../constants.js';
 import {
   createTaskController,
   updateTaskController,
+  updateTaskStatusController, // NOUVEAU : contrôleur du changement de statut
   // getAllTasksController,
   getTasksByUserIdController,
   getTasksByUserController,
@@ -38,6 +39,12 @@ tasksRoutes.put(
   createCheckRoleMiddleware(ROLE.Admin),
   updateTaskController
 );
+
+// NOUVEAU : changement de statut (cocher / décocher une tâche), PATCH car modification partielle.
+// Pas de checkRole ici : la route est ouverte à tout utilisateur connecté (requireAuth).
+// La règle "ADMIN OU membre assigné à cette tâche" est appliquée dans le service.
+
+tasksRoutes.patch('/:id/status', updateTaskStatusController);
 
 // Suppression tâche
 
