@@ -37,6 +37,7 @@ function MemberSidebar({
         aria-valuenow={clampedProgress}
         aria-valuemin={0}
         aria-valuemax={100}
+        aria-label={`Progression : ${clampedProgress}% des tâches terminées`}
       >
         <div
           className="member-sidebar-progress-fill"
