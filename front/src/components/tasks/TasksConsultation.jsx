@@ -13,7 +13,8 @@ import "../../css/TasksConsultation.css";
 
 function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
-  const currentUser = { role: "ADMIN" };
+  const currentUser = { role: userInfo?.role };
+  const isAdmin = currentUser.role === "ADMIN";
   const [members, setMembers] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const fetchTasks = () => {
@@ -32,8 +33,6 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
     return createTask(taskToCreate).then(() => fetchTasks());
   };
 
-  // TODO: remplacer par le vrai membre connecté une fois l'authentification
-  // en place. En attendant, on affiche le premier membre de la liste.
   const memberName = userInfo?.userName ?? "";
   const memberInitial = memberName ? memberName.charAt(0).toUpperCase() : "";
   const [showCelebration, setShowCelebration] = useState(false);
@@ -64,7 +63,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
               <img src={leafIcon} alt="Icone de feuille d'une plante" />
               Tâches à faire
             </h2>
-            <CreateTaskButton onOpen={() => setIsCreating(true)} />
+            {isAdmin && <CreateTaskButton onOpen={() => setIsCreating(true)} />}
             {isCreating && (
               <CreateTaskModal
                 members={members}
