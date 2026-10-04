@@ -3,6 +3,7 @@ import {
   getUserByTokenService,
 } from '../services/usersServices.js';
 
+//Récupérer tous les utilisateurs
 async function getAllUsersController(req, res) {
   const users = await getAllUsersService();
   res.status(200).json(users);

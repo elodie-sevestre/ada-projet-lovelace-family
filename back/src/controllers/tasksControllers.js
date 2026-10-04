@@ -9,6 +9,7 @@ import {
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
 
+//Créer une tâche: (réservé à l'admin)
 async function createTaskController(req, res) {
   const { name, description, assignment, points } = req.body;
 
@@ -55,6 +56,7 @@ async function createTaskController(req, res) {
   res.status(201).json(createTask);
 }
 
+//Mettre à jour une tâche (réservé à l'admin)
 async function updateTaskController(req, res) {
   const { id } = req.params;
   const { name, description, status, points, user_id } = req.body;
@@ -159,6 +161,7 @@ async function getTasksByUserController(req, res) {
   res.status(200).json(tasksByUser);
 }
 
+//Récupérer toutes les tâches d'un utilisateur (permet de filtrer)
 async function getTasksByUserIdController(req, res) {
   const { id: userId } = req.params;
   //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
@@ -172,6 +175,7 @@ async function getTasksByUserIdController(req, res) {
   res.status(200).json(tasksByUserId);
 }
 
+//Supprimer une tâche
 async function deleteTaskController(req, res) {
   const { id } = req.params;
   if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
