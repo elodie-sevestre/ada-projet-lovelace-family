@@ -4,13 +4,16 @@ import {
   getAllTasksModel,
   getTasksByUserModel,
   deleteTaskModel,
+  updateTaskStatusModel, // NOUVEAU : modèle qui change le statut d'une tâche
 } from '../models/tasksModels.js';
 import {
   updateTaskAssignedUserModel,
   createTaskAssignedUserModel,
+  isTaskAssignedToUserModel, // NOUVEAU : modèle qui vérifie qu'une tâche est assignée à un user
 } from '../models/usersTasksModel.js';
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
+import { ROLE } from '../constants.js';
 
 async function createTaskServices(name, description, points, assignedMember) {
   // 1. Créer la tâche elle-même
@@ -39,21 +42,53 @@ const updateTaskService = async (task_id, task_details) => {
   return resultTaskDetails;
 };
 
-//Service pour scinder les toutes les tâches récupérées en deux tableaux distincts"à faire" et "Terminées"
-async function getAllTasksService() {
-  const tasks = await getAllTasksModel();
-  // Je veux stocker les tâches à faire dans un nouveau tableau
-  const toDoTasks = tasks.filter((task) => task.status === TASK_STATUS.TODO); // J'applique une méthode filter() qui va vérifier le statut de chaque tâches
-  // Je veux stocker les tâches terminées dans un nouveau tableau
-  const finishedTasks = tasks.filter(
-    (task) => task.status === TASK_STATUS.DONE
-  );
-  return { toDoTasks, finishedTasks };
+// NOUVEAU : service pour changer uniquement le statut d'une tâche.
+// Règle métier : l'ADMIN peut le faire sur n'importe quelle tâche,
+// un MEMBRE ne peut le faire que sur une tâche qui lui est assignée.
+// Le service décide (règle métier), le modèle exécute le SQL.
+
+async function updateTaskStatusService(taskId, status, user) {
+  // Si l'utilisateur n'est pas admin, on vérifie qu'il est bien assigné à cette tâche
+  if (user.role !== ROLE.Admin) {
+    const isAssigned = await isTaskAssignedToUserModel(taskId, user.userId);
+    // 404 plutôt que 403 : on ne révèle pas l'existence d'une tâche qui n'est pas la sienne
+    if (!isAssigned) {
+      throw new AppError('Tâche introuvable', 404);
+    }
+  }
+  // Mettre à jour le statut en base
+
+  const task = await updateTaskStatusModel(taskId, status);
+  // Le modèle renvoie undefined si aucune ligne n'a été modifiée : la tâche n'existe pas
+
+  if (!task) {
+    throw new AppError(`La tâche ${taskId} n'existe pas`, 404);
+  }
+  return task;
 }
+
+//déjà fait en bas
+// //Service pour scinder les toutes les tâches récupérées en deux tableaux distincts"à faire" et "Terminées"
+// async function getAllTasksService() {
+//   const tasks = await getAllTasksModel();
+//   // Je veux stocker les tâches à faire dans un nouveau tableau
+//   const toDoTasks = tasks.filter((task) => task.status === TASK_STATUS.TODO); // J'applique une méthode filter() qui va vérifier le statut de chaque tâches
+//   // Je veux stocker les tâches terminées dans un nouveau tableau
+//   const finishedTasks = tasks.filter(
+//     (task) => task.status === TASK_STATUS.DONE
+//   );
+//   return { toDoTasks, finishedTasks };
+// }
+
 //Service pour scinder les toutes les tâches récupérées pour un user,  en deux tableaux distincts"à faire" et "Terminées"
-async function getTasksByUserService(userId) {
+async function getTasksByUserService(userId, userRole) {
   //Ne pas oublier de répercuter userId en paramètre
-  const tasksByUser = await getTasksByUserModel(userId); //Ne pas oublier de répercuter userId en paramètre
+  let tasksByUser;
+  if (userRole === ROLE.Admin) {
+    tasksByUser = await getAllTasksModel();
+  } else {
+    tasksByUser = await getTasksByUserModel(userId); //Ne pas oublier de répercuter userId en paramètre
+  }
   const toDoTasks = tasksByUser.filter(
     (taskByUser) => taskByUser.status === TASK_STATUS.TODO
   );
@@ -74,7 +109,8 @@ const deleteTaskService = async (task_id) => {
 export {
   createTaskServices,
   updateTaskService,
-  getAllTasksService,
+  updateTaskStatusService, // NOUVEAU
+  // getAllTasksService,
   getTasksByUserService,
   deleteTaskService,
 };

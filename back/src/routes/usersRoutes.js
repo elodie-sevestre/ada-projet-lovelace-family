@@ -1,6 +1,9 @@
 import { Router } from 'express';
 import requireAuth from '../middlewares/requireAuthentication.js';
-import getAllUsersController from '../controllers/usersControllers.js';
+import {
+  getAllUsersController,
+  getuserByToken,
+} from '../controllers/usersControllers.js';
 
 const usersRoutes = Router();
 
@@ -13,5 +16,6 @@ const usersRoutes = Router();
 usersRoutes.use(requireAuth);
 
 usersRoutes.get('/', getAllUsersController);
+usersRoutes.get('/currentUser', getuserByToken);
 
 export default usersRoutes;

@@ -33,4 +33,20 @@ const createTaskAssignedUserModel = async (task_id, user_id) => {
   );
 };
 
-export { updateTaskAssignedUserModel, createTaskAssignedUserModel };
+// NOUVEAU : indique si une tâche est assignée à un utilisateur donné.
+// SELECT 1 : on ne veut pas les données, juste savoir si une ligne existe.
+// rowCount > 0 => true (la tâche est bien assignée à cet utilisateur).
+
+const isTaskAssignedToUserModel = async (taskId, userId) => {
+  const { rowCount } = await pool.query(
+    `SELECT 1 FROM users_tasks WHERE task_id = $1 AND user_id = $2`,
+    [taskId, userId]
+  );
+  return rowCount > 0;
+};
+
+export {
+  updateTaskAssignedUserModel,
+  createTaskAssignedUserModel,
+  isTaskAssignedToUserModel,
+};

@@ -35,13 +35,14 @@ async function connexionController(req, res) {
     throw new AppError('Format password invalide', 400);
   }
 
-  const token = await connexionService(mail, password);
+  const result = await connexionService(mail, password);
 
-  if (!token) {
+  if (!result) {
     throw new AppError('Identifiants invalides', 401);
   }
 
-  return res.json({ token });
+  const { token, userInfo } = result;
+  return res.json({ token, userInfo });
 }
 
 export { createLoginController, connexionController };
