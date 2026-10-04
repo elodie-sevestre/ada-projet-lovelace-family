@@ -51,8 +51,6 @@ function LoginForm({ setToken, setUserInfo }) {
       saveToken(response.token);
       setToken(response.token);
       setUserInfo(response.userInfo);
-      console.log("coucou");
-      console.log(response.userInfo);
     } catch (error) {
       if (error.status === 401) {
         setError("Identifiants invalides");
