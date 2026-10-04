@@ -56,7 +56,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
         <MemberSidebar
           memberInitial={memberInitial}
           memberName={memberName}
-          totalPoints={currentMember?.total_points ?? 0}
+          totalPoints={userInfo?.totalPoint ?? 0}
           progressPercent={progressPercent}
         />
       </aside>

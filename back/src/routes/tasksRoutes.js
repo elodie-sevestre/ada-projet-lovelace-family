@@ -25,12 +25,9 @@ tasksRoutes.get(
   getTasksByUserIdController
 );
 
-//* Ici la route pour aller consulter les tâches de l'utilisateur connecté
-tasksRoutes.get(
-  '/users',
-  createCheckRoleMiddleware(ROLE.Member),
-  getTasksByUserController
-);
+//* Les tâches de l'utilisateur connecté : toutes pour l'admin, les siennes pour un membre
+// Pas de checkRole : le tri selon le rôle est fait dans getTasksByUserService.
+tasksRoutes.get('/users', getTasksByUserController);
 
 // Modification tâche
 
