@@ -27,7 +27,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
     }
     getUsers().then((result) => setMembers(result));
     fetchTasks();
-  }, []);
+  });
 
   const onCreate = (taskToCreate) => {
     return createTask(taskToCreate).then(() => fetchTasks());
