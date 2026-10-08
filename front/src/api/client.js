@@ -53,6 +53,14 @@ export function put(url, body) {
   });
 }
 
+// NOUVEAU : PATCH = modification partielle (ici, changer uniquement le statut d'une tâche)
+export function patch(url, body) {
+  return request(url, {
+    method: "PATCH",
+    body: JSON.stringify(body),
+  });
+}
+
 export function del(url) {
   return request(url, { method: "DELETE" });
 }

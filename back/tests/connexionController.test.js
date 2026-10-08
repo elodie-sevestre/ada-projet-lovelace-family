@@ -90,13 +90,22 @@ describe('Valider la connexion elle-même', () => {
     // GIVEN : service renvoie un token
     const req = { body: { ...VALID_BODY } };
     const res = connexionMockRes();
-    connexionService.mockResolvedValue('fake.jwt.token');
+    const FAKE_LOGIN = {
+      token: 'fake.jwt.token', // ← une chaîne, comme un vrai token
+      userInfo: {
+        // ← un objet, comme le vrai userInfo
+        userName: 'Léa',
+        role: 'MEMBER',
+        totalPoint: 0,
+      },
+    };
+    connexionService.mockResolvedValue(FAKE_LOGIN);
 
     // WHEN
     await connexionController(req, res);
 
     // THEN : res.json({ token }) appelé directement, sans res.status -> statusCode reste null
-    expect(res.body).toEqual({ token: 'fake.jwt.token' });
+    expect(res.body).toEqual(FAKE_LOGIN);
     expect(connexionService).toHaveBeenCalledWith('lea@mail.com', 'password');
   });
 

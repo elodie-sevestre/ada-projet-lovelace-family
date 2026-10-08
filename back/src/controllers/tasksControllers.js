@@ -1,13 +1,15 @@
 import {
   createTaskServices,
   updateTaskService,
-  getAllTasksService,
+  updateTaskStatusService, // NOUVEAU : service qui change le statut d'une tâche
+  // getAllTasksService,
   getTasksByUserService,
   deleteTaskService,
 } from '../services/tasksServices.js';
 import AppError from '../utils/AppError.js';
 import { TASK_STATUS } from '../constants.js';
 
+//Créer une tâche: (réservé à l'admin)
 async function createTaskController(req, res) {
   const { name, description, assignment, points } = req.body;
 
@@ -54,6 +56,7 @@ async function createTaskController(req, res) {
   res.status(201).json(createTask);
 }
 
+//Mettre à jour une tâche (réservé à l'admin)
 async function updateTaskController(req, res) {
   const { id } = req.params;
   const { name, description, status, points, user_id } = req.body;
@@ -118,17 +121,47 @@ async function updateTaskController(req, res) {
   res.status(200).json(rows);
 }
 
-//Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
-async function getAllTasksController(req, res) {
-  const tasks = await getAllTasksService();
-  res.status(200).json(tasks);
+// NOUVEAU : contrôleur pour changer uniquement le statut (cocher / décocher une tâche).
+// Il valide le format des données reçues, puis délègue la règle métier
+// (admin OU membre assigné) au service. req.user vient du JWT décodé par requireAuth :
+// le rôle n'est donc jamais fourni par le client.
+
+async function updateTaskStatusController(req, res) {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  // Vérifier que l'identifiant de la tâche est bien un nombre entier valide
+
+  if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
+    throw new AppError("L'identifiant de la tâche n'est pas valide !", 400);
+  }
+
+  // Vérifier que la valeur du statut est autorisée (A_FAIRE ou TERMINE)
+  if (!Object.values(TASK_STATUS).includes(status)) {
+    throw new AppError("La valeur du statut n'est pas autorisée !", 400);
+  }
+
+  // On passe req.user (userId + role) au service pour qu'il applique la règle métier
+  const task = await updateTaskStatusService(Number(id), status, req.user);
+  res.status(200).json(task);
 }
 
+//Routes plus utilisé car les tâches sont donnée selon le rôle
+// //Le controller contrôle les requête et les réponses: (Bon format? Est-ce que j'ai les bonnes infos, au bon format pour ma BDD)
+// async function getAllTasksController(req, res) {
+//   const tasks = await getAllTasksService();
+//   res.status(200).json(tasks);
+// }
+
 async function getTasksByUserController(req, res) {
-  const tasksByUser = await getTasksByUserService(req.user.userId); //Ne pas oublier de passer l'id en paramètre
+  const tasksByUser = await getTasksByUserService(
+    req.user.userId,
+    req.user.role
+  ); //Ne pas oublier de passer l'id en paramètre
   res.status(200).json(tasksByUser);
 }
 
+//Récupérer toutes les tâches d'un utilisateur (permet de filtrer)
 async function getTasksByUserIdController(req, res) {
   const { id: userId } = req.params;
   //Validation : Vérifier que mon id est bien un nombre: Question de sécurité
@@ -142,6 +175,7 @@ async function getTasksByUserIdController(req, res) {
   res.status(200).json(tasksByUserId);
 }
 
+//Supprimer une tâche
 async function deleteTaskController(req, res) {
   const { id } = req.params;
   if (!id || !Number.isInteger(Number(id)) || Number(id) <= 0) {
@@ -157,7 +191,8 @@ async function deleteTaskController(req, res) {
 export {
   createTaskController,
   updateTaskController,
-  getAllTasksController,
+  updateTaskStatusController, // NOUVEAU
+  // getAllTasksController,
   getTasksByUserController,
   getTasksByUserIdController,
   deleteTaskController,

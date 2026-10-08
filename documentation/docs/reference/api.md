@@ -223,6 +223,7 @@ Les tâches de l'utilisateur **actuellement connecté** — l'id est lu depuis l
 
 ### GET /api/tasks/users/:id
 
+Route existante mais pas encore utilisée par le front. (futurs filtres)
 Les tâches d'un utilisateur donné par son id — réservé aux Admin.
 
 **En-têtes** : `Authorization: Bearer <token>` (rôle ADMIN)

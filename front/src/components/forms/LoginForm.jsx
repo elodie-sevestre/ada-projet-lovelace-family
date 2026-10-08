@@ -4,7 +4,7 @@ import { saveToken } from "../../lib/session.js";
 import logoSproutQuest from "../../assets/logo-sprout-quest.png";
 import "../../css/LoginForm.css";
 
-function LoginForm({ setToken }) {
+function LoginForm({ setToken, setUserInfo }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -50,6 +50,7 @@ function LoginForm({ setToken }) {
       });
       saveToken(response.token);
       setToken(response.token);
+      setUserInfo(response.userInfo);
     } catch (error) {
       if (error.status === 401) {
         setError("Identifiants invalides");

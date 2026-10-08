@@ -40,11 +40,13 @@ async function getAllTasksModel() {
 }
 
 //Requête pour récupérer toutes les tâches d'un utilisateur :
+
 async function getTasksByUserModel(userId) {
   const { rows } = await pool.query(
     `SELECT
     t.id,
     t.name AS task_name,
+    t.description,          -- NOUVEAU : sans cette ligne, le membre ne reçoit pas la description
     t.points AS points,
     t.status,
     t.created_at,
@@ -72,10 +74,28 @@ const deleteTaskModel = async (task_id) => {
   return rows[0];
 };
 
+// NOUVEAU : change uniquement le statut d'une tâche (A_FAIRE / TERMINE).
+// Requête paramétrée ($1, $2) pour se prémunir des injections SQL.
+// ::status = cast vers le type ENUM PostgreSQL, comme dans createTaskModel.
+// RETURNING * renvoie la ligne modifiée ; si l'id n'existe pas, rows est vide
+// et rows[0] vaut undefined (le service lève alors une 404).
+
+async function updateTaskStatusModel(taskId, status) {
+  const { rows } = await pool.query(
+    `UPDATE tasks
+     SET status = $1::status, updated_at = NOW()
+     WHERE id = $2
+     RETURNING *`,
+    [status, taskId]
+  );
+  return rows[0];
+}
+
 export {
   createTaskModel,
   updateTaskDetailsModel,
   getAllTasksModel,
   getTasksByUserModel,
   deleteTaskModel,
+  updateTaskStatusModel,
 };

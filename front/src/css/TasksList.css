@@ -15,7 +15,7 @@
   text-shadow: 1px 1px 2px white;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: var(--accent, #e16bc8);
+  color: #8e1f78;
 }
 
 .tasks-list-header-right {

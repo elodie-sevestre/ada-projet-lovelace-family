@@ -11,9 +11,9 @@ function AppHeader({ memberTribe, memberInitial, memberName, onLogout }) {
           alt="logo du site web"
         />
         <div className="app-header-title">
-          <span className="app-header-title-main">
+          <h1 className="app-header-title-main">
             Tableau de bord - {memberTribe}
-          </span>
+          </h1>
         </div>
       </div>
       <div className="app-header-right">

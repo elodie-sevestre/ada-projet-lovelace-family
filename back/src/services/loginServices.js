@@ -38,7 +38,13 @@ const connexionService = async (mail, password) => {
     { expiresIn: '3h' }
   );
 
-  return token;
+  const userInfo = {
+    userName: user.name,
+    role: user.role,
+    totalPoint: user.total_points,
+  };
+
+  return { token, userInfo };
 };
 
 export { createLoginService, connexionService };

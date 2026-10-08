@@ -4,7 +4,8 @@ import { ROLE } from '../constants.js';
 import {
   createTaskController,
   updateTaskController,
-  getAllTasksController,
+  updateTaskStatusController, // NOUVEAU : contrôleur du changement de statut
+  // getAllTasksController,
   getTasksByUserIdController,
   getTasksByUserController,
   deleteTaskController,
@@ -17,19 +18,16 @@ const tasksRoutes = Router();
 // protège les routes tasksRoutes
 tasksRoutes.use(requireAuth);
 
-//* Ici la route pour consulter les tâches d'un utilisateur
+//* Ici la route pour consulter les tâches d'un utilisateur en particulier (permet de filtrer)
 tasksRoutes.get(
   '/users/:id',
   createCheckRoleMiddleware(ROLE.Admin),
   getTasksByUserIdController
 );
 
-//* Ici la route pour aller consulter les tâches de l'utilisateur connecté
-tasksRoutes.get(
-  '/users',
-  // createCheckRoleMiddleware(ROLE.Member),
-  getTasksByUserController
-);
+//* Les tâches de l'utilisateur connecté : toutes pour l'admin, les siennes pour un membre
+// Pas de checkRole : le tri selon le rôle est fait dans getTasksByUserService.
+tasksRoutes.get('/users', getTasksByUserController);
 
 // Modification tâche
 
@@ -38,6 +36,12 @@ tasksRoutes.put(
   createCheckRoleMiddleware(ROLE.Admin),
   updateTaskController
 );
+
+// NOUVEAU : changement de statut (cocher / décocher une tâche), PATCH car modification partielle.
+// Pas de checkRole ici : la route est ouverte à tout utilisateur connecté (requireAuth).
+// La règle "ADMIN OU membre assigné à cette tâche" est appliquée dans le service.
+
+tasksRoutes.patch('/:id/status', updateTaskStatusController);
 
 // Suppression tâche
 
@@ -53,11 +57,12 @@ tasksRoutes.post(
   createTaskController
 );
 
-// Ici la route pour aller consulter toutes les tâches
-tasksRoutes.get(
-  '/',
-  createCheckRoleMiddleware(ROLE.Admin),
-  getAllTasksController
-);
+//Route plus utilisé consulter toutes les tâches et géré selon le rôle
+// // Ici la route pour aller consulter toutes les tâches
+// tasksRoutes.get(
+//   '/',
+//   createCheckRoleMiddleware(ROLE.Admin),
+//   getAllTasksController
+// );
 
 export default tasksRoutes;

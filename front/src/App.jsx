@@ -6,6 +6,7 @@ import "./App.css";
 
 function App() {
   const [token, setToken] = useState(getToken());
+  const [userInfo, setUserInfo] = useState();
   function handleLogout() {
     clearToken();
     setToken(null);
@@ -15,9 +16,13 @@ function App() {
     <>
       <section id="center">
         {token ? (
-          <TasksConsultation token={token} onLogout={handleLogout} />
+          <TasksConsultation
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
+            onLogout={handleLogout}
+          />
         ) : (
-          <LoginForm setToken={setToken} />
+          <LoginForm setToken={setToken} setUserInfo={setUserInfo} />
         )}
       </section>
     </>

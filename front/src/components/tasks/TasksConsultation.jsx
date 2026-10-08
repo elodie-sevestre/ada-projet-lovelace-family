@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createTask, getTasks } from "../../api/tasks.js";
-import { getUsers } from "../../api/users.js";
+import { getUsers, getCurrentUserInfo } from "../../api/users.js";
 import AppHeader from "../layout/AppHeader.jsx";
 import MemberSidebar from "../layout/MemberSideBar.jsx";
 import CreateTaskButton from "../buttons/CreateTaskButton.jsx";
@@ -11,9 +11,10 @@ import leafIcon from "../../assets/leaf_icon.png";
 import flowerIcon from "../../assets/flower_icon.png";
 import "../../css/TasksConsultation.css";
 
-function TasksConsultation({ onLogout }) {
+function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
   const [tasks, setTasks] = useState({ toDoTasks: [], finishedTasks: [] });
-  const currentUser = { role: "ADMIN" };
+  const currentUser = { role: userInfo?.role };
+  const isAdmin = currentUser.role === "ADMIN";
   const [members, setMembers] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const fetchTasks = () => {
@@ -21,22 +22,27 @@ function TasksConsultation({ onLogout }) {
   };
 
   useEffect(() => {
+    if (!userInfo) {
+      getCurrentUserInfo().then((result) => setUserInfo(result));
+    }
     getUsers().then((result) => setMembers(result));
     fetchTasks();
-  }, []);
+  });
 
   const onCreate = (taskToCreate) => {
     return createTask(taskToCreate).then(() => fetchTasks());
   };
 
-  // TODO: remplacer par le vrai membre connecté une fois l'authentification
-  // en place. En attendant, on affiche le premier membre de la liste.
-  const currentMember = members[0];
-  const memberName = currentMember?.name ?? "";
+  const memberName = userInfo?.userName ?? "";
   const memberInitial = memberName ? memberName.charAt(0).toUpperCase() : "";
   const [showCelebration, setShowCelebration] = useState(false);
   const handleCelebrate = () => setShowCelebration(true);
 
+  const finishedCount = tasks.finishedTasks.length;
+  const totalCount = tasks.toDoTasks.length + finishedCount;
+  //Calcul de la barre de progression avec condition ternaire : si totalCount est égal à zéo, on retourne 0, sinon on fait le calcul de la progression
+  const progressPercent =
+    totalCount === 0 ? 0 : Math.round((finishedCount / totalCount) * 100);
   return (
     <div className="tasks-consultation-contener">
       <AppHeader
@@ -45,14 +51,13 @@ function TasksConsultation({ onLogout }) {
         memberName={memberName}
         onLogout={onLogout}
       />
-      {/* Sidebar avatar : nom et points réels via l'API,
-          progression toujours en dur (pas de source de données pour ça) */}
+      {/* Sidebar avatar : nom et points réels via l'API (points à venir)*/}
       <aside className="member-side-bar">
         <MemberSidebar
           memberInitial={memberInitial}
           memberName={memberName}
-          totalPoints={currentMember?.total_points ?? 0}
-          progressPercent={35}
+          totalPoints={userInfo?.totalPoint ?? 0}
+          progressPercent={progressPercent}
         />
       </aside>
       <main className="task-content">
@@ -62,7 +67,7 @@ function TasksConsultation({ onLogout }) {
               <img src={leafIcon} alt="Icone de feuille d'une plante" />
               Tâches à faire
             </h2>
-            <CreateTaskButton onOpen={() => setIsCreating(true)} />
+            {isAdmin && <CreateTaskButton onOpen={() => setIsCreating(true)} />}
             {isCreating && (
               <CreateTaskModal
                 members={members}

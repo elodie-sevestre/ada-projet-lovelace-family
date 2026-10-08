@@ -20,6 +20,7 @@ const UPDATED_TASK = {
 jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   createTaskServices: jest.fn(),
   updateTaskService: jest.fn(),
+  updateTaskStatusService: jest.fn(),
   getAllTasksService: jest.fn(),
   getTasksByUserService: jest.fn(),
   deleteTaskService: jest.fn(),
