@@ -13,6 +13,7 @@ const DEFAULT_TASK = {
 jest.unstable_mockModule('../src/services/tasksServices.js', () => ({
   createTaskServices: jest.fn(async () => DEFAULT_TASK),
   updateTaskService: jest.fn(async () => DEFAULT_TASK),
+  updateTaskStatusService: jest.fn(async () => DEFAULT_TASK),
   getAllTasksService: jest.fn(async () => ({
     toDoTasks: [],
     finishedTasks: [],
