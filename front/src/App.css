@@ -34,7 +34,13 @@
   --sans: "Jersey 15", "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Jersey 10", system-ui, "Segoe UI", Roboto, sans-serif;
 
-  font: 19px var(--sans);
+  /* Arrondis et ombres partagés par les composants */
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 24px;
+  --shadow-pixel: 5px 5px 0 var(--palette-brown);
+
+  font: 18px var(--sans);
   letter-spacing: 0.18px;
   color: var(--text);
   background: var(--bg);
@@ -43,36 +49,32 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  @media (max-width: 1024px) {
-    font-size: 15px;
+  @media (min-width: 1024px) {
+    font-size: 19px;
   }
 }
+
+/* ==========================================================================
+   Mobile first : les styles de base visent le téléphone,
+   puis on élargit avec @media (min-width: …).
+   Points de rupture : 768px (tablette), 1024px (ordinateur).
+   ========================================================================== */
 
 body {
   margin: 0;
 }
 
 #root {
-  width: 1800px;
-  max-width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  text-align: center;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 0 24px;
+  padding: 0 16px;
 
-  @media (max-width: 1024px) {
-    padding: 0 20px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 0 16px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0 12px;
+  @media (min-width: 1024px) {
+    padding: 0 24px;
   }
 }
 
@@ -84,22 +86,24 @@ h2 {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 36px;
   letter-spacing: -1.68px;
   margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+
+  @media (min-width: 1024px) {
+    font-size: 56px;
+    margin: 56px 0;
   }
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 118%;
   letter-spacing: -0.24px;
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+  @media (min-width: 1024px) {
+    font-size: 24px;
   }
 }
 
@@ -110,12 +114,13 @@ p {
 #center {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 16px;
   flex-grow: 1;
+  padding: 16px 0 24px;
 
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
+  @media (min-width: 1024px) {
+    gap: 24px;
+    padding: 24px 0;
   }
 }
 
