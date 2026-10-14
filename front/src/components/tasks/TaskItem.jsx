@@ -52,14 +52,6 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate, members }) {
                 task={task}
                 onDelete={() => setIsDeleteModalOpen(true)}
               />
-              {/* affichage du modal que si on clique sur le bouton supprimer */}
-              {isDeleteModalOpen && (
-                <DeleteConfirmModal
-                  task={task}
-                  refreshTasks={refreshTasks}
-                  onClose={() => setIsDeleteModalOpen(false)}
-                />
-              )}
             </div>
           )}
           <div className="task-item-check-box">
@@ -86,6 +78,16 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate, members }) {
           refreshTasks={refreshTasks}
           onClose={() => setIsEditModalOpen(false)}
           members={members}
+        />
+      )}
+      {/* affichage du modal que si on clique sur le bouton supprimer.
+          Placé en dehors de la carte : le transform de .task-item-card:hover
+          ferait sinon clignoter le fond en position fixed. */}
+      {isDeleteModalOpen && (
+        <DeleteConfirmModal
+          task={task}
+          refreshTasks={refreshTasks}
+          onClose={() => setIsDeleteModalOpen(false)}
         />
       )}
     </>
