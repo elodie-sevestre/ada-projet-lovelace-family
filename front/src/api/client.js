@@ -14,8 +14,10 @@ async function request(url, options = {}) {
     ...options,
   });
 
-  // gestion erreur de token
-  if (response.status === 401) {
+  // Session expirée : seulement si on était connecté.
+  // Sans jeton, un 401 veut dire « mauvais mot de passe » à la connexion :
+  // on laisse l'erreur remonter jusqu'au LoginForm qui affiche le message.
+  if (response.status === 401 && token) {
     clearToken();
     window.location.href = "/"; // redirection vers l'URL de base http://localhost:5173
   }
