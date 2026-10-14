@@ -12,7 +12,7 @@ const CreateTaskButton = ({ onOpen }) => {
       <span className="create-task-button-icon" aria-hidden="true">
         +
       </span>
-      Ajouter une nouvelle tâche
+      Ajouter une tâche
     </button>
   );
 };

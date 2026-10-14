@@ -246,3 +246,7 @@
     align-items: start;
   }
 }
+.task-content .create-task-button {
+  grid-column: 1 / -1;
+  justify-self: end;
+}

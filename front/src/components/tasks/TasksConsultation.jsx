@@ -66,20 +66,20 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
         />
       </aside>
       <main className="task-content">
+        {isAdmin && <CreateTaskButton onOpen={() => setIsCreating(true)} />}
+        {isCreating && (
+          <CreateTaskModal
+            members={members}
+            onCreate={onCreate}
+            onClose={() => setIsCreating(false)}
+          />
+        )}
         <section className="task-list-contener">
           <div className="task-list-section-header">
             <h2 className="tasks-list-title">
               <img src={leafIcon} alt="Icone de feuille d'une plante" />
               Tâches à faire
             </h2>
-            {isAdmin && <CreateTaskButton onOpen={() => setIsCreating(true)} />}
-            {isCreating && (
-              <CreateTaskModal
-                members={members}
-                onCreate={onCreate}
-                onClose={() => setIsCreating(false)}
-              />
-            )}
           </div>
 
           <TasksList
