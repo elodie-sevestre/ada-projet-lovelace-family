@@ -4,14 +4,23 @@
 
 .tasks-consultation-contener {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
   grid-template-areas:
-    "header header"
-    "sidebar main";
+    "header"
+    "sidebar"
+    "main";
 
   min-height: 100vh;
   gap: 1.2rem;
+
+  @media (min-width: 1024px) {
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 220px 1fr;
+    grid-template-areas:
+      "header header"
+      "sidebar main";
+  }
 }
 
 /* =========================================================
@@ -239,6 +248,7 @@
 
 .task-content {
   grid-area: main;
+
   @media (min-width: 1024px) {
     display: grid;
     grid-template-columns: 1fr 1fr;
