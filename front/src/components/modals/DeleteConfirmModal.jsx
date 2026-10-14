@@ -51,16 +51,14 @@ const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
               >
                 Confirmer
               </button>
-              <div className="form-actions">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  aria-label="Annuler suppression"
-                  onClick={onClose}
-                >
-                  Annuler
-                </button>
-              </div>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                aria-label="Annuler suppression"
+                onClick={onClose}
+              >
+                Annuler
+              </button>
             </div>
           </div>
         </div>
