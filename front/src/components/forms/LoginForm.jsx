@@ -93,12 +93,16 @@ function LoginForm({ setToken, setUserInfo }) {
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
+          {error && (
+            <p className="error-message" role="alert">
+              {error}
+            </p>
+          )}
           <button type="submit" disabled={loading}>
             {loading ? "Connexion..." : "Se connecter"}
           </button>
         </form>
       </div>
-      <div className="login-form-error-message">{error && <p>{error}</p>}</div>
     </div>
   );
 }
