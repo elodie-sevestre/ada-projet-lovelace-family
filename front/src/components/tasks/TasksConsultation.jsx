@@ -63,6 +63,8 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
           memberName={memberName}
           totalPoints={userInfo?.totalPoint ?? 0}
           progressPercent={progressPercent}
+          finishedCount={finishedCount}
+          totalCount={totalCount}
         />
       </aside>
       <main className="task-content">

@@ -5,7 +5,9 @@ import "../../css/MemberSidebar.css";
 // memberInitial : lettre affichée dans le badge (ex: "B")
 // memberName : nom complet affiché à côté du badge (ex: "Bernard")
 // totalPoints : total de points cumulés par le membre
-// progressPercent : avancement vers le prochain palier (0 à 100)
+// progressPercent : part des tâches terminées (0 à 100)
+// finishedCount : nombre de tâches terminées
+// totalCount : nombre total de tâches
 
 function MemberSidebar({
   avatar,
@@ -13,6 +15,8 @@ function MemberSidebar({
   memberName,
   totalPoints,
   progressPercent = 0,
+  finishedCount = 0,
+  totalCount = 0,
 }) {
   const clampedProgress = Math.min(100, Math.max(0, progressPercent));
 
@@ -32,6 +36,10 @@ function MemberSidebar({
         <span>{totalPoints}</span>
       </div>
 
+      <div className="member-sidebar-progress-header">
+        <span>Ma progression</span>
+        <span>{clampedProgress} %</span>
+      </div>
       <div
         className="member-sidebar-progress-track"
         role="progressbar"
@@ -45,6 +53,11 @@ function MemberSidebar({
           style={{ width: `${clampedProgress}%` }}
         />
       </div>
+      <p className="member-sidebar-progress-text">
+        {finishedCount}{" "}
+        {finishedCount > 1 ? "tâches terminées" : "tâche terminée"} sur{" "}
+        {totalCount}
+      </p>
     </div>
   );
 }
