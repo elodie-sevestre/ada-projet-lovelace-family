@@ -73,22 +73,26 @@ function LoginForm({ setToken, setUserInfo }) {
       <p className="login-form-subtitle">Bienvenue dans ta tribu !</p>
       <div className="login-form-content">
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="toi@exemple.fr"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <label htmlFor="password">Mot de passe</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="8 caractères minimum"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="toi@exemple.fr"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Mot de passe</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="8 caractères minimum"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
           <button type="submit" disabled={loading}>
             {loading ? "Connexion..." : "Se connecter"}
           </button>
