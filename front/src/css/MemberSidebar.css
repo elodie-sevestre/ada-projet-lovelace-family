@@ -142,3 +142,7 @@
 
   transition: width 0.3s ease;
 }
+.member-sidebar-points-label,
+.member-sidebar-points-value {
+  display: none;
+}
