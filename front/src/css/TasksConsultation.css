@@ -248,15 +248,24 @@
 
 .task-content {
   grid-area: main;
+  padding-bottom: 80px;
 
   @media (min-width: 1024px) {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     align-items: start;
+    padding-bottom: 0;
   }
 }
 .task-content .create-task-button {
   grid-column: 1 / -1;
   justify-self: end;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+  @media (min-width: 1024px) {
+    position: static;
+  }
 }
