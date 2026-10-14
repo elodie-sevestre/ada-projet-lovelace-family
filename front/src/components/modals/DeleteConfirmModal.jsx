@@ -23,7 +23,7 @@ const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
       <div className="task-modal-overlay" onClick={onClose}>
         {/* div card à l'intérieur pour ne pas fermer si on clique dedans */}
         <div className="app-modal" onClick={(event) => event.stopPropagation()}>
-          <div className="app-modal-tab">Supprimer la tâche</div>
+          <div className="app-modal-tab">Suppression</div>
 
           <div className="app-modal-card">
             <button
@@ -46,10 +46,10 @@ const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
               <button
                 type="button"
                 className="btn btn-primary"
-                aria-label="Confirmer suppression"
+                aria-label="Supprimer la tâche"
                 onClick={handleConfirm}
               >
-                Confirmer
+                Supprimer
               </button>
               <button
                 type="button"
