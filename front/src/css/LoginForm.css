@@ -34,6 +34,12 @@
   color: var(--text-h, #0b3d2e);
 }
 
+.login-form-subtitle {
+  margin-top: -1.5rem;
+  color: var(--text);
+  font-size: 1rem;
+}
+
 .login-form-content {
   width: 90%;
   max-width: 400px;
