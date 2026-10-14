@@ -1,7 +1,7 @@
 /* ==========================================================================
    EditTaskForm
-   S'affiche à l'intérieur de .task-modal-card (fond crème déjà défini
-   dans TaskItemModal.css). Même langage visuel que TaskForm.
+   S'affiche à l'intérieur de .app-modal-card (fond crème déjà défini
+   dans App.css). Même langage visuel que TaskForm.
    ========================================================================== */
 
 .edit-task-form {

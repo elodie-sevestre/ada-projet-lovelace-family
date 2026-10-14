@@ -25,7 +25,6 @@
 
   /* Espacement interne (un peu moins à gauche pour équilibrer avec l'icône) */
   padding: 8px 18px 8px 10px;
-  margin-right: 2.5rem;
   cursor: pointer;
   transition:
     transform 0.15s ease,

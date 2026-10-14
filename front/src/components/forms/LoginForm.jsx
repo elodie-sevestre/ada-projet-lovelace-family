@@ -64,28 +64,45 @@ function LoginForm({ setToken, setUserInfo }) {
 
   return (
     <div className="login-form-component">
-      <img className="logo-connexion" src={logoSproutQuest}></img>
+      <img
+        className="logo-connexion"
+        alt="Sprout Quest"
+        src={logoSproutQuest}
+      />
       <h1>Connexion</h1>
+      <p className="login-form-subtitle">Bienvenue dans ta tribu !</p>
       <div className="login-form-content">
         <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="toi@exemple.fr"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Mot de passe</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="8 caractères minimum"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+          {error && (
+            <p className="error-message" role="alert">
+              {error}
+            </p>
+          )}
           <button type="submit" disabled={loading}>
             {loading ? "Connexion..." : "Se connecter"}
           </button>
         </form>
       </div>
-      <div className="login-form-error-message">{error && <p>{error}</p>}</div>
     </div>
   );
 }

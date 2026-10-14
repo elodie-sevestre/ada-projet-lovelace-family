@@ -4,14 +4,23 @@
 
 .tasks-consultation-contener {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr;
   grid-template-areas:
-    "header header"
-    "sidebar main";
+    "header"
+    "sidebar"
+    "main";
 
   min-height: 100vh;
   gap: 1.2rem;
+
+  @media (min-width: 1024px) {
+    grid-template-rows: auto 1fr;
+    grid-template-columns: 220px 1fr;
+    grid-template-areas:
+      "header header"
+      "sidebar main";
+  }
 }
 
 /* =========================================================
@@ -22,82 +31,103 @@
   grid-area: header;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 12px;
 
-  width: 100%;
-  min-height: 90px;
-
-  padding: 0 28px 0 0;
+  padding: 12px 16px;
 
   background-color: var(--palette-dark-green);
 
-  border-top: 2px solid var(--palette-pink);
-  border-radius: 18px;
+  border-top: 3px solid var(--palette-pink);
+  border-radius: var(--radius-lg);
 
   box-sizing: border-box;
-  box-shadow: 6px 6px 25px var(--palette-brown);
-}
+  box-shadow: 0 6px 0 rgba(100, 65, 34, 0.35);
 
-/* =========================================================
-   PARTIE GAUCHE DU HEADER
-   ========================================================= */
-
-.app-header-left {
-  display: flex;
-  align-items: center;
-
-  gap: 1.2rem;
+  @media (min-width: 1024px) {
+    gap: 16px;
+    padding: 12px 20px 12px 12px;
+  }
 }
 
 /* Logo */
 
+/* Le PNG est carré avec une large marge en haut : on l'affiche plus large
+   que haut et on recadre (cover + position verticale à 70 %) pour que le
+   texte "Sprout Quest" soit plus grand et centré dans la barre. */
 .logo-web-site {
-  width: 92px;
-  height: 92px;
-  border-radius: 18px;
+  flex-shrink: 0;
+  width: 64px;
+  height: 48px;
+  object-fit: cover;
+  object-position: 50% 70%;
+
+  @media (min-width: 1024px) {
+    width: 104px;
+    height: 80px;
+  }
 }
 
 /* =========================================================
    TITRE DU HEADER
    ========================================================= */
 
+/* min-width: 0 permet au titre de rétrécir pour afficher les "…" */
 .app-header-title {
+  flex: 1;
+  min-width: 0;
+
   display: flex;
-  align-items: center;
+  flex-direction: column;
+
+  text-align: left;
 }
 
-.app-header-title-main {
-  font-family: var(--heading);
+.app-header-kicker {
+  font-size: 16px;
+  color: var(--palette-mint);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-  font-size: 1.8rem;
-  font-weight: 600;
+/* margin et letter-spacing remis à zéro : le h1 global les définit */
+.app-header-title-main {
+  margin: 0;
+
+  font-family: var(--heading);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
 
   color: var(--palette-green-light);
 
-  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (min-width: 1024px) {
+    font-size: 40px;
+  }
 }
 
 /* =========================================================
-   PARTIE DROITE DU HEADER
-   ========================================================= */
-
-.app-header-right {
-  display: flex;
-  align-items: center;
-
-  gap: 1.5rem;
-}
-
-/* =========================================================
-   UTILISATEUR
+   UTILISATEUR (caché sur mobile : la carte profil l'affiche)
    ========================================================= */
 
 .app-header-user {
-  display: flex;
-  align-items: center;
+  display: none;
 
-  gap: 0.7rem;
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+
+    padding: 6px 14px 6px 6px;
+    border-radius: 999px;
+    background: rgba(244, 234, 214, 0.08);
+  }
 }
 
 /* Initiale */
@@ -107,8 +137,8 @@
   align-items: center;
   justify-content: center;
 
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
 
   border-radius: 50%;
 
@@ -116,56 +146,74 @@
   color: var(--palette-dark-green);
 
   font-family: var(--heading);
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 20px;
 }
 
 /* Nom */
 
 .app-header-name {
-  font-family: var(--heading);
+  font-family: var(--sans);
+  font-size: 21px;
 
-  font-size: 1.1rem;
-  font-weight: 700;
-
-  color: var(--palette-green-light);
+  color: var(--code-bg);
 }
 
 /* =========================================================
    BOUTON DE DÉCONNEXION
+   Icône seule sur mobile, icône + texte sur ordinateur
    ========================================================= */
 
 .logout-button {
+  flex-shrink: 0;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  padding: 4px;
+  gap: 8px;
 
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+
+  /* Pas de bordure : l'icône pixel a déjà son propre cadre */
   background: transparent;
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
+
+  color: var(--palette-pink);
+  font-family: var(--sans);
+  font-size: 19px;
 
   cursor: pointer;
-  transition:
-    background 0.15s ease,
-    transform 0.15s ease;
+  transition: background 0.15s ease;
+
+  @media (min-width: 1024px) {
+    padding: 0 16px 0 8px;
+    border-radius: 999px;
+    background: rgba(225, 107, 200, 0.12); /* --palette-pink en transparence */
+  }
 }
 
 .logout-button-icon {
-  width: 100%;
-  height: 100%;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
+.logout-button-label {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: inline;
+  }
+}
+
 .logout-button:hover {
-  background: rgba(95, 211, 141, 0.18); /* --palette-mint en transparence */
-  transform: scale(1.08);
+  background: rgba(225, 107, 200, 0.25); /* --palette-pink en transparence */
 }
 
 .logout-button:focus-visible {
-  outline: 2px solid var(--palette-green, #1f6f4a);
+  outline: 3px solid var(--palette-mint);
   outline-offset: 2px;
 }
 /* =========================================================
@@ -200,4 +248,103 @@
 
 .task-content {
   grid-area: main;
+  /* Laisse la place au bouton flottant « Ajouter une tâche » sur mobile */
+  padding-bottom: 80px;
+
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+    padding-bottom: 0;
+  }
+}
+
+.task-content .create-task-button {
+  grid-column: 1 / -1;
+  justify-self: end;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+
+  @media (min-width: 1024px) {
+    position: static;
+  }
+}
+
+/* =========================================================
+   ONGLETS (téléphone seulement)
+   ========================================================= */
+
+.task-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 16px;
+
+  background: var(--code-bg);
+  border: 2px solid var(--palette-brown);
+  border-radius: 999px;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+/* flex: 1 : les deux onglets se partagent la largeur à parts égales */
+.task-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.task-tab img {
+  width: 20px;
+  height: 20px;
+}
+
+/* L'onglet choisi : vert foncé, comme les titres de section */
+.task-tab.active {
+  background: var(--palette-dark-green);
+  color: var(--palette-mint);
+}
+
+.task-tab:focus-visible {
+  outline: 2px solid var(--palette-pink);
+  outline-offset: 2px;
+}
+
+/* La liste de l'onglet non choisi : cachée sur téléphone,
+   visible sur ordinateur où les deux colonnes s'affichent */
+.is-inactive-tab {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}
+
+/* Titres de section : les onglets les remplacent sur téléphone.
+   .task-content devant augmente la priorité de la règle, pour qu'elle
+   l'emporte sur le display: flex de .tasks-list-title (TasksList.css) */
+.task-content .task-list-section-header,
+.task-content .tasks-list-title {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
 }
