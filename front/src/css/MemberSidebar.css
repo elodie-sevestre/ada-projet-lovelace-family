@@ -30,7 +30,9 @@
   @media (min-width: 1024px) {
     display: flex;
     flex-direction: column;
-    width: 180px;
+    /* Toute la largeur de la colonne (220px) : « MA PROGRESSION 67 % »
+       tient alors sur une seule ligne */
+    width: 100%;
     padding: 30px 16px;
   }
 }
@@ -176,7 +178,8 @@
   display: flex;
   justify-content: space-between;
 
-  font-size: 0.75rem;
+  font-family: var(--readable);
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.03em;
@@ -188,8 +191,14 @@
 .member-sidebar-progress-text {
   grid-area: texte;
   margin: 0;
+  text-wrap: balance;
 
+  font-family: var(--readable);
   font-size: 0.8rem;
 
   color: var(--code-bg, #f4ead6);
+
+  @media (min-width: 1024px) {
+    text-align: center;
+  }
 }

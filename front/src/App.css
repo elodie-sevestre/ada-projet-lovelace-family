@@ -34,6 +34,8 @@
   /* Jersey 15 pour le texte courant, Jersey 10 pour les titres */
   --sans: "Jersey 15", "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Jersey 10", system-ui, "Segoe UI", Roboto, sans-serif;
+  /* Lexend pour les petits textes et les chiffres : plus lisible que la police pixel */
+  --readable: "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
 
   /* Arrondis et ombres partagés par les composants */
   --radius-sm: 14px;

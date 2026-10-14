@@ -53,7 +53,8 @@
   background: rgba(100, 65, 34, 0.12);
   border-radius: 999px;
   padding: 2px 10px;
-  font-size: 0.85rem;
+  font-family: var(--readable);
+  font-size: 0.75rem;
 }
 
 .task-item-points {
@@ -61,7 +62,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.85rem;
+  font-family: var(--readable);
+  font-size: 0.75rem;
 }
 .task-item-points::before {
   content: "";
