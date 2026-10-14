@@ -176,6 +176,16 @@ p {
   box-shadow: none;
 }
 
+.btn-danger {
+  background: var(--palette-red);
+  border: 2px solid var(--palette-red);
+  color: white;
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
 /* ==========================================================================
    Pattern "modal à bandeau"
    ========================================================================== */

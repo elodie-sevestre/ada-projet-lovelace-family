@@ -45,7 +45,7 @@ const DeleteConfirmModal = ({ task, onClose, refreshTasks }) => {
             <div className="form-actions">
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-danger"
                 aria-label="Supprimer la tâche"
                 onClick={handleConfirm}
               >
