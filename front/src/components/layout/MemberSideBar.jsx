@@ -1,13 +1,14 @@
 import pointsIcon from "../../assets/icon_points.png";
-import sproutAvatar from "../../assets/sproot_avatar.png";
 import "../../css/MemberSidebar.css";
 
+// avatar : image du sprout affichée en haut de la carte
 // memberInitial : lettre affichée dans le badge (ex: "B")
 // memberName : nom complet affiché à côté du badge (ex: "Bernard")
 // totalPoints : total de points cumulés par le membre
 // progressPercent : avancement vers le prochain palier (0 à 100)
 
 function MemberSidebar({
+  avatar,
   memberInitial,
   memberName,
   totalPoints,
@@ -17,7 +18,7 @@ function MemberSidebar({
 
   return (
     <div className="member-sidebar-card">
-      <img src={sproutAvatar} alt="" className="member-sidebar-avatar" />
+      <img src={avatar} alt="" className="member-sidebar-avatar" />
 
       <div className="member-sidebar-badge">
         <span className="member-sidebar-initial">{memberInitial}</span>

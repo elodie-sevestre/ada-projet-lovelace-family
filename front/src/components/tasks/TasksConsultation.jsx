@@ -9,6 +9,10 @@ import TasksList from "./TasksList.jsx";
 import TaskCelebration from "./TaskCelebration.jsx";
 import leafIcon from "../../assets/leaf_icon.png";
 import flowerIcon from "../../assets/flower_icon.png";
+import greenSproutAvatar from "../../assets/sproot_avatar.png";
+import strawberrySproutAvatar from "../../assets/sprout-fraise.png";
+import greenVictoryAvatar from "../../assets/sprout-victory.gif";
+import strawberryVictoryAvatar from "../../assets/sprout-fraise-victory.gif";
 import "../../css/TasksConsultation.css";
 
 function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
@@ -54,6 +58,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
       {/* Sidebar avatar : nom et points réels via l'API (points à venir)*/}
       <aside className="member-side-bar">
         <MemberSidebar
+          avatar={isAdmin ? greenSproutAvatar : strawberrySproutAvatar}
           memberInitial={memberInitial}
           memberName={memberName}
           totalPoints={userInfo?.totalPoint ?? 0}
@@ -99,6 +104,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
           />
         </section>
         <TaskCelebration
+          victoryGif={isAdmin ? greenVictoryAvatar : strawberryVictoryAvatar}
           show={showCelebration}
           onDone={() => setShowCelebration(false)}
         />
