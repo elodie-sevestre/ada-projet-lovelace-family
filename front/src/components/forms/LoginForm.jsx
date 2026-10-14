@@ -68,15 +68,19 @@ function LoginForm({ setToken, setUserInfo }) {
       <h1>Connexion</h1>
       <div className="login-form-content">
         <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
-            placeholder="Email"
+            placeholder="toi@exemple.fr"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
+          <label htmlFor="password">Mot de passe</label>
           <input
+            id="password"
             type="password"
-            placeholder="Mot de passe"
+            placeholder="8 caractères minimum"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
