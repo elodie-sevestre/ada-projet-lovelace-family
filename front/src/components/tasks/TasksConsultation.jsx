@@ -21,6 +21,8 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
   const isAdmin = currentUser.role === "ADMIN";
   const [members, setMembers] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  // Onglet affiché sur téléphone : "todo" (à faire) ou "done" (terminées)
+  const [activeTab, setActiveTab] = useState("todo");
   const fetchTasks = () => {
     getTasks().then((result) => setTasks(result));
   };
@@ -76,7 +78,30 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
             onClose={() => setIsCreating(false)}
           />
         )}
-        <section className="task-list-contener">
+        {/* Onglets : visibles seulement sur téléphone (voir TasksConsultation.css) */}
+        <div className="task-tabs">
+          <button
+            type="button"
+            className={`task-tab${activeTab === "todo" ? " active" : ""}`}
+            aria-pressed={activeTab === "todo"}
+            onClick={() => setActiveTab("todo")}
+          >
+            À faire · {tasks.toDoTasks.length}
+            <img src={leafIcon} alt="" />
+          </button>
+          <button
+            type="button"
+            className={`task-tab${activeTab === "done" ? " active" : ""}`}
+            aria-pressed={activeTab === "done"}
+            onClick={() => setActiveTab("done")}
+          >
+            Terminées · {finishedCount}
+            <img src={flowerIcon} alt="" />
+          </button>
+        </div>
+        <section
+          className={`task-list-contener${activeTab === "todo" ? "" : " is-inactive-tab"}`}
+        >
           <div className="task-list-section-header">
             <h2 className="tasks-list-title">
               <img src={leafIcon} alt="Icone de feuille d'une plante" />
@@ -92,7 +117,9 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
             members={members}
           />
         </section>
-        <section className="task-list-contener completed">
+        <section
+          className={`task-list-contener completed${activeTab === "done" ? "" : " is-inactive-tab"}`}
+        >
           <h2 className="tasks-list-title completed">
             <img src={flowerIcon} alt="Icone de feuille d'une plante" /> Tâches
             terminées

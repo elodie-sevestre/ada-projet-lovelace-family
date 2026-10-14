@@ -272,3 +272,79 @@
     position: static;
   }
 }
+
+/* =========================================================
+   ONGLETS (téléphone seulement)
+   ========================================================= */
+
+.task-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 16px;
+
+  background: var(--code-bg);
+  border: 2px solid var(--palette-brown);
+  border-radius: 999px;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+/* flex: 1 : les deux onglets se partagent la largeur à parts égales */
+.task-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px;
+
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.task-tab img {
+  width: 20px;
+  height: 20px;
+}
+
+/* L'onglet choisi : vert foncé, comme les titres de section */
+.task-tab.active {
+  background: var(--palette-dark-green);
+  color: var(--palette-mint);
+}
+
+.task-tab:focus-visible {
+  outline: 2px solid var(--palette-pink);
+  outline-offset: 2px;
+}
+
+/* La liste de l'onglet non choisi : cachée sur téléphone,
+   visible sur ordinateur où les deux colonnes s'affichent */
+.is-inactive-tab {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}
+
+/* Titres de section : les onglets les remplacent sur téléphone.
+   .task-content devant augmente la priorité de la règle, pour qu'elle
+   l'emporte sur le display: flex de .tasks-list-title (TasksList.css) */
+.task-content .task-list-section-header,
+.task-content .tasks-list-title {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: flex;
+  }
+}
