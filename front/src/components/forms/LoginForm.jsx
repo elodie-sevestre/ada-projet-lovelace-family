@@ -64,8 +64,13 @@ function LoginForm({ setToken, setUserInfo }) {
 
   return (
     <div className="login-form-component">
-      <img className="logo-connexion" src={logoSproutQuest}></img>
+      <img
+        className="logo-connexion"
+        alt="Sprout Quest"
+        src={logoSproutQuest}
+      />
       <h1>Connexion</h1>
+      <p className="login-form-subtitle">Bienvenue dans ta tribu !</p>
       <div className="login-form-content">
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
