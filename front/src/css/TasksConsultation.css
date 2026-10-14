@@ -248,6 +248,7 @@
 
 .task-content {
   grid-area: main;
+  /* Laisse la place au bouton flottant « Ajouter une tâche » sur mobile */
   padding-bottom: 80px;
 
   @media (min-width: 1024px) {
@@ -258,6 +259,7 @@
     padding-bottom: 0;
   }
 }
+
 .task-content .create-task-button {
   grid-column: 1 / -1;
   justify-self: end;
@@ -265,6 +267,7 @@
   bottom: 16px;
   right: 16px;
   z-index: 10;
+
   @media (min-width: 1024px) {
     position: static;
   }
