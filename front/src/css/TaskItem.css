@@ -50,12 +50,28 @@
 
 .task-item-assignation {
   grid-area: membre;
+  background: rgba(100, 65, 34, 0.12);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.85rem;
 }
 
 .task-item-points {
   grid-area: points;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
 }
-
+.task-item-points::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: url("../assets/icon_points.png") center / contain no-repeat;
+}
+.task-item-points::after {
+  content: "pts";
+}
 .task-item-update-button,
 .task-item-delete-button,
 .task-item-check-box {

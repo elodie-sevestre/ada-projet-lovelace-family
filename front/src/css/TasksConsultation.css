@@ -239,4 +239,10 @@
 
 .task-content {
   grid-area: main;
+  @media (min-width: 1024px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
 }
