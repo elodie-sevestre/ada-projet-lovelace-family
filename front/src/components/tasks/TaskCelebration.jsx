@@ -8,7 +8,8 @@ const FALLBACK_DURATION_MS = 1800;
 // show : booléen transmis par le parent pour déclencher la célébration
 // onDone : callback appelée une fois le son terminé, pour que le parent masque le composant
 // victoryGif : animation du sprout affichée pendant la célébration
-function TaskCelebration({ show, onDone, victoryGif }) {
+// memberName : prénom affiché dans le message de félicitations
+function TaskCelebration({ show, onDone, victoryGif, memberName }) {
   const audioRef = useRef(null);
   const safetyTimerRef = useRef(null);
   // Durée de l'animation, alignée sur la durée réelle du fichier son
@@ -71,16 +72,19 @@ function TaskCelebration({ show, onDone, victoryGif }) {
   return (
     <div
       className="task-celebration"
-      aria-hidden="true"
+      role="status"
       style={{ animationDuration: `${durationMs}ms` }}
     >
       <audio ref={audioRef} src={victorySound} preload="auto" />
-      <img
-        src={victoryGif}
-        alt=""
-        className="task-celebration-mascot"
-        style={{ animationDuration: `${durationMs}ms` }}
-      />
+      <div className="task-celebration-banner">
+        <p className="task-celebration-message">Bien joué, {memberName} !</p>
+        <img
+          src={victoryGif}
+          alt=""
+          className="task-celebration-mascot"
+          style={{ animationDuration: `${durationMs}ms` }}
+        />
+      </div>
     </div>
   );
 }

@@ -106,6 +106,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
           />
         </section>
         <TaskCelebration
+          memberName={memberName}
           victoryGif={isAdmin ? greenVictoryAvatar : strawberryVictoryAvatar}
           show={showCelebration}
           onDone={() => setShowCelebration(false)}
