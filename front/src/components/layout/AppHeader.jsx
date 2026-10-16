@@ -4,7 +4,7 @@ import logoWebSite from "../../assets/logo-sprout-quest.png";
 function AppHeader({ memberTribe, memberInitial, memberName, onLogout }) {
   return (
     <header className="app-header">
-      <img className="logo-web-site" src={logoWebSite} alt="logo du site web" />
+      <img className="logo-web-site" src={logoWebSite} alt="Sprout Quest" />
       <div className="app-header-title">
         <span className="app-header-kicker">Tableau de bord</span>
         <h1 className="app-header-title-main">{memberTribe}</h1>

@@ -109,7 +109,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
         >
           <div className="task-list-section-header">
             <h2 className="tasks-list-title">
-              <img src={leafIcon} alt="Icone de feuille d'une plante" />
+              <img src={leafIcon} alt="" />
               Tâches à faire
             </h2>
           </div>
@@ -126,8 +126,7 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
           className={`task-list-contener completed${activeTab === "done" ? "" : " is-inactive-tab"}`}
         >
           <h2 className="tasks-list-title completed">
-            <img src={flowerIcon} alt="Icone de feuille d'une plante" /> Tâches
-            terminées
+            <img src={flowerIcon} alt="" /> Tâches terminées
           </h2>
           <TasksList
             tasks={tasks.finishedTasks}
