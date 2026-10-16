@@ -126,7 +126,6 @@
 
     padding: 6px 14px 6px 6px;
     border-radius: 999px;
-    background: rgba(244, 234, 214, 0.08);
   }
 }
 
@@ -140,12 +139,12 @@
   width: 34px;
   height: 34px;
 
-  border-radius: 50%;
+  border: 2px solid var(--palette-mint, #5fd38d);
+  border-radius: 6px;
 
-  background-color: var(--palette-yellow);
-  color: var(--palette-dark-green);
+  color: var(--palette-mint, #5fd38d);
 
-  font-family: var(--heading);
+  font-family: var(--sans);
   font-size: 20px;
 }
 
@@ -260,9 +259,31 @@
   }
 }
 
-.task-content .create-task-button {
+/* Barre au-dessus des colonnes : titre à gauche, bouton « Ajouter » à droite.
+   grid-column : sur ordinateur, elle occupe toute la largeur de la grille
+   (sans effet sur téléphone, où .task-content n'est pas une grille) */
+.task-content-header {
   grid-column: 1 / -1;
-  justify-self: end;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.task-content-title {
+  margin: 0;
+  font-size: 2rem;
+
+  /* Caché sur téléphone comme dans la maquette : les onglets suffisent */
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}
+
+.task-content .create-task-button {
   position: fixed;
   bottom: 16px;
   right: 16px;

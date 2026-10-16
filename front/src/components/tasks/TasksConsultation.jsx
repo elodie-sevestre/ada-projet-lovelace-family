@@ -70,7 +70,12 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
         />
       </aside>
       <main className="task-content">
-        {isAdmin && <CreateTaskButton onOpen={() => setIsCreating(true)} />}
+        <div className="task-content-header">
+          <h2 className="task-content-title">
+            {isAdmin ? "Tâches de la tribu" : "Mes tâches"}
+          </h2>
+          {isAdmin && <CreateTaskButton onOpen={() => setIsCreating(true)} />}
+        </div>
         {isCreating && (
           <CreateTaskModal
             members={members}
