@@ -184,7 +184,7 @@
   text-transform: uppercase;
   letter-spacing: 0.03em;
 
-  color: var(--palette-mint, #5fd38d);
+  color: var(--palette-yellow);
 }
 
 /* « 1 tâche terminée sur 3 » */
