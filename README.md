@@ -74,7 +74,7 @@ Le fichier `.env.example` liste les variables nécessaires, mais certaines valeu
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 ```
 
-  Copiez la chaîne affichée dans le terminal et collez-la **telle quelle** comme valeur de `JWT_SECRET` dans votre `back/.env`.
+Copiez la chaîne affichée dans le terminal et collez-la **telle quelle** comme valeur de `JWT_SECRET` dans votre `back/.env`.
 
 - Les identifiants de base de données (`POSTGRES_USER`, `POSTGRES_PASSWORD`) peuvent être choisis librement par la personne qui installe le projet en local — il n'y a pas d'enjeu de sécurité à ce niveau tant que ce n'est pas un environnement de staging/production.
 
@@ -107,7 +107,6 @@ docker compose up --build
 ```
 
 ---
-
 
 ## 🌐 Ports des services
 
@@ -168,11 +167,12 @@ Pour tester l'application sans passer par la création de compte, deux comptes d
 | Persona     | Rôle   | Identifiant / Email | Mot de passe |
 | ----------- | ------ | ------------------- | ------------ |
 | **Bernard** | ADMIN  | bernard@aol.com     | lemotdepasse |
-| **Léa**     | MEMBER | lillychat@gmail.com | kawai3000    |
+| **Léa**     | MEMBER | lillychat@gmail.fr  | kawai3000    |
 
 > 📌 À compléter avec les valeurs réelles du fichier de seed dès qu'il sera finalisé.
 
 ---
+
 ## 📚 Documentation technique
 
 La documentation détaillée (architecture, API, flux, décisions techniques) est un
