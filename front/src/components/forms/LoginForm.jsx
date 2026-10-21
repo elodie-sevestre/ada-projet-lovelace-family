@@ -63,7 +63,7 @@ function LoginForm({ setToken, setUserInfo }) {
   };
 
   return (
-    <div className="login-form-component">
+    <main className="login-form-component">
       <img
         className="logo-connexion"
         alt="Sprout Quest"
@@ -103,7 +103,7 @@ function LoginForm({ setToken, setUserInfo }) {
           </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
 
