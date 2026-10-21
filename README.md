@@ -169,8 +169,6 @@ Pour tester l'application sans passer par la création de compte, deux comptes d
 | **Bernard** | ADMIN  | bernard@aol.com     | lemotdepasse |
 | **Léa**     | MEMBER | lillychat@gmail.fr  | kawai3000    |
 
-> 📌 À compléter avec les valeurs réelles du fichier de seed dès qu'il sera finalisé.
-
 ---
 
 ## 📚 Documentation technique
