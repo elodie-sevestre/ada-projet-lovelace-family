@@ -1,18 +1,19 @@
 /* Carte d'une tâche : une grille à 2 lignes et 6 colonnes.
    La colonne 3 (1fr) prend toute la place libre et pousse
-   le crayon, la poubelle et la case à cocher vers la droite. */
+   le crayon, la poubelle et la case à cocher vers la droite.
+   Les trois occupent les 2 lignes : ils sont centrés sur la même hauteur. */
 .task-item-card {
   display: grid;
   grid-template-columns: auto auto 1fr auto auto auto;
   grid-template-areas:
-    "titre  titre  titre  .      .    case"
-    "membre points .  crayon poub case";
+    "titre  titre  titre  crayon poub case"
+    "membre points .      crayon poub case";
   align-items: center;
   gap: 0.25rem 0.75rem;
   padding: 0.75rem 1.1rem;
   border-radius: var(--radius-md);
-  border-bottom: 2px solid var(--palette-brown);
-  background: var(--code-bg, #f2e9e4);
+  border-bottom: 3px solid var(--palette-brown);
+  background: var(--card-bg);
   margin-bottom: 0.5rem;
   cursor: pointer;
   color: var(--palette-brown, #644122);
@@ -39,6 +40,21 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--text-h);
+  /* Sans ça, un élément de grille ne peut pas devenir plus étroit que son
+     texte : le nom long ne serait jamais coupé */
+  min-width: 0;
+}
+
+/* Nom sur une seule ligne, coupé avec « … » s'il est trop long :
+   toutes les cartes gardent la même hauteur. Le nom complet reste
+   visible dans la fenêtre de détail */
+.task-item-name {
+  min-width: 0; /* même raison, dans le flex de .task-item-left-card */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* La boîte s'efface de la mise en page : ses enfants (prénom, points,

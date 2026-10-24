@@ -36,26 +36,33 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+}
+
+/* Espace entre les champs dans la modale (la page de connexion gère le sien) */
+.app-modal-card .form-group {
+  margin-bottom: 14px;
 }
 
 .form-group label {
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-h, #0b3d2e);
 }
 
+/* Champs blancs, bordure marron et coins arrondis, comme sur la page
+   de connexion */
 .form-input,
 .form-textarea,
 .form-select {
   font-family: var(--sans);
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--palette-brown, #644122);
 
   background: #fff;
-  border: 1.5px solid var(--palette-brown, #644122);
-  border-radius: 8px;
-  padding: 8px 10px;
+  border: 2px solid var(--palette-brown, #644122);
+  border-radius: 14px;
+  padding: 10px 14px;
 }
 
 .form-input:focus,

@@ -12,29 +12,44 @@
   gap: 0.5rem;
 }
 
+/* Titre de colonne : icône + « À faire » à gauche, compteur à droite.
+   Mêmes marges pour les deux titres (à faire / terminées) : ils restent
+   alignés sur la même ligne. En rem pour ne pas dépendre de la taille du h2 */
 .tasks-list-title {
   display: flex;
   align-items: center;
-  gap: 22px;
-  margin-bottom: 1em;
-  width: fit-content;
-  padding: 8px 15px;
-  background-color: var(--palette-dark-green);
-  color: var(--palette-mint);
-  border: 2px solid var(--palette-pink);
-  border-radius: 10px;
-  box-shadow: 6px 6px 25px var(--palette-brown);
-}
-
-.tasks-list-title.completed {
-  background-color: var(--palette-purple);
-  margin-top: 1em;
-  margin-bottom: 1.7em;
+  gap: 12px;
+  margin: 0 0 1rem;
+  padding: 0 8px;
+  font-size: 1.6rem;
+  color: var(--text-h);
 }
 
 .tasks-list-title img {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 
   image-rendering: pixelated;
+}
+
+/* Pastille ronde avec le nombre de tâches, poussée à droite par margin-left: auto */
+.tasks-list-count {
+  margin-left: auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+
+  background: var(--palette-dark-green);
+  border-radius: 50%;
+
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: white;
+}
+
+.tasks-list-title.completed .tasks-list-count {
+  background: var(--palette-purple);
 }

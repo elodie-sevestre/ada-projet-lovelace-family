@@ -12,6 +12,9 @@
   --palette-purple: #7b2cbf;
   --palette-yellow: #ede96f;
   --palette-pink: #e16bc8;
+  /* Rose éclairci pour du texte sur fond vert foncé : contraste ≥ 4,5:1
+     (le rose de base n'atteint que 3,7:1, refusé par Lighthouse) */
+  --palette-pink-light: #f6a8df;
   --palette-red: #9b2c20;
   /* ==========================================================================
      Variables sémantiques — mode unique
@@ -21,6 +24,9 @@
   --bg: #f0ed83;
   --border: var(--palette-brown);
   --code-bg: #f4ead6;
+  /* Fond des cartes de tâches : plus clair que --code-bg (fond des colonnes)
+     pour que la carte se détache du panneau */
+  --card-bg: #fffaf2;
   --accent: var(--palette-pink);
   --accent-bg: rgba(225, 107, 200, 0.1);
   --accent-border: rgba(225, 107, 200, 0.5);
@@ -210,16 +216,20 @@ p {
 
   background: var(--palette-dark-green);
   border: 2px solid var(--accent);
-  border-radius: 999px;
+  /* Arrondi fixe plutôt que 999px : reste joli si le titre tient sur 2 lignes */
+  border-radius: 22px;
   padding: 8px 22px;
 
   font-family: var(--heading);
   font-size: 1.2rem;
   color: var(--palette-mint);
-  max-width: calc(100% - 48px);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  /* border-box : le padding et la bordure comptent dans max-width.
+     100% - 72px = 24px de marge à gauche + 48px pour laisser la croix libre */
+  box-sizing: border-box;
+  max-width: calc(100% - 72px);
+  /* Un nom de tâche long passe à la ligne au lieu de déborder */
+  overflow-wrap: anywhere;
 }
 
 .app-modal-card {
@@ -240,10 +250,10 @@ p {
 
 .app-modal-close {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 30px;
-  height: 30px;
+  top: -14px;
+  right: -14px;
+  width: 40px;
+  height: 40px;
 
   display: flex;
   align-items: center;
@@ -253,7 +263,7 @@ p {
   border: 2px solid var(--palette-brown, #644122);
   border-radius: 50%;
   color: var(--palette-brown, #644122);
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: transform 0.15s ease;
 }
@@ -267,6 +277,18 @@ p {
   justify-content: space-between;
   gap: 12px;
   margin-top: 16px;
+}
+
+/* Les deux boutons (Créer / Annuler) se partagent la largeur, comme sur la maquette */
+.form-actions .btn {
+  flex: 1;
+  padding: 12px 22px;
+  font-size: 1.1rem;
+}
+
+/* Ombre marron sous le bouton principal, comme « Se connecter » */
+.form-actions .btn-primary {
+  box-shadow: 0 5px 0 var(--palette-brown);
 }
 
 .error-message {

@@ -7,6 +7,7 @@ import CreateTaskButton from "../buttons/CreateTaskButton.jsx";
 import CreateTaskModal from "../modals/CreateTaskModal.jsx";
 import TasksList from "./TasksList.jsx";
 import TaskCelebration from "./TaskCelebration.jsx";
+import TasksEmptyState from "./TasksEmptyState.jsx";
 import leafIcon from "../../assets/leaf_icon.png";
 import flowerIcon from "../../assets/flower_icon.png";
 import greenSproutAvatar from "../../assets/sproot_avatar.png";
@@ -107,26 +108,35 @@ function TasksConsultation({ onLogout, userInfo, setUserInfo }) {
         <section
           className={`task-list-contener${activeTab === "todo" ? "" : " is-inactive-tab"}`}
         >
-          <div className="task-list-section-header">
-            <h2 className="tasks-list-title">
-              <img src={leafIcon} alt="" />
-              Tâches à faire
-            </h2>
-          </div>
-
-          <TasksList
-            tasks={tasks.toDoTasks}
-            currentUser={currentUser}
-            refreshTasks={fetchTasks}
-            onCelebrate={handleCelebrate}
-            members={members}
-          />
+          {/* Titre de colonne avec le nombre de tâches à droite (maquette) */}
+          <h2 className="tasks-list-title">
+            <img src={leafIcon} alt="" />À faire
+            <span className="tasks-list-count">{tasks.toDoTasks.length}</span>
+          </h2>
+          {/* Liste vide : message à la place des cartes */}
+          {tasks.toDoTasks.length === 0 ? (
+            <TasksEmptyState
+              memberName={memberName}
+              hasFinishedTasks={finishedCount > 0}
+              isAdmin={isAdmin}
+            />
+          ) : (
+            <TasksList
+              tasks={tasks.toDoTasks}
+              currentUser={currentUser}
+              refreshTasks={fetchTasks}
+              onCelebrate={handleCelebrate}
+              members={members}
+            />
+          )}
         </section>
         <section
           className={`task-list-contener completed${activeTab === "done" ? "" : " is-inactive-tab"}`}
         >
           <h2 className="tasks-list-title completed">
-            <img src={flowerIcon} alt="" /> Tâches terminées
+            <img src={flowerIcon} alt="" />
+            Terminées
+            <span className="tasks-list-count">{finishedCount}</span>
           </h2>
           <TasksList
             tasks={tasks.finishedTasks}

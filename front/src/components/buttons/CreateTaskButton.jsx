@@ -9,9 +9,6 @@ const CreateTaskButton = ({ onOpen }) => {
       aria-label="Créer une nouvelle tâche"
       onClick={onOpen}
     >
-      <span className="create-task-button-icon" aria-hidden="true">
-        +
-      </span>
       Ajouter une tâche
     </button>
   );

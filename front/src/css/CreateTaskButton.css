@@ -1,60 +1,45 @@
 /* ==========================================================================
    CreateTaskButton
    Bouton pilule qui ouvre la modal de création de tâche.
-   Même langage visuel que .tasks-list-title (fond sombre, bordure rose,
-   texte menthe) pour rester cohérent avec les étiquettes de section.
+   Même langage visuel que le bouton « Se connecter » et .btn-primary
+   (fond prune, bordure rose, ombre marron dessous), comme sur la maquette.
    ========================================================================== */
 
 .create-task-button {
-  /* Layout : icône + texte alignés horizontalement */
   display: inline-flex;
   align-items: center;
-  gap: 8px;
 
   /* Apparence */
-  background: var(--palette-dark-green, #0b3d2e);
+  background: #9d4a8c;
   border: 2px solid var(--palette-pink);
-  border-radius: 10px;
-  box-shadow: 6px 6px 25px var(--palette-brown);
+  border-radius: 999px;
+  box-shadow: 0 5px 0 var(--palette-brown);
 
   /* Typo */
   font-family: var(--sans);
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: var(--palette-mint, #5fd38d);
+  letter-spacing: 0.03em;
+  color: white;
 
-  /* Espacement interne (un peu moins à gauche pour équilibrer avec l'icône) */
-  padding: 8px 18px 8px 10px;
+  /* Texte seul, sans « + » (maquette) */
+  padding: 10px 26px;
   cursor: pointer;
   transition:
     transform 0.15s ease,
     box-shadow 0.15s ease;
 }
 
-.create-task-button-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--palette-yellow);
-  color: var(--palette-dark-green, #0b3d2e);
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
 /* --- États interactifs --- */
 
 .create-task-button:hover {
   transform: translateY(-2px);
-  box-shadow: 8px 8px 28px var(--palette-brown);
+  box-shadow: 0 7px 0 var(--palette-brown);
 }
 
 .create-task-button:active {
-  transform: translateY(0);
-  box-shadow: 6px 6px 25px var(--palette-brown);
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--palette-brown);
 }
 
 .create-task-button:focus-visible {

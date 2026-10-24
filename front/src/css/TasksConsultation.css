@@ -84,10 +84,14 @@
 }
 
 .app-header-kicker {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--palette-mint);
   text-transform: uppercase;
   letter-spacing: 1px;
+
+  @media (min-width: 1024px) {
+    font-size: 16px;
+  }
 }
 
 /* margin et letter-spacing remis à zéro : le h1 global les définit */
@@ -179,7 +183,8 @@
   border: none;
   border-radius: var(--radius-sm);
 
-  color: var(--palette-pink);
+  /* Rose éclairci : le rose de base manque de contraste sur le vert foncé */
+  color: var(--palette-pink-light);
   font-family: var(--sans);
   font-size: 19px;
 
@@ -216,24 +221,6 @@
   outline-offset: 2px;
 }
 /* =========================================================
-   SECTION HEADER TACHE A FAIRE & AJOUT DE TACHE
-   ========================================================= */
-.task-list-section-header {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 16px;
-
-  margin-bottom: 1em;
-}
-
-.task-list-section-header .tasks-list-title {
-  margin-top: 1rem;
-}
-/* =========================================================
    SIDEBAR
    ========================================================= */
 
@@ -255,6 +242,9 @@
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     align-items: start;
+    /* Range les lignes en haut : sans ça, sur un grand écran, la place
+       en trop est partagée entre les lignes et crée un vide sous le titre */
+    align-content: start;
     padding-bottom: 0;
   }
 }
@@ -273,7 +263,7 @@
 
 .task-content-title {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2.25rem;
 
   /* Caché sur téléphone comme dans la maquette : les onglets suffisent */
   display: none;
@@ -358,10 +348,20 @@
   }
 }
 
+/* Sur ordinateur, chaque colonne est un panneau crème arrondi
+   avec une ombre marron légère dessous (maquette) */
+.task-list-contener {
+  @media (min-width: 1024px) {
+    padding: 16px;
+    background: var(--code-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 0 rgba(100, 65, 34, 0.15);
+  }
+}
+
 /* Titres de section : les onglets les remplacent sur téléphone.
    .task-content devant augmente la priorité de la règle, pour qu'elle
    l'emporte sur le display: flex de .tasks-list-title (TasksList.css) */
-.task-content .task-list-section-header,
 .task-content .tasks-list-title {
   display: none;
 

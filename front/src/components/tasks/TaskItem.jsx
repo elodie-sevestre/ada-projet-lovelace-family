@@ -25,7 +25,10 @@ function TaskItem({ task, currentUser, refreshTasks, onCelebrate, members }) {
     <>
       <div className={cardClassName} onClick={() => setIsModalOpen(true)}>
         <div className="task-item-left-card">
-          <div className="task-item-name">{task.task_name}</div>
+          {/* title : affiche le nom complet au survol si le texte est coupé */}
+          <div className="task-item-name" title={task.task_name}>
+            {task.task_name}
+          </div>
         </div>
         <div className="task-item-right-card">
           <div className="task-item-assignation">{task.assigned_to}</div>
