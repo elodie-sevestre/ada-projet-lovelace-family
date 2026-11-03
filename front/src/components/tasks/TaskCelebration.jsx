@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import sproutVictory from "../../assets/sprout-victory.gif";
 import victorySound from "../../assets/victory-sound.mp3";
 import "../../css/TaskCelebration.css";
 
@@ -8,7 +7,9 @@ const FALLBACK_DURATION_MS = 1800;
 
 // show : booléen transmis par le parent pour déclencher la célébration
 // onDone : callback appelée une fois le son terminé, pour que le parent masque le composant
-function TaskCelebration({ show, onDone }) {
+// victoryGif : animation du sprout affichée pendant la célébration
+// memberName : prénom affiché dans le message de félicitations
+function TaskCelebration({ show, onDone, victoryGif, memberName }) {
   const audioRef = useRef(null);
   const safetyTimerRef = useRef(null);
   // Durée de l'animation, alignée sur la durée réelle du fichier son
@@ -71,16 +72,19 @@ function TaskCelebration({ show, onDone }) {
   return (
     <div
       className="task-celebration"
-      aria-hidden="true"
+      role="status"
       style={{ animationDuration: `${durationMs}ms` }}
     >
       <audio ref={audioRef} src={victorySound} preload="auto" />
-      <img
-        src={sproutVictory}
-        alt=""
-        className="task-celebration-mascot"
-        style={{ animationDuration: `${durationMs}ms` }}
-      />
+      <div className="task-celebration-banner">
+        <p className="task-celebration-message">Bien joué, {memberName} !</p>
+        <img
+          src={victoryGif}
+          alt=""
+          className="task-celebration-mascot"
+          style={{ animationDuration: `${durationMs}ms` }}
+        />
+      </div>
     </div>
   );
 }

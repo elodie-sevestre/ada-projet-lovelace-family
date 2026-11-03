@@ -9,53 +9,52 @@ const STATUT_LABELS = {
 
 function TaskItemModal({ task, onClose }) {
   return (
-    <div
-      className="task-modal-overlay"
-      onClick={() => {
-        onClose();
-      }}
-    >
-      <div className="task-modal-card" onClick={(e) => e.stopPropagation()}>
-        <button className="task-modal-close-button" onClick={onClose}>
-          x
-        </button>
-        <div className="task-modal-informations-top">
-          <div className="task-modal-statut-label">
-            <p className="task-detail-modal-status" data-status={task.status}>
-              Statut : {STATUT_LABELS[task.status]}
-            </p>
-          </div>
-          <div
-            className="task-detail-modal-round-assignation"
-            title={`Assigné à ${task.assigned_to}`}
+    <div className="task-modal-overlay" onClick={onClose}>
+      <div className="app-modal" onClick={(e) => e.stopPropagation()}>
+        <h2 className="app-modal-tab">{task.task_name}</h2>
+
+        <div className="app-modal-card">
+          <button
+            type="button"
+            className="app-modal-close"
+            aria-label="Fermer"
+            onClick={onClose}
           >
-            <p className="task-detail-modal-assignation">
-              {task.assigned_to?.charAt(0).toUpperCase()}
+            ✕
+          </button>
+
+          <h3 className="task-detail-label">Description</h3>
+          <p className="task-detail-description">
+            {task.description || "Aucune description"}
+          </p>
+
+          <dl className="task-detail-infos">
+            <div className="task-detail-info">
+              <dt>Assignée à</dt>
+              <dd>{task.assigned_to}</dd>
+            </div>
+            <div className="task-detail-info">
+              <dt>Points</dt>
+              <dd>{task.points}</dd>
+            </div>
+            <div className="task-detail-info">
+              <dt>Statut</dt>
+              <dd>{STATUT_LABELS[task.status]}</dd>
+            </div>
+          </dl>
+
+          <div className="task-detail-dates">
+            <p>
+              Créée le : {new Date(task.created_at).toLocaleDateString("fr-FR")}
+            </p>
+            <p>
+              Modifiée le :{" "}
+              {new Date(task.updated_at).toLocaleDateString("fr-FR")}
             </p>
           </div>
-        </div>
-        <div className="task-modal-informations-middle">
-          <div className="task-modal-title-and-points">
-            {" "}
-            <p className="task-detail-modal-name">{task.task_name}</p>
-            <p className="task-detail-modal-points">{task.points} Points</p>
-          </div>
-          <div className="task-modal-description-case">
-            <p className="task-detail-modal-description">{task.description}</p>
-          </div>
-        </div>
-        <div className="task-modal-informations-bottom">
-          <p className="task-detail-modal-date-creation">
-            Crée le : {new Date(task.created_at).toLocaleDateString("fr-FR")}
-          </p>
-          <p className="task-detail-modal-date-update">
-            Modifiée le :{" "}
-            {new Date(task.updated_at).toLocaleDateString("fr-FR")}
-          </p>
         </div>
       </div>
     </div>
   );
 }
-
 export default TaskItemModal;

@@ -1,23 +1,28 @@
 import pointsIcon from "../../assets/icon_points.png";
-import sproutAvatar from "../../assets/sproot_avatar.png";
 import "../../css/MemberSidebar.css";
 
+// avatar : image du sprout affichée en haut de la carte
 // memberInitial : lettre affichée dans le badge (ex: "B")
 // memberName : nom complet affiché à côté du badge (ex: "Bernard")
 // totalPoints : total de points cumulés par le membre
-// progressPercent : avancement vers le prochain palier (0 à 100)
+// progressPercent : part des tâches terminées (0 à 100)
+// finishedCount : nombre de tâches terminées
+// totalCount : nombre total de tâches
 
 function MemberSidebar({
+  avatar,
   memberInitial,
   memberName,
   totalPoints,
   progressPercent = 0,
+  finishedCount = 0,
+  totalCount = 0,
 }) {
   const clampedProgress = Math.min(100, Math.max(0, progressPercent));
 
   return (
     <div className="member-sidebar-card">
-      <img src={sproutAvatar} alt="" className="member-sidebar-avatar" />
+      <img src={avatar} alt="" className="member-sidebar-avatar" />
 
       <div className="member-sidebar-badge">
         <span className="member-sidebar-initial">{memberInitial}</span>
@@ -31,6 +36,10 @@ function MemberSidebar({
         <span>{totalPoints}</span>
       </div>
 
+      <div className="member-sidebar-progress-header">
+        <span>Ma progression</span>
+        <span>{clampedProgress} %</span>
+      </div>
       <div
         className="member-sidebar-progress-track"
         role="progressbar"
@@ -44,6 +53,11 @@ function MemberSidebar({
           style={{ width: `${clampedProgress}%` }}
         />
       </div>
+      <p className="member-sidebar-progress-text">
+        {finishedCount}{" "}
+        {finishedCount > 1 ? "tâches terminées" : "tâche terminée"} sur{" "}
+        {totalCount}
+      </p>
     </div>
   );
 }

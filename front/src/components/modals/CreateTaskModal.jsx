@@ -4,13 +4,11 @@ function CreateTaskModal({ members, onCreate, onClose }) {
   return (
     <div
       className="task-modal-overlay"
-      onClick={() => {
-        onClose();
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="app-modal" onClick={(event) => event.stopPropagation()}>
-        <TaskForm members={members} onCreate={onCreate} onClose={onClose} />
-      </div>
+      <TaskForm members={members} onCreate={onCreate} onClose={onClose} />
     </div>
   );
 }

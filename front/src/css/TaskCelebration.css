@@ -13,6 +13,7 @@
     rgba(0, 0, 0, 0.4) 0%,
     rgba(0, 0, 0, 0) 65%
   );
+  padding: 16px;
   animation-name: task-celebration-backdrop;
   animation-timing-function: ease;
   animation-fill-mode: forwards;
@@ -34,10 +35,36 @@
   }
 }
 
-/* Le sprout apparaît en grand au centre, bien au premier plan */
+/* Le bandeau : même style que l'en-tête (vert foncé, bordure rose) */
+.task-celebration-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+  padding: 16px 24px;
+
+  background: var(--palette-dark-green);
+  border: 2px solid var(--palette-pink);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 0 rgba(100, 65, 34, 0.35);
+}
+
+.task-celebration-message {
+  margin: 0;
+
+  font-family: var(--heading);
+  font-size: 1.8rem;
+
+  color: var(--palette-green-light);
+}
+
+/* Le sprout à droite du message, qui saute en apparaissant */
 .task-celebration-mascot {
-  width: 240px;
-  max-width: 60vw;
+  width: 96px;
   filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.35));
   transform: scale(0);
   animation-name: task-celebration-pop;

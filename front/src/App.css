@@ -12,6 +12,10 @@
   --palette-purple: #7b2cbf;
   --palette-yellow: #ede96f;
   --palette-pink: #e16bc8;
+  /* Rose éclairci pour du texte sur fond vert foncé : contraste ≥ 4,5:1
+     (le rose de base n'atteint que 3,7:1, refusé par Lighthouse) */
+  --palette-pink-light: #f6a8df;
+  --palette-red: #9b2c20;
   /* ==========================================================================
      Variables sémantiques — mode unique
      ========================================================================== */
@@ -20,6 +24,9 @@
   --bg: #f0ed83;
   --border: var(--palette-brown);
   --code-bg: #f4ead6;
+  /* Fond des cartes de tâches : plus clair que --code-bg (fond des colonnes)
+     pour que la carte se détache du panneau */
+  --card-bg: #fffaf2;
   --accent: var(--palette-pink);
   --accent-bg: rgba(225, 107, 200, 0.1);
   --accent-border: rgba(225, 107, 200, 0.5);
@@ -33,8 +40,16 @@
   /* Jersey 15 pour le texte courant, Jersey 10 pour les titres */
   --sans: "Jersey 15", "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Jersey 10", system-ui, "Segoe UI", Roboto, sans-serif;
+  /* Lexend pour les petits textes et les chiffres : plus lisible que la police pixel */
+  --readable: "Lexend", system-ui, "Segoe UI", Roboto, sans-serif;
 
-  font: 19px var(--sans);
+  /* Arrondis et ombres partagés par les composants */
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 24px;
+  --shadow-pixel: 5px 5px 0 var(--palette-brown);
+
+  font: 18px var(--sans);
   letter-spacing: 0.18px;
   color: var(--text);
   background: var(--bg);
@@ -43,36 +58,32 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  @media (max-width: 1024px) {
-    font-size: 15px;
+  @media (min-width: 1024px) {
+    font-size: 19px;
   }
 }
+
+/* ==========================================================================
+   Mobile first : les styles de base visent le téléphone,
+   puis on élargit avec @media (min-width: …).
+   Points de rupture : 768px (tablette), 1024px (ordinateur).
+   ========================================================================== */
 
 body {
   margin: 0;
 }
 
 #root {
-  width: 1800px;
-  max-width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  text-align: center;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 0 24px;
+  padding: 0 16px;
 
-  @media (max-width: 1024px) {
-    padding: 0 20px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 0 16px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0 12px;
+  @media (min-width: 1024px) {
+    padding: 0 24px;
   }
 }
 
@@ -84,22 +95,24 @@ h2 {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 36px;
   letter-spacing: -1.68px;
   margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+
+  @media (min-width: 1024px) {
+    font-size: 56px;
+    margin: 56px 0;
   }
 }
 
 h2 {
-  font-size: 24px;
+  font-size: 20px;
   line-height: 118%;
   letter-spacing: -0.24px;
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+  @media (min-width: 1024px) {
+    font-size: 24px;
   }
 }
 
@@ -110,12 +123,13 @@ p {
 #center {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 16px;
   flex-grow: 1;
+  padding: 16px 0 24px;
 
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
+  @media (min-width: 1024px) {
+    gap: 24px;
+    padding: 24px 0;
   }
 }
 
@@ -170,6 +184,16 @@ p {
   box-shadow: none;
 }
 
+.btn-danger {
+  background: var(--palette-red);
+  border: 2px solid var(--palette-red);
+  color: white;
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
 /* ==========================================================================
    Pattern "modal à bandeau"
    ========================================================================== */
@@ -192,21 +216,26 @@ p {
 
   background: var(--palette-dark-green);
   border: 2px solid var(--accent);
-  border-radius: 999px;
+  /* Arrondi fixe plutôt que 999px : reste joli si le titre tient sur 2 lignes */
+  border-radius: 22px;
   padding: 8px 22px;
 
   font-family: var(--heading);
   font-size: 1.2rem;
   color: var(--palette-mint);
-  max-width: calc(100% - 48px);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+  /* border-box : le padding et la bordure comptent dans max-width.
+     100% - 72px = 24px de marge à gauche + 48px pour laisser la croix libre */
+  box-sizing: border-box;
+  max-width: calc(100% - 72px);
+  /* Un nom de tâche long passe à la ligne au lieu de déborder */
+  overflow-wrap: anywhere;
 }
 
 .app-modal-card {
   position: relative;
   width: 100%;
+  box-sizing: border-box;
   padding: 32px 24px 24px;
   text-align: left;
 
@@ -221,10 +250,10 @@ p {
 
 .app-modal-close {
   position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 30px;
-  height: 30px;
+  top: -14px;
+  right: -14px;
+  width: 40px;
+  height: 40px;
 
   display: flex;
   align-items: center;
@@ -234,7 +263,7 @@ p {
   border: 2px solid var(--palette-brown, #644122);
   border-radius: 50%;
   color: var(--palette-brown, #644122);
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: transform 0.15s ease;
 }
@@ -248,6 +277,18 @@ p {
   justify-content: space-between;
   gap: 12px;
   margin-top: 16px;
+}
+
+/* Les deux boutons (Créer / Annuler) se partagent la largeur, comme sur la maquette */
+.form-actions .btn {
+  flex: 1;
+  padding: 12px 22px;
+  font-size: 1.1rem;
+}
+
+/* Ombre marron sous le bouton principal, comme « Se connecter » */
+.form-actions .btn-primary {
+  box-shadow: 0 5px 0 var(--palette-brown);
 }
 
 .error-message {
